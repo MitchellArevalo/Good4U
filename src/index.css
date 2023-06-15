@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.title-footer{
+    @apply  text-lg  text-blueOpra  font-semibold
+}
+.text-footer{ 
+    @apply  text-greyLightOpra font-thin text-left
+}
+
