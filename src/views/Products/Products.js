@@ -6,10 +6,6 @@ function Products() {
     <div className='flex gap-10  '>
       <FilterBar/>
       <ListProducts/>
-
-
-
-
     </div>
   )
 }

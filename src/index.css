@@ -4,6 +4,10 @@
 
 
 
+.input{ 
+    @apply border-b-2  w-full mt-20 p-2
+}
+
 .title-footer{
     @apply  text-lg  text-blueOpra  font-semibold
 }

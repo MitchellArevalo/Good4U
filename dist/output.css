@@ -595,6 +595,10 @@ video {
   z-index: 20;
 }
 
+.m-8 {
+  margin: 2rem;
+}
+
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -624,24 +628,16 @@ video {
   margin-bottom: 3rem;
 }
 
-.mt-20 {
-  margin-top: 5rem;
-}
-
-.mt-5 {
-  margin-top: 1.25rem;
+.mb-20 {
+  margin-bottom: 5rem;
 }
 
 .mb-5 {
   margin-bottom: 1.25rem;
 }
 
-.mb-10 {
-  margin-bottom: 2.5rem;
-}
-
-.mb-20 {
-  margin-bottom: 5rem;
+.mt-5 {
+  margin-top: 1.25rem;
 }
 
 .flex {
@@ -656,6 +652,14 @@ video {
   display: none;
 }
 
+.h-1\/2 {
+  height: 50%;
+}
+
+.h-1\/4 {
+  height: 25%;
+}
+
 .h-full {
   height: 100%;
 }
@@ -663,6 +667,11 @@ video {
 .h-max {
   height: -webkit-max-content;
   height: max-content;
+}
+
+.h-min {
+  height: -webkit-min-content;
+  height: min-content;
 }
 
 .w-1\/2 {
@@ -714,10 +723,6 @@ video {
   flex-direction: column;
 }
 
-.place-items-end {
-  place-items: end;
-}
-
 .items-start {
   align-items: flex-start;
 }
@@ -742,6 +747,10 @@ video {
   gap: 1rem;
 }
 
+.gap-8 {
+  gap: 2rem;
+}
+
 .gap-x-1 {
   -webkit-column-gap: 0.25rem;
           column-gap: 0.25rem;
@@ -750,6 +759,11 @@ video {
 .gap-x-2 {
   -webkit-column-gap: 0.5rem;
           column-gap: 0.5rem;
+}
+
+.gap-x-20 {
+  -webkit-column-gap: 5rem;
+          column-gap: 5rem;
 }
 
 .gap-x-5 {
@@ -779,6 +793,10 @@ video {
 
 .self-end {
   align-self: flex-end;
+}
+
+.self-center {
+  align-self: center;
 }
 
 .rounded-lg {
@@ -877,10 +895,6 @@ video {
   text-align: center;
 }
 
-.text-right {
-  text-align: right;
-}
-
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -940,6 +954,13 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.input {
+  margin-top: 5rem;
+  width: 100%;
+  border-bottom-width: 2px;
+  padding: 0.5rem;
 }
 
 .title-footer {
@@ -1004,12 +1025,28 @@ video {
     display: none;
   }
 
+  .md\:w-1\/2 {
+    width: 50%;
+  }
+
   .md\:max-w-screen-md {
     max-width: 768px;
   }
 
+  .md\:flex-row {
+    flex-direction: row;
+  }
+
+  .md\:items-end {
+    align-items: flex-end;
+  }
+
   .md\:items-center {
     align-items: center;
+  }
+
+  .md\:justify-between {
+    justify-content: space-between;
   }
 
   .md\:gap-x-10 {
@@ -1020,6 +1057,10 @@ video {
   .md\:gap-x-5 {
     -webkit-column-gap: 1.25rem;
             column-gap: 1.25rem;
+  }
+
+  .md\:self-end {
+    align-self: flex-end;
   }
 
   .md\:bg-white {
