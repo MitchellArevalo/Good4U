@@ -1,4 +1,4 @@
-# OPRAH - PROJECT
+# OPRA - PROJECT
 #### E-COMMERCE 
 
 Desarrollar un software que permita a la empresa Opra a  manejar su inventario, ventas y ganancias de manera más eficiente, mejorar el contacto con los clientes y facilitar el proceso de pago.
