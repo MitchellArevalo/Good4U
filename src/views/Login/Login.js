@@ -1,14 +1,15 @@
 import React from "react";
 import Form from "../../components/Form/Form";
+import EmailIcon from "@mui/icons-material/Email";
 
 const listLogin=[
   { 
     id:1,
     name:"Correo",
     type:"email",
-    placeholder:"Escribe tu correo"
-
-  }
+    placeholder:"Escribe tu correo",
+    icon:<EmailIcon className="absolute left-0  " />
+}
 ]
 function Login() {
   return (

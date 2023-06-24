@@ -8,7 +8,8 @@ module.exports = {
         greyLightOpra:"#77808B",
         greyDarkOpra:"#283646",
         whiteOpra:"#F8F9FA",
-        whiteLight:"#EFEFEF"
+        whiteLight:"#EFEFEF",
+        blackOpra:"#191919"
       }
     },
   },

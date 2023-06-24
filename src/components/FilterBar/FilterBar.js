@@ -31,7 +31,7 @@ function FilterBar() {
     setChecked((prev) => !prev);
   };
   return (
-    <div className=" md:fixed md:top-20 md:left-0  md:h-screen md:z-5  shadow-sm rounded-sm flex gap-4 p-5  mb-5 flex-col  w-full  md:w-1/4  md:gap-12 ">
+    <div className="   shadow-sm rounded-sm flex gap-4 p-5  mb-5 flex-col  w-full  md:w-1/4  md:gap-12 ">
       <h1 className="hidden md:font-bold md:text-2xl md:uppercase">
         Compra lo Último
       </h1>

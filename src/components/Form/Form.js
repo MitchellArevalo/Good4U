@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import AppleIcon from "@mui/icons-material/Apple";
-import EmailIcon from "@mui/icons-material/Email";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 function Form({ listInput, isLogin = true }) {
   return (
@@ -13,7 +12,7 @@ function Form({ listInput, isLogin = true }) {
           <div className="flex flex-col gap-y-2 " key={item.id}>
             <label className="font-bold text-md">{item.name}</label>
             <div className="relative flex items-center border-2 : border-greyLightOpra rounded-lg py-1 px-2">
-              <EmailIcon className="absolute left-0  border-black" />
+              {item.icon}
               <input
                 className="w-full py-2 px-5"
                 type={item.type}
@@ -25,6 +24,7 @@ function Form({ listInput, isLogin = true }) {
 
         {isLogin && (
           <div className="flex flex-col  gap-y-2 ">
+            
             <label className="font-bold text-md">Contraseña</label>
             <div className="relative flex items-center border-2 : border-greyLightOpra rounded-lg py-1 px-2">
               <LockOpenIcon className="absolute left-0  " />

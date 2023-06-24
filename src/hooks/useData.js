@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getData } from "../services/getData";
-export const useData = () => {
+export const useData = ({url}) => {
   const [data, setData] = useState([]);
   const [isError, setIsError] = useState(false);
   const [loading,setLoading]=useState(true)
@@ -9,8 +9,9 @@ export const useData = () => {
   const getProducts = async () => {
     setLoading(true)
     try {
-      const data = await getData();
+      const data = await getData(url);
       setData(data.results);
+      console.log(data)
     } catch (e) {
       setIsError(e);
       console.log(e);
@@ -19,7 +20,7 @@ export const useData = () => {
     }
   };
 
-  useEffect(() => getProducts, []);
+  useEffect(()=>getProducts, []);
 
   return { data, isError,loading };
 };

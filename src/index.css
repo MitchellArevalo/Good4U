@@ -12,6 +12,6 @@
     @apply  text-lg  text-blueOpra  font-semibold
 }
 .text-footer{ 
-    @apply  text-greyLightOpra font-thin text-left
+    @apply  text-greyLightOpra font-thin 
 }
 

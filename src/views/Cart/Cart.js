@@ -3,6 +3,7 @@ import Input from "../../components/Input/Input";
 import CardCart from "../../components/CardCart/CardCart";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
+import { Link } from "react-router-dom";
 const listInput = ["Pais", "Ciudad", "Código Postal"];
 
 function Cart() {
@@ -68,9 +69,11 @@ function Cart() {
                 <span>Total:</span>
                 <span>$65.000</span>
               </div>
-              <button className="font-bold bg-black w-full mt-5 text-white p-3">
-                Aplicar Cupón
-              </button>
+              <Link to="/checkout">
+                <button className="font-bold bg-black w-full mt-5 text-white p-3">
+                  Comprar
+                </button>
+              </Link>
             </div>
           </div>
         </div>
