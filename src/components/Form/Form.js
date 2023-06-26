@@ -51,8 +51,8 @@ function Form({ listInput, isLogin = true }) {
 
       {isLogin && (
         <p className=": text-center font-semibold">
-          ¿Aún no tienes cuenta?
-          <Link to="/register" className="text-blueOpra">Regístrate</Link>
+          ¿Aún no tienes cuenta? 
+          <Link to="/register" className="text-blueOpra"> Regístrate</Link>
         </p>
       )}
 

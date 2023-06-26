@@ -4,6 +4,8 @@ import CardCart from "../../components/CardCart/CardCart";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import { Link } from "react-router-dom";
+import CloseIcon from "@mui/icons-material/Close";
+
 const listInput = ["Pais", "Ciudad", "Código Postal"];
 
 function Cart() {
@@ -11,7 +13,14 @@ function Cart() {
   return (
     <>
       <Navbar />
-      <div className="m-8">
+      <div className="m-8 flex flex-col gap-y-4">
+        <Link to="/products" style={{ alignSelf: "end" }}>
+          <CloseIcon
+            style={{
+              fontSize: "30px",
+            }}
+          />
+        </Link>
         <h1 className="text-center font-bold text-3xl mb-12">
           Carrito de Compras
         </h1>
