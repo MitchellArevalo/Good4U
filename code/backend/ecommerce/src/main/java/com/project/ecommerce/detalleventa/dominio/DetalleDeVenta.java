@@ -1,13 +1,30 @@
 package com.project.ecommerce.detalleventa.dominio;
 
+import com.project.ecommerce.clientes.dominio.Cliente;
 import com.project.ecommerce.productos.dominio.Producto;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 public class DetalleDeVenta {
     private Long idDetalleDeVenta;
     private Integer cantidad;
-    private Date fechaDeVenta;
+    private LocalDateTime fechaDeVenta;
+    private List<Producto> producto;
+    private Cliente cliente;
+
+    public void setProducto(List<Producto> producto) {
+        this.producto = producto;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 
     public Long getIdDetalleDeVenta() {
         return idDetalleDeVenta;
@@ -25,22 +42,13 @@ public class DetalleDeVenta {
         this.cantidad = cantidad;
     }
 
-    public Date getFechaDeVenta() {
+    public LocalDateTime getFechaDeVenta() {
         return fechaDeVenta;
     }
 
-    public void setFechaDeVenta(Date fechaDeVenta) {
+    public void setFechaDeVenta(LocalDateTime fechaDeVenta) {
         this.fechaDeVenta = fechaDeVenta;
     }
 
-    public Producto getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
-    }
-
-    private Producto producto;
 
 }
