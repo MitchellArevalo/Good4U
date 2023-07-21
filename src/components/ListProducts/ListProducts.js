@@ -9,7 +9,7 @@ function ListProducts() {
       <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 : place-content-center ">
         { 
         data?.map((product)=>( 
-          <CardProduct  product={product}/>
+          <CardProduct key={product.id}  product={product} isCart={false}/>
         ))}
     </div>
   );

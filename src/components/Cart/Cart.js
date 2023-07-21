@@ -1,26 +1,24 @@
 import React from "react";
-import Input from "../../components/Input/Input";
-import CardCart from "../../components/CardCart/CardCart";
-import Navbar from "../../components/Navbar/Navbar";
-import Footer from "../../components/Footer/Footer";
+import Input from "../Input/Input";
+import CardCart from "../CardCart/CardCart";
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 
 const listInput = ["Pais", "Ciudad", "Código Postal"];
 
-function Cart() {
+function Cart({closeCart}) {
   //Arreglar código: crear card del carrito, crear botón, acomodar los estílos para un css más límpio. Acomodar estílos
   return (
-    <>
-      <Navbar />
-      <div className="m-8 flex flex-col gap-y-4">
-        <Link to="/products" style={{ alignSelf: "end" }}>
+      // <div className=" flex flex-col gap-y-4 absolute h-min-full w-full bg-white  ">
+        
+        <div className="absolute flex flex-col top-30 right-0 left-0 bg-white shadow-lg p-12 ">
+        <div onClick={closeCart} style={{ alignSelf: "end" }}>
           <CloseIcon
             style={{
               fontSize: "30px",
             }}
           />
-        </Link>
+        </div>
         <h1 className="text-center font-bold text-3xl mb-12">
           Carrito de Compras
         </h1>
@@ -87,8 +85,6 @@ function Cart() {
           </div>
         </div>
       </div>
-      <Footer />
-    </>
   );
 }
 
