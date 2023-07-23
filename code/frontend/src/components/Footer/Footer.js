@@ -26,7 +26,7 @@ const listName = [
 
 function Footer() {
   return (
-    <footer className="w-full flex flex-col  gap-y-5 p-8 :    bg-whiteOpra z-10 absolute b-0">
+    <footer className="w-full flex flex-col  gap-y-5 p-8 :    bg-whiteOpra ">
       <div className="  flex flex-col lg:flex-row lg:gap-x-5 items-center">
         <div className="lg:w-1/4  ">
           <img className=": w-52" src="/assets/logoopra.png" alt="Logo Opra" />
