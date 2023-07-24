@@ -1,4 +1,4 @@
-import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART } from "./typeReducer";
+import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART, SUBTRACT_TO_CART } from "./typeReducer";
 
 const initialState = JSON.parse(window.localStorage.getItem("cart")) || {
   cardProducts: [],
@@ -33,6 +33,7 @@ const cartReducer = (state = initialState, action) => {
       //   updateLocalStorage(newState);
       //   return newState;
       // }
+      
       if (productInCartIndex >= 0) {
         const newCardProducts = [...state.cardProducts];
         newCardProducts[productInCartIndex].quantity += 1; // Actualizar la cantidad del producto existente
@@ -40,6 +41,7 @@ const cartReducer = (state = initialState, action) => {
           ...state,
           cardProducts: newCardProducts,
         };
+
         updateLocalStorage(newState);
         return newState;
       }
@@ -55,6 +57,18 @@ const cartReducer = (state = initialState, action) => {
       };
       updateLocalStorage(newState);
       return newState;
+    }
+
+    case SUBTRACT_TO_CART:{
+      const productInCartIndex=state.cardProducts.findIndex(item=>item.id===action.payload.id)
+
+      const newCardProducts=[...state.cardProducts] 
+      newCardProducts[productInCartIndex].quantity -=1
+
+      const newState={ 
+        ...state,cardProducts:newCardProducts
+      }
+      return newState
     }
     case REMOVE_FROM_CART: {
       const newState = {
@@ -76,3 +90,8 @@ const cartReducer = (state = initialState, action) => {
   }
 };
 export default cartReducer;
+
+
+//Arreglar lógica y acomodar error de arrays vacios. 
+//Acomodar código para que sea más limpio, con reduxtoolkit.
+//Arreglar frontend

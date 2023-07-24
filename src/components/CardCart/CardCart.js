@@ -1,6 +1,6 @@
 import CloseIcon from "@mui/icons-material/Close";
 
-function CardCart({ product, addToCart, removeToCart }) {
+function CardCart({ product, addToCart,subtractToCart, removeToCart }) {
   return (
     <div className="flex flex-col ">
       <button
@@ -18,7 +18,7 @@ function CardCart({ product, addToCart, removeToCart }) {
           <span className="font-semibold">$50.000</span>
         </div>
         <div className=" h-max py-2 px-3 text-lg bg-whiteLight text-greyDarkOpra">
-          {product.quantity>1 && <button onClick={()=>removeToCart(product)}> - </button>}
+          {product.quantity>1 && <button onClick={()=>subtractToCart(product)}> - </button>}
           <span className="mx-2 ">{product.quantity}</span>
           <button onClick={() => addToCart(product)}> + </button>
         </div>

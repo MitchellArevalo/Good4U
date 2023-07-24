@@ -3,16 +3,24 @@ import {
   ADD_TO_CART,
   CLEAR_CART,
   REMOVE_FROM_CART,
+  SUBTRACT_TO_CART,
 } from "../reducer/typeReducer";
 
 export const useCart = () => {
   const dispatch = useDispatch();
-  const cart = useSelector(state => state.cardProducts);
-  console.log(cart)
+  const cart = useSelector((state) => state.cardProducts);
+  console.log(cart.cardProducts);
 
   const addToCart = (product) => {
     dispatch({
       type: ADD_TO_CART,
+      payload: product,
+    });
+  };
+
+  const subtractToCart = (product) => {
+    dispatch({
+      type: SUBTRACT_TO_CART,
       payload: product,
     });
   };
@@ -24,11 +32,10 @@ export const useCart = () => {
     });
   };
 
-  
   const clearToCart = () => {
     dispatch({
       type: CLEAR_CART,
     });
   };
-  return { cart, addToCart, removeToCart, clearToCart };
+  return { cart, addToCart, subtractToCart, removeToCart, clearToCart };
 };

@@ -8,12 +8,12 @@ import { useCart } from "../../hooks/useCart";
 const listInput = ["Pais", "Ciudad", "Código Postal"];
 
 function Cart({ closeCart }) {
-  const { cart,addToCart,removeToCart,clearToCart } = useCart();
+  const { cart,addToCart,subtractToCart,removeToCart,clearToCart } = useCart();
   //Arreglar código: crear card del carrito, crear botón, acomodar los estílos para un css más límpio. Acomodar estílos
   return (
     // <div className=" flex flex-col gap-y-4 absolute h-min-full w-full bg-white  ">
 
-    <div className="absolute flex flex-col top-30 right-0 left-0 bg-white shadow-lg p-12 ">
+    <div className="absolute flex flex-col top-30 right-0 left-0 bg-white shadow-lg p-12 z-30 ">
       <div onClick={closeCart} style={{ alignSelf: "end" }}>
         <CloseIcon
           style={{
@@ -31,7 +31,7 @@ function Cart({ closeCart }) {
           <div className=" w-full md:w-1/2 flex flex-col gap-8">
             <div className=" flex flex-col gap-y-5 h-1/2 ">
               {cart.map((item ) => (
-                <CardCart key={item.id} product={item} addToCart={addToCart} removeToCart={removeToCart} />
+                <CardCart key={item.id} product={item} addToCart={addToCart} subtractToCart={subtractToCart} removeToCart={removeToCart} />
               ))}
             </div>
             <div className="h-1/4  flex flex-col : ">
