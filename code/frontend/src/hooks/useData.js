@@ -11,7 +11,6 @@ export const useData = ({url}) => {
     try {
       const data = await getData(url);
       setData(data.results);
-      console.log(data)
     } catch (e) {
       setIsError(e);
       console.log(e);

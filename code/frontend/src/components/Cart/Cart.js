@@ -1,39 +1,42 @@
 import React from "react";
-import Input from "../../components/Input/Input";
-import CardCart from "../../components/CardCart/CardCart";
-import Navbar from "../../components/Navbar/Navbar";
-import Footer from "../../components/Footer/Footer";
+import Input from "../Input/Input";
+import CardCart from "../CardCart/CardCart";
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
+import { useCart } from "../../hooks/useCart";
 
 const listInput = ["Pais", "Ciudad", "Código Postal"];
 
-function Cart() {
+function Cart({ closeCart }) {
+  const { cart,addToCart,subtractToCart,removeToCart,clearToCart } = useCart();
   //Arreglar código: crear card del carrito, crear botón, acomodar los estílos para un css más límpio. Acomodar estílos
   return (
-    <>
-      <Navbar />
-      <div className="m-8 flex flex-col gap-y-4">
-        <Link to="/products" style={{ alignSelf: "end" }}>
-          <CloseIcon
-            style={{
-              fontSize: "30px",
-            }}
-          />
-        </Link>
-        <h1 className="text-center font-bold text-3xl mb-12">
-          Carrito de Compras
-        </h1>
+    // <div className=" flex flex-col gap-y-4 absolute h-min-full w-full bg-white  ">
+
+    <div className="absolute flex flex-col top-30 right-0 left-0 bg-white shadow-lg p-12 z-30 ">
+      <div onClick={closeCart} style={{ alignSelf: "end" }}>
+        <CloseIcon
+          style={{
+            fontSize: "30px",
+          }}
+        />
+      </div>
+      <h1 className="text-center font-bold text-3xl mb-12">
+        Carrito de Compras
+      </h1>
+      {cart.length === 0 ? (
+        <p>No hay productos en su carrito</p>
+      ) : (
         <div className=" flex flex-col  items-center    md:flex-row md:gap-x-5">
           <div className=" w-full md:w-1/2 flex flex-col gap-8">
             <div className=" flex flex-col gap-y-5 h-1/2 ">
-              {listInput.map((item, index) => (
-                <CardCart key={index} />
+              {cart.map((item ) => (
+                <CardCart key={item.id} product={item} addToCart={addToCart} subtractToCart={subtractToCart} removeToCart={removeToCart} />
               ))}
             </div>
             <div className="h-1/4  flex flex-col : ">
-              <button className="p-3 text-black border-2  w-1/2  border-black  md:self-end ">
-                Actualizar Carrito
+              <button  onClick={clearToCart} className="p-3 text-black border-2  w-1/2  border-black  md:self-end ">
+                Limpiar Carrito
               </button>
               <div className="flex  justify-between  gap-x-20 ">
                 <Input placeholder="Código de descuento" />
@@ -86,9 +89,8 @@ function Cart() {
             </div>
           </div>
         </div>
-      </div>
-      <Footer />
-    </>
+      )}
+    </div>
   );
 }
 
