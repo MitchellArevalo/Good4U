@@ -63,11 +63,11 @@ function Register() {
   return (
     <div className="h-full flex items-center justify-center m-5">
       <div className="w-5/12">
-        <h1 className="text-2xl text-greyDarkOpra font-bold mb-4 text-center">Registro</h1>
+        <h1 className="font-bold text-2xl text-center  text-greyLightOpra">Registro</h1>
         <form className="mt-8">
           {listRegister.map(item => (
             <div className="flex flex-col " key={item.id}>
-              <label className="block text-sm font-medium mb-2 text-greyLightOpra">{item.name}</label>
+              <label className="font-bold text-md py-2 text-greyLightOpra">{item.name}</label>
               <div className="relative flex items-center border-2 border-gray-300 rounded-lg py-1 px-2">
                 {item.icon}
                 <input
@@ -83,7 +83,7 @@ function Register() {
           </button>
         </form>
         <p className="text-center font-semibold mt-4">
-          ¿Tienes una cuenta? 
+          ¿Aún no tienes cuenta? 
           <Link to="/login" className="text-blue-500">
             Inicia Sesión
           </Link>
