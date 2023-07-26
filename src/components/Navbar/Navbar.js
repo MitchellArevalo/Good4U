@@ -101,7 +101,7 @@
 // }
 
 //  export default Navbar;
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -137,9 +137,17 @@ function Navbar() {
     setCartOpen(!isCartOpen);
   };
 
+  useEffect(() => {
+    document.body.classList.toggle('overflow-hidden',isCartOpen || isMenuOpen);
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isCartOpen,isMenuOpen]);
+
+
   return (
-    <>
-      <nav className="flex justify-between items-center px-8 py-5 bg-white z-20">
+    <div className="relative  ">
+      <nav className="flex justify-between items-center px-8 py-5 bg-white">
         <span onClick={handleToggleMenu} className="sm:flex md:hidden">
           <MenuIcon />
         </span>
@@ -170,7 +178,7 @@ function Navbar() {
           </div>
         </div>
         {isMenuOpen && (
-          <ul className="flex items-center flex-col absolute h-full w-1/2 z-30 top-0 left-0 p-5 py-10 bg-black text-white font-semibold cursor-pointer md:hidden ">
+          <ul className="flex items-center flex-col absolute h-screen w-1/2 z-50 top-0 left-0 p-5 py-10 bg-black text-white font-semibold cursor-pointer md:hidden ">
             {listItem.map((item) => (
               <li key={item.id} className="p-5 border-b-2 w-full text-center">
                 <NavLink
@@ -197,7 +205,7 @@ function Navbar() {
         )}
       </nav>
       {isCartOpen && <Cart closeCart={handleToggleCart} />}
-    </>
+    </div>
   );
 }
 
