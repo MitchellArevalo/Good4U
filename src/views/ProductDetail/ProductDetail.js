@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CloseIcon from "@mui/icons-material/Close";
 import Navbar from "../../components/Navbar/Navbar";
@@ -8,17 +8,15 @@ import { useLocation } from "react-router-dom";
 const styleIcon = {
   fontSize: "25px",
 };
-
 const listSize = ["S", "M", "L", "XL"];
 function ProductDetail() {
   const location = useLocation();
   const product = location.state;
-  
   const { cart, addToCart, removeToCart } = useCart();
+
   const validateProductCart = (product) =>
     cart.some((item) => item.id === product.id);
   const isProductInCart = validateProductCart(product);
-  console.log(cart.quantity)
   return (
     <>
       <Navbar />
@@ -27,7 +25,9 @@ function ProductDetail() {
         <div className="flex flex-col gap-5 p-5  md:flex-row ">
           <div className=" flex flex-col gap-5 md:w-1/2 ">
             <img src={product.image} alt={product.name} />
-            <p className="self-center md:self-start">{`$${cart.quantity===undefined?0:cart.quantity}`}</p>
+            <p className="self-center md:self-start">{`$${
+              cart.quantity === undefined ? 0 : cart.quantity
+            }`}</p>
           </div>
           <div className="md:w-1/2 flex flex-col justify-evenly">
             <h2 className="font-bold text-xl : ">{product.name}</h2>
@@ -54,7 +54,7 @@ function ProductDetail() {
                     : () => addToCart(product)
                 }
                 className={` w-full p-1  rounded-lg text-white cursor-pointer 
-           ${isProductInCart ? " bg-red-600" : "bg-green-600"}`}
+                ${isProductInCart ? " bg-red-600" : "bg-green-600"}`}
               >
                 {isProductInCart ? (
                   <CloseIcon style={styleIcon} />
