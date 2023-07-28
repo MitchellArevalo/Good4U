@@ -1,18 +1,38 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { updateLocalStorage } from "../utilities/updateLocalStorage";
-
-const initialState = JSON.parse(window.localStorage.getItem("cart")) || {
-  listProductsInCart: [],
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getData } from "../services/getData";
+const initialState = {
+  products: [],
+  pending: null,
+  error: null,
 };
 
-const productsSlice = createSlice({
+export const getProductsAPI = createAsyncThunk(
+  "getProductsFromAPI",
+  async () => {
+    const products = await getData();
+    return products;
+  }
+);
+
+const productSlice = createSlice({
   name: "productsData",
   initialState,
-  reducers: {
-    
+  reducers: {},
+  extraReducers: {
+    [getProductsAPI.pending]: (state) => {
+      state.pending = true;
+      state.error = false;
+    },
+    [getProductsAPI.fulfilled]: (state, action) => {
+      state.pending = false;
+      state.products = action.payload;
+      state.error = false;
+    },
+    [getProductsAPI.rejected]: (state) => {
+      state.pending = false;
+      state.error = true;
+    },
   },
 });
 
-export const { ADD_TO_CART, SUBTRACT_TO_CART, REMOVE_FROM_CART, CLEAR_CART } =
-productsSlice.actions;
-export default productsSlice.reducer;
+export default productSlice.reducer;

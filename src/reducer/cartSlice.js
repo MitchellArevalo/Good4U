@@ -1,32 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {updateLocalStorage} from '../utilities/updateLocalStorage';
+import { updateLocalStorage } from "../utilities/updateLocalStorage";
+
 const initialState = JSON.parse(window.localStorage.getItem("cart")) || {
-  cardProducts: [],
+  productInCart: [],
 };
-
-
 
 const cartSlice = createSlice({
   name: "cartProducts",
   initialState,
   reducers: {
     ADD_TO_CART: (state, action) => {
-      const productInCartIndex = state.cardProducts.findIndex(
+      const productInCartIndex = state.productInCart.findIndex(
         (product) => product.id === action.payload.id
       );
       if (productInCartIndex >= 0) {
-        const newCardProducts = [...state.cardProducts];
+        const newCardProducts = [...state.productInCart];
         newCardProducts[productInCartIndex].quantity += 1; // Actualizar la cantidad del producto existente
         const newState = {
           ...state,
-          cardProducts: newCardProducts,
+          productInCart: newCardProducts,
         };
         updateLocalStorage(newState);
       } else {
         const newState = {
           ...state,
-          cardProducts: [
-            ...state.cardProducts,
+          productInCart: [
+            ...state.productInCart,
             {
               ...action.payload,
               quantity: 1,
@@ -38,21 +37,21 @@ const cartSlice = createSlice({
       }
     }, //Cuando se modifica la copia, no se puede retornar el estado a la vez
     SUBTRACT_TO_CART: (state, action) => {
-      const productInCartIndex = state.cardProducts.findIndex(
+      const productInCartIndex = state.productInCart.findIndex(
         (item) => item.id === action.payload.id
       );
-      const newCardProducts = [...state.cardProducts];
+      const newCardProducts = [...state.productInCart];
       newCardProducts[productInCartIndex].quantity -= 1;
       const newState = {
         ...state,
-        cardProducts: newCardProducts,
+        productInCart: newCardProducts,
       };
       updateLocalStorage(newState);
     },
     REMOVE_FROM_CART: (state, action) => {
       const newState = {
         ...state,
-        cardProducts: state.cardProducts.filter(
+        productInCart: state.productInCart.filter(
           (product) => product.id !== action.payload.id
         ),
       };
@@ -60,7 +59,7 @@ const cartSlice = createSlice({
       return newState;
     },
     CLEAR_CART: (state) => {
-      const newState = { ...state, cardProducts: [] };
+      const newState = { ...state, productInCart: [] };
       updateLocalStorage(newState);
       return newState;
     },

@@ -1,0 +1,12 @@
+/* Configuración personalizada para el spinner */
+@keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .loader {
+    border-top-color: #3A86FF; /* Cambia el color del spinner */
+    animation: spin 2s linear infinite;
+  }
+  

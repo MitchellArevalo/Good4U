@@ -1,53 +1,20 @@
-// <<<<<<< HEAD:src/hooks/useData.js
-// import { useEffect, useState } from "react";
-// import { getData } from "../services/getData";
-// export const useData = ({url}) => {
-//   const [data, setData] = useState([]);
-//   const [isError, setIsError] = useState(false);
-//   const [loading,setLoading]=useState(true)
-  
-  
-//   const getProducts = async () => {
-//     setLoading(true)
-//     try {
-//       const data = await getData(url);
-//       setData(data.results);
-//     } catch (e) {
-//       setIsError(e);
-//       console.log(e);
-//     } finally{ 
-//         setLoading(false)
-//     }
-//   };
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductsAPI } from "../reducer/productsSlice";
 
-//   useEffect(()=>getProducts, []);
 
-//   return { data, isError,loading };
-// };
-// =======
-import { useEffect, useState } from "react";
-import { getData } from "../services/getData";
-export const useData = ({url}) => {
-  const [data, setData] = useState([]);
-  const [isError, setIsError] = useState(false);
-  const [loading,setLoading]=useState(true)
-  
-  
-  const getProducts = async () => {
-    setLoading(true)
-    try {
-      const data = await getData(url);
-      setData(data.results);
-    } catch (e) {
-      setIsError(e);
-      console.log(e);
-    } finally{ 
-        setLoading(false)
-    }
+export const useData = () => {
+  const dispatch = useDispatch();
+  const listOfProducts = useSelector(state => state.productsData.products);
+  const loading = useSelector(state => state.productsData.pending);
+  const error = useSelector(state => state.productsData.error);
+
+
+  const getProducts = () => {
+    return dispatch(getProductsAPI());
   };
 
-  useEffect(()=>getProducts, []);
+  useEffect(()=>getProducts,[])
 
-  return { data, isError,loading };
+  return {  data: listOfProducts,loading, error };
 };
-// >>>>>>> bf53f8c6aeed5a99eaa1e12247766abb71a1add1:code/frontend/src/hooks/useData.js
