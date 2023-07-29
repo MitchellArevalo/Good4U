@@ -4,10 +4,9 @@ import productsSlice from "./productsSlice";
 
 const store = configureStore({
   reducer: {
-    cartProducts: cartSlice,
+    cartProducts: cartSlice, //El nombre de la key, es el mismo del name en el slice
     productsData: productsSlice,
   },
 });
-
 
 export default store;

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function CardProduct({ product }) {
   const navigate = useNavigate();
+  
   const handledOpenDetails = (product) => {
     navigate(`/product/${product.id}`, {
       state: product,

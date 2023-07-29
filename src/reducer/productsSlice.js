@@ -6,11 +6,11 @@ const initialState = {
   error: null,
 };
 
-export const getProductsAPI = createAsyncThunk(
+export const getProductsAPI = createAsyncThunk( //Este es un reducer "Asincrónico. En esta librería se maneja los eventos de pendiente, success y error"
   "getProductsFromAPI",
   async () => {
     const products = await getData();
-    return products;
+    return products; //El return viene siendo el "payload" que se enviará al reducer 
   }
 );
 
@@ -19,7 +19,7 @@ const productSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [getProductsAPI.pending]: (state) => {
+    [getProductsAPI.pending]: state => {
       state.pending = true;
       state.error = false;
     },
@@ -28,7 +28,7 @@ const productSlice = createSlice({
       state.products = action.payload;
       state.error = false;
     },
-    [getProductsAPI.rejected]: (state) => {
+    [getProductsAPI.rejected]: state => {
       state.pending = false;
       state.error = true;
     },

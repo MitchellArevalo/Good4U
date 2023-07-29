@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-
 import {
   ADD_TO_CART,
   CLEAR_CART,
