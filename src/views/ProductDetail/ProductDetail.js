@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CloseIcon from "@mui/icons-material/Close";
 import Navbar from "../../components/Navbar/Navbar";
@@ -10,35 +10,51 @@ const styleIcon = {
 };
 const listSize = ["S", "M", "L", "XL"];
 function ProductDetail() {
+  const [selectSize, setSelectSize] = useState(null)
+  const [showSizeWarning, setShowSizeWarning] = useState(false); // Estado para mostrar el mensaje de "Escoja una talla"
+
   const location = useLocation();
   const product = location.state;
   const { cart, addToCart, removeToCart } = useCart();
 
+  const getSizeProduct = (size) => {
+    setSelectSize(size)
+  }
   const validateProductCart = (product) =>
     cart.some((item) => item.id === product.id);
   const isProductInCart = validateProductCart(product);
+
+
+  const validateSizeSelect = (size, product) => {
+    if (!size) return setShowSizeWarning(true)
+    isProductInCart ? removeToCart(product) : addToCart({ product, size: size });
+  }
+  useEffect(() => {
+    if (!selectSize) return
+    setShowSizeWarning(false)
+  }, [selectSize])
   return (
     <>
       <Navbar />
       <section className="m-8">
-        <h2 className=" text-xl p-5">{product.name}</h2>
-        <div className="flex flex-col gap-5 p-5  md:flex-row ">
-          <div className=" flex flex-col gap-5 md:w-1/2 ">
-            <img src={product.image} alt={product.name} />
-            <p className="self-center md:self-start">{`$${
-              cart.quantity === undefined ? 0 : cart.quantity
-            }`}</p>
+        <h2 className=" text-xl p-5">{`${product.id} - ${product.title}`}</h2>
+        <div className="flex flex-col  justify-around gap-8 p-5  md:flex-row ">
+          <div className=" flex flex-col gap-5 md:w-1/3 ">
+            <img src={product.image} alt={product.title} />
+            <p className="font-bold text-lg self-center ">{`$${product.price
+              }`}</p>
           </div>
-          <div className="md:w-1/2 flex flex-col justify-evenly">
-            <h2 className="font-bold text-xl : ">{product.name}</h2>
-
+          <div className="md:w-1/2 flex flex-col justify-between">
+            <h2 className="font-bold text-xl">{product.title}</h2>
+            <p className="py-5">{product.description}</p>
             <div>
               <h2 className="font-bold ">SELECCIONAR TALLA</h2>
               <div className="my-5">
                 {listSize.map((size, i) => (
                   <button
                     key={i}
-                    className="py-1 px-2 mx-2 border  rounded-2xl text-sm hover:bg-black hover:text-white"
+                    onClick={() => getSizeProduct(size)}
+                    className={`py-1 px-2 mx-2 border  rounded-2xl text-sm hover:bg-black hover:text-white ${selectSize === size ? `bg-black text-white` : undefined} `}
                   >
                     {size}
                   </button>
@@ -47,13 +63,13 @@ function ProductDetail() {
             </div>
             <div className="flex flex-col gap-5">
               <p className="font-semibold">{product.name}</p>
+
+              {showSizeWarning && <p className="text-red-600 font-bold ">Debes elegir una talla para tu prenda</p>}
               <button
-                onClick={
-                  isProductInCart
-                    ? () => removeToCart(product)
-                    : () => addToCart(product)
+                onClick={() => validateSizeSelect(selectSize, product)
                 }
-                className={` w-full p-1  rounded-lg text-white cursor-pointer 
+
+                className={`w-full p-1  rounded-lg text-white cursor-pointer 
                 ${isProductInCart ? " bg-red-600" : "bg-green-600"}`}
               >
                 {isProductInCart ? (

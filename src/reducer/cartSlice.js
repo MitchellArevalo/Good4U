@@ -27,8 +27,9 @@ const cartSlice = createSlice({
           productInCart: [
             ...state.productInCart,
             {
-              ...action.payload,
+              ...action.payload.product,
               quantity: 1,
+              size:action.payload.size
             },
           ],
         };
