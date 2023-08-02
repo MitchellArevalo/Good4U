@@ -27,7 +27,7 @@ function ProductDetail() {
 
   const validateSizeSelect = (size, product) => {
     if (!size) return setShowSizeWarning(true)
-    isProductInCart ? removeToCart(product) : addToCart({ product, size: size });
+    isProductInCart ? removeToCart(product) : addToCart({ product, size: size, totalPrice: product.price });
   }
   useEffect(() => {
     if (!selectSize) return

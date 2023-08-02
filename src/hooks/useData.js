@@ -14,7 +14,6 @@ export const useData = () => {
     return dispatch(getProductsAPI());
   };
 
-  useEffect(()=>getProducts,[])
-
-  return {  data: listOfProducts,loading, error };
+  useEffect(() => getProducts, [])
+  return { data: listOfProducts, loading, error };
 };

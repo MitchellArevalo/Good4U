@@ -16,6 +16,8 @@ const cartSlice = createSlice({
       if (productInCartIndex >= 0) {
         const newCardProducts = [...state.productInCart];
         newCardProducts[productInCartIndex].quantity += 1; // Actualizar la cantidad del producto existente
+        newCardProducts[productInCartIndex].totalPrice = newCardProducts[productInCartIndex].quantity * newCardProducts[productInCartIndex].price
+
         const newState = {
           ...state,
           productInCart: newCardProducts,
@@ -29,7 +31,8 @@ const cartSlice = createSlice({
             {
               ...action.payload.product,
               quantity: 1,
-              size:action.payload.size
+              size: action.payload.size,
+              totalPrice: action.payload.totalPrice,
             },
           ],
         };
@@ -43,9 +46,12 @@ const cartSlice = createSlice({
       );
       const newCardProducts = [...state.productInCart];
       newCardProducts[productInCartIndex].quantity -= 1;
+      newCardProducts[productInCartIndex].totalPrice = newCardProducts[productInCartIndex].quantity * newCardProducts[productInCartIndex].price
+
       const newState = {
         ...state,
         productInCart: newCardProducts,
+
       };
       updateLocalStorage(newState);
     },

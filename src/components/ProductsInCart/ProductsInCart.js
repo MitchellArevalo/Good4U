@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import CardCart from "../CardCart/CardCart";
 import Input from "../Input/Input";
@@ -10,6 +10,20 @@ function ProductsInCart({
   removeToCart,
   clearToCart,
 }) {
+
+  const getPriceProductsInCart = (products) => {
+    const priceProducts = products.map(product => product.totalPrice)
+    const subTotalProducts = priceProducts.reduce((a, b) => a + b, 0)
+    return subTotalProducts
+  }
+
+
+  useEffect(() => {
+    if (!cart) return
+    getPriceProductsInCart(cart)
+  }, [cart])
+
+
   return (
     <div className="flex flex-col   md:flex-row gap-8 my-8">
       <div className=" w-full  space-y-20  md:w-1/2  ">
@@ -48,7 +62,7 @@ function ProductsInCart({
         </h1>
         <div className="flex justify-between ">
           <p className=": uppercase font-bold mb-5">Subtotal:</p>
-          <span className="text-greyLightOpra ">$65.000</span>
+          <span className="text-greyLightOpra ">{`$ ${getPriceProductsInCart(cart)}`}</span>
         </div>
         <div className="flex  justify-between ">
           <span className="text-greyLightOpra">Envío</span>
@@ -75,7 +89,7 @@ function ProductsInCart({
         <div className="">
           <div className="flex items-center justify-between text-lg font-bold my-5">
             <span>Total:</span>
-            <span>$65.000</span>
+            <span>{getPriceProductsInCart(cart)}</span>
           </div>
           <Link to="/checkout">
             <button className="font-bold bg-black w-full mt-5 text-white p-3">
