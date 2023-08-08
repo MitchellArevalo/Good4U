@@ -7,7 +7,7 @@ function Products() {
   return (
     <>
     <Navbar/>
-    <div className='flex flex-col  md:flex-row md:gap-10 m-5 '>
+    <div className='flex flex-col md:flex-row md:gap-5 m-5 '>
       <FilterBar/>
       <ListProducts/>
     </div>
