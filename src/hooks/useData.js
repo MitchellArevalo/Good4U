@@ -18,9 +18,14 @@ export const useData = () => {
     dispatch(FILTERBYPRICE(option))
   }
 
+
+
   const filterProductsBySearch=(nameProduct)=>{
     dispatch(SEARCHPRODUCT(nameProduct))
   }
+
+
+  
   useEffect(() => getProducts, [])
   return { data: listOfProducts, loading, error,filterProductsByPrice,filterProductsBySearch };
 };

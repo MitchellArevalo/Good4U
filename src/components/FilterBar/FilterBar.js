@@ -26,7 +26,10 @@ const sortOptions = [
 
 function FilterBar() {
   const [optionFilterPrice, setOptionFilterPrice] = useState("")
-  const [productSearch, setProductSearch] = useState("")
+  const [productSearch, setProductSearch] = useState({
+    product:"",
+    flag: false
+  })
   const [checked, setChecked] = useState(false);
   const { filterProductsByPrice, filterProductsBySearch } = useData()
 
@@ -44,10 +47,19 @@ function FilterBar() {
     }
   }, [optionFilterPrice])
 
+  const onFilterProducts = (e) => {
+    const inputValue = e.target.value;
+    const regex = /^[a-zA-Z0-9\s]*$/;
+    
+    if (regex.test(inputValue)) {
+      setProductSearch({...productSearch, product:e?.target?.value});
+    } else {
+      console.log('Input contains special characters. Ignoring.');
+    }
+  };
 
   useEffect(() => {
-    if (productSearch) return
-    filterProductsBySearch(productSearch)
+      filterProductsBySearch(productSearch.product)
   }, [productSearch])
 
 
@@ -57,7 +69,7 @@ function FilterBar() {
         Compra lo Último
       </h1>
       <div className="relative flex items-center">
-        <input placeholder="Buscar..." type="text" className="input" value={productSearch} onChange={(e) => setProductSearch(e.target.value)} />
+        <input placeholder="Buscar..." type="text" className="input" value={productSearch.product} onChange={onFilterProducts} />
         <button className="absolute right-0 : top-1/2">
           <SearchIcon />
         </button>
