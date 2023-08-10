@@ -9,71 +9,31 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { useData } from "../../hooks/useData";
-import { ASCENDINGPRICE, DESCENDINGPRICE } from '../../reducer/typesOptions';
-
-const categoriesOptions = [
-  "Hombres",
-  "Mujeres",
-  "Niños",
-  "Niñas"
-];
-
-const sortOptions = [
-  "Menor precio",
-  "Mayor precio"
-]
+import { useProduct } from "../../hooks/useProduct";
+import { sortOptions } from "./listOptions";
 
 function FilterBar() {
-  const [optionFilterPrice, setOptionFilterPrice] = useState("")
-  const [productSearch, setProductSearch] = useState({
-    product:"",
-    flag: false
-  })
   const [checked, setChecked] = useState(false);
-  const { filterProductsByPrice, filterProductsBySearch } = useData()
-
+  const { onFilterSearchProducts, onFilterPriceProducts, optionFilterPrice, productSearch } = useProduct()
 
   const toggleChecked = () => {
     setChecked((prev) => !prev);
   };
-
-  useEffect(() => {
-    if (optionFilterPrice === sortOptions[0]) {
-      return filterProductsByPrice(DESCENDINGPRICE)
-    }
-    if (optionFilterPrice === sortOptions[1]) {
-      return filterProductsByPrice(ASCENDINGPRICE)
-    }
-  }, [optionFilterPrice])
-
-  const onFilterProducts = (e) => {
-    const inputValue = e.target.value;
-    const regex = /^[a-zA-Z0-9\s]*$/;
-    
-    if (regex.test(inputValue)) {
-      setProductSearch({...productSearch, product:e?.target?.value});
-    } else {
-      console.log('Input contains special characters. Ignoring.');
-    }
-  };
-
-  useEffect(() => {
-      filterProductsBySearch(productSearch.product)
-  }, [productSearch])
-
-
   return (
     <div className="  shadow-lg rounded-sm flex gap-4 p-5  mb-5 flex-col  w-full  md:w-1/4  md:gap-12 ">
       <h1 className="hidden md:font-bold md:text-2xl md:uppercase">
         Compra lo Último
       </h1>
       <div className="relative flex items-center">
-        <input placeholder="Buscar..." type="text" className="input" value={productSearch.product} onChange={onFilterProducts} />
+        <input placeholder="Buscar..." type="text" className="input" value={productSearch.product} onChange={onFilterSearchProducts} />
         <button className="absolute right-0 : top-1/2">
           <SearchIcon />
         </button>
+       
       </div>
+      { 
+          productSearch.flag && <p className="font-bold text-red-700">No se acepatan caracteres especiales</p>
+        }
       <div className="flex flex-col gap-5">
         <div className="flex  md:flex-col gap-5">
           {/* <FormControl className="w-1/2 md:w-full">
@@ -101,7 +61,7 @@ function FilterBar() {
             <Select
               labelId="demo-mutiple-name-label"
               id="demo-mutiple-name"
-              onChange={(e) => setOptionFilterPrice(e.target.value)}
+              onChange={onFilterPriceProducts}
 
               value={optionFilterPrice}
               input={<Input />}
