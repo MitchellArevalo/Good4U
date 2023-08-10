@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CardCart from "../CardCart/CardCart";
 import Input from "../Input/Input";
+import { getPriceProductsInCart } from "../../utilities/getPriceProductsInCart"
+
+
 const listInput = ["Pais", "Ciudad", "Código Postal"];
 function ProductsInCart({
   cart,
@@ -11,12 +14,17 @@ function ProductsInCart({
   clearToCart,
 }) {
 
-  const getPriceProductsInCart = (products) => {
-    const priceProducts = products.map(product => product.totalPrice)
-    const subTotalProducts = priceProducts.reduce((a, b) => a + b, 0)
-    return subTotalProducts
-  }
+  const navigate = useNavigate()
+  const subTotalPrice = getPriceProductsInCart(cart)
 
+  const handledOpenCheckout = () => {
+    navigate(`/checkout`, {
+      state: {
+        products: cart,
+        subTotal: subTotalPrice
+      }
+    })
+  }
 
   useEffect(() => {
     if (!cart) return
@@ -62,7 +70,7 @@ function ProductsInCart({
         </h1>
         <div className="flex justify-between ">
           <p className=": uppercase font-bold mb-5">Subtotal:</p>
-          <span className="text-greyLightOpra ">{`$ ${getPriceProductsInCart(cart)}`}</span>
+          <span className="text-greyLightOpra ">{`$ ${subTotalPrice}`}</span>
         </div>
         <div className="flex  justify-between ">
           <span className="text-greyLightOpra">Envío</span>
@@ -89,13 +97,11 @@ function ProductsInCart({
         <div className="">
           <div className="flex items-center justify-between text-lg font-bold my-5">
             <span>Total:</span>
-            <span>{getPriceProductsInCart(cart)}</span>
+            <span>{subTotalPrice}</span>
           </div>
-          <Link to="/checkout">
-            <button className="font-bold bg-black w-full mt-5 text-white p-3">
-              Comprar
-            </button>
-          </Link>
+          <button onClick={handledOpenCheckout} className="font-bold bg-black w-full mt-5 text-white p-3">
+            Comprar
+          </button>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from '../../components/Footer/Footer';
-import { useCart } from "../../hooks/useCart";
+import {useLocation} from "react-router-dom"
 const listDetailsPay = [
   "Nombre",
   "Correo Electrónico",
@@ -8,9 +8,10 @@ const listDetailsPay = [
   "Código Postal",
   "Teléfono",
 ];
-
 function Checkout() {
-  const { cart } = useCart();
+  const location=useLocation().state
+  const {products,subTotal}=location
+  console.log(location)
   return (
     <>
       <section className="h-full p-10">
@@ -37,19 +38,19 @@ function Checkout() {
               <h3>PRODUCTO</h3>
               <span>PRECIO</span>
             </div>
-            {cart.map((productCart) => (
+            {products.map((productCart) => (
               <div className="flex justify-between  ">
-                <span>{productCart.name}</span>
-                <span>{productCart.quantity}</span>
+                <span>{`${productCart.quantity} und(s) ${productCart.title} `}</span>
+                <span>{`$${productCart.price}`}</span>
               </div>
             ))}
             <div className="flex justify-between ">
               <h2 className="font-bold">Subtotal</h2>
-              <span>{`$${5000}`}</span>
+              <span>{`$${subTotal}`}</span>
             </div>
             <div className="flex justify-between">
               <h2 className="font-bold">TOTAL</h2>
-              <span>{`$${5000}`}</span>
+              <span>{`$${subTotal}`}</span>
             </div>
             <button className="bg-black text-white font-semibold rounded-sm w-full p-2 my-2 ">
               Ordena Ya

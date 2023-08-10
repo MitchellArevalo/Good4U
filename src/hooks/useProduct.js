@@ -9,10 +9,10 @@ export const useProduct = () => {
   const dispatch = useDispatch();
   const listOfProducts = useSelector(state => state.productsData.products);
   const listOfProductsFiltered = useSelector(state => state.productsData.filteredProducts);
-
   const loading = useSelector(state => state.productsData.pending);
   const error = useSelector(state => state.productsData.error);
 
+  //Estados
   const [productSearch, setProductSearch] = useState({
     product: "",
     flag: false
@@ -26,7 +26,6 @@ export const useProduct = () => {
   const resetFilterProduct = () => {
     dispatch(RESETFILTERPRODUCT())
   }
-
   const filterProductDescendingPrice = () => {
     dispatch(FILTERDESCENDINGPRICE())
   }
@@ -45,16 +44,16 @@ export const useProduct = () => {
     const regex = /^[a-zA-Z0-9\s]*$/;
 
     if (regex.test(inputValue)) {
-      setProductSearch({ ...productSearch, product: e?.target?.value });
+      setProductSearch({  product: e?.target?.value,flag:false });
     } else {
       setProductSearch({ ...productSearch, flag: true });
     }
   };
 
-
   useEffect(() => getProducts,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [])
+
   useEffect(() => {
     // const newProductSearch = productSearch.product
     // newProductSearch === "" ?
@@ -64,9 +63,11 @@ export const useProduct = () => {
     newProductSearch === "" ?
       resetFilterProduct() :
       filterProductsBySearch(productSearch.product)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productSearch])
   //Cuando se escribe una letra, pero se vuelve a borrar, no se muestran otros resultados
+
 
   useEffect(() => {
     optionFilterPrice === sortOptions[0] ?
