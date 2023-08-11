@@ -19,7 +19,7 @@ export const useProduct = () => {
   })
   const [optionFilterPrice, setOptionFilterPrice] = useState("")
 
-
+console.log(productSearch)
   const getProducts = () => {
     return dispatch(getProductsAPI());
   };
@@ -41,11 +41,12 @@ export const useProduct = () => {
   }
   const onFilterSearchProducts = (e) => {
     const inputValue = e.target.value;
-    const regex = /^[a-zA-Z0-9\s]*$/;
+    const regex = /^[a-zA-Z\s]{0,30}$/
 
     if (regex.test(inputValue)) {
       setProductSearch({  product: e?.target?.value,flag:false });
     } else {
+      // inputValue.length//Leer la cantidad de caracteres que hay
       setProductSearch({ ...productSearch, flag: true });
     }
   };
@@ -59,6 +60,7 @@ export const useProduct = () => {
     // newProductSearch === "" ?
     //   getProducts() :
     //   filterProductsBySearch(productSearch.product)
+    
     const newProductSearch = productSearch.product
     newProductSearch === "" ?
       resetFilterProduct() :

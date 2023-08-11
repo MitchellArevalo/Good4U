@@ -29,11 +29,11 @@ function FilterBar() {
         <button className="absolute right-0 : top-1/2">
           <SearchIcon />
         </button>
-       
+
       </div>
-      { 
-          productSearch.flag && <p className="font-bold text-red-700">No se acepatan caracteres especiales</p>
-        }
+      {
+        productSearch.flag && <p className="font-bold text-red-700">Introduzca solo letras. No pase de 30 caracteres</p>
+      }
       <div className="flex flex-col gap-5">
         <div className="flex  md:flex-col gap-5">
           {/* <FormControl className="w-1/2 md:w-full">

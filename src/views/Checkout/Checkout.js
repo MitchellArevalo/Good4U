@@ -1,6 +1,6 @@
 import React from "react";
-import Footer from '../../components/Footer/Footer';
-import {useLocation} from "react-router-dom"
+import Footer from "../../components/Footer/Footer";
+import { useLocation } from "react-router-dom";
 const listDetailsPay = [
   "Nombre",
   "Correo Electrónico",
@@ -9,9 +9,8 @@ const listDetailsPay = [
   "Teléfono",
 ];
 function Checkout() {
-  const location=useLocation().state
-  const {products,subTotal}=location
-  console.log(location)
+  const location = useLocation().state;
+  const { products, subTotal } = location;
   return (
     <>
       <section className="h-full p-10">
@@ -58,7 +57,7 @@ function Checkout() {
           </div>
         </div>
       </section>
-      <Footer/>
+      <Footer />
     </>
   );
 }

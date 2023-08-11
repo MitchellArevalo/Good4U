@@ -22,7 +22,10 @@ const productSlice = createSlice({
   reducers: {
     FILTERDESCENDINGPRICE: (state) => {
       console.log("Estoy en descender");
-      const newListProducts = state.filteredProducts!=null ? [...state.filteredProducts] : [...state.products];
+      const newListProducts =
+        state.filteredProducts != null
+          ? [...state.filteredProducts]
+          : [...state.products];
       const descendingOrderList = newListProducts.sort(
         (a, b) => a.price - b.price
       );
@@ -35,7 +38,10 @@ const productSlice = createSlice({
       return newState;
     },
     FILTERASCENDINGPRICE: (state) => {
-      const newListProducts = state.filteredProducts?.length > 0 ? [...state.filteredProducts] : [...state.products];
+      const newListProducts =
+        state.filteredProducts?.length > 0
+          ? [...state.filteredProducts]
+          : [...state.products];
       const ascendingOrderList = newListProducts.sort(
         (a, b) => b.price - a.price
       );
@@ -59,10 +65,10 @@ const productSlice = createSlice({
     },
     RESETFILTERPRODUCT: (state) => {
       return {
-        ...state, filteredProducts: null
-      }
-    }
-
+        ...state,
+        filteredProducts: null,
+      };
+    },
   },
   extraReducers: {
     [getProductsAPI.pending]: (state) => {
@@ -72,7 +78,7 @@ const productSlice = createSlice({
     [getProductsAPI.fulfilled]: (state, action) => {
       state.pending = false;
       state.products = action.payload;
-      state.filteredProducts=null
+      state.filteredProducts = null;
       state.error = false;
     },
     [getProductsAPI.rejected]: (state) => {
@@ -81,6 +87,10 @@ const productSlice = createSlice({
     },
   },
 });
-export const { FILTERDESCENDINGPRICE, FILTERASCENDINGPRICE, SEARCHPRODUCT, RESETFILTERPRODUCT } =
-  productSlice.actions;
+export const {
+  FILTERDESCENDINGPRICE,
+  FILTERASCENDINGPRICE,
+  SEARCHPRODUCT,
+  RESETFILTERPRODUCT,
+} = productSlice.actions;
 export default productSlice.reducer;

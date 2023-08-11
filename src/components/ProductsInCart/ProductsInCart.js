@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CardCart from "../CardCart/CardCart";
 import Input from "../Input/Input";
-import { getPriceProductsInCart } from "../../utilities/getPriceProductsInCart"
-
-
+import { getPriceProductsInCart } from "../../utilities/getPriceProductsInCart";
 const listInput = ["Pais", "Ciudad", "Código Postal"];
 function ProductsInCart({
   cart,
@@ -13,24 +11,21 @@ function ProductsInCart({
   removeToCart,
   clearToCart,
 }) {
-
-  const navigate = useNavigate()
-  const subTotalPrice = getPriceProductsInCart(cart)
+  const navigate = useNavigate();
+  const subTotalPrice = getPriceProductsInCart(cart);
 
   const handledOpenCheckout = () => {
     navigate(`/checkout`, {
       state: {
         products: cart,
-        subTotal: subTotalPrice
-      }
-    })
-  }
-
+        subTotal: subTotalPrice,
+      },
+    });
+  };
   useEffect(() => {
-    if (!cart) return
-    getPriceProductsInCart(cart)
-  }, [cart])
-
+    if (!cart) return;
+    getPriceProductsInCart(cart);
+  }, [cart]);
 
   return (
     <div className="flex flex-col   md:flex-row gap-8 my-8">
@@ -99,7 +94,10 @@ function ProductsInCart({
             <span>Total:</span>
             <span>{subTotalPrice}</span>
           </div>
-          <button onClick={handledOpenCheckout} className="font-bold bg-black w-full mt-5 text-white p-3">
+          <button
+            onClick={handledOpenCheckout}
+            className="font-bold bg-black w-full mt-5 text-white p-3"
+          >
             Comprar
           </button>
         </div>

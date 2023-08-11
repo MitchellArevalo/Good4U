@@ -12,7 +12,7 @@ function CardProduct({ product }) {
   return (
     <div
       onClick={() => handledOpenDetails(product)}
-      className="flex w-full items-center gap-5 p-2 shadow-md md:flex-col md:w-3/4 md:items-start hover:scale-110 transition-transform ease-out duration-300"
+      className="flex w-full items-center gap-4 p-2 shadow-md md:flex-col md:w-3/4 md:items-start hover:scale-105 transition-transform ease-in duration-300"
     // style={{ width: "300px" }}
     >
       <img

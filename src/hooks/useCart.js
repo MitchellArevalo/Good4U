@@ -9,7 +9,6 @@ import {
 export const useCart = () => {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cartProducts.productInCart);
-  console.log(cart)
 
   const addToCart = product => {
     dispatch(ADD_TO_CART(product));
