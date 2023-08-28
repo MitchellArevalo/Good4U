@@ -1,7 +1,8 @@
-
-import React from "react";
+import React, { useState } from "react";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import HelpCenterIcon from "@mui/icons-material/HelpCenter";
 import PhoneIcon from "@mui/icons-material/Phone";
+import ChatBox from "../ChatBox/ChatBox";
 import { Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -25,8 +26,20 @@ const listName = [
 ];
 
 function Footer() {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const toggleChat = () => {
+    setIsChatOpen(!isChatOpen);
+  };
   return (
-    <footer className="w-full flex flex-col  gap-y-5 p-8 bg-whiteOpra absolute ">
+    <footer className="w-full flex flex-col  gap-y-5 p-8 bg-whiteOpra relative ">
+      <button
+        onClick={toggleChat}
+        className="rounded-full bg-blue-500 text-white p-4 shadow-lg fixed bottom-5 right-5 z-10"
+      >
+        <HelpCenterIcon style={{ color: "white", fontSize: "30px" }} />
+      </button>
+
+      {isChatOpen && <ChatBox />}
       <div className="flex flex-col lg:flex-row lg:gap-x-5 items-center">
         <div className="lg:w-1/4">
           <img className="w-52" src="/assets/logoopra.png" alt="Logo Opra" />

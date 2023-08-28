@@ -8,21 +8,20 @@ import {
 
 export const useCart = () => {
   const dispatch = useDispatch();
-  const cart = useSelector(state => state.cartProducts.productInCart);
+  const cart = useSelector((state) => state.cartProducts.productInCart);
 
-  const addToCart = product => {
+  const addToCart = (product) => {
     dispatch(ADD_TO_CART(product));
   };
-  const subtractToCart = product => {
+  const subtractToCart = (product) => {
     dispatch(SUBTRACT_TO_CART(product));
   };
-  const removeToCart = product => {
+  const removeToCart = (product) => {
     dispatch(REMOVE_FROM_CART(product));
   };
   const clearToCart = () => {
     dispatch(CLEAR_CART());
   };
-
 
   return {
     cart,
