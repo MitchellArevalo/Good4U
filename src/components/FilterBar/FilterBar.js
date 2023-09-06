@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 // import InputBase from "@mui/material/InputBase";
 // import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-import Input from '@mui/material/Input';
+import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -10,12 +10,18 @@ import Select from "@mui/material/Select";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { useProduct } from "../../hooks/useProduct";
-import { sortOptions } from "./listOptions";
+import { sortOptions, categoriesOptions } from "./listOptions";
 
 function FilterBar() {
   const [checked, setChecked] = useState(false);
-  const { onFilterSearchProducts, onFilterPriceProducts, optionFilterPrice, productSearch } = useProduct()
-
+  const {
+    onFilterSearchProducts,
+    onFilterPriceProducts,
+    optionFilterPrice,
+    optionFilterCategory,
+    productSearch,
+    onFilterCategory,
+  } = useProduct();
   const toggleChecked = () => {
     setChecked((prev) => !prev);
   };
@@ -25,44 +31,51 @@ function FilterBar() {
         Compra lo Último
       </h1>
       <div className="relative flex items-center">
-        <input placeholder="Buscar..." type="text" className="input" value={productSearch.product} onChange={onFilterSearchProducts} />
+        <input
+          placeholder="Buscar..."
+          type="text"
+          className="input"
+          value={productSearch.product}
+          onChange={onFilterSearchProducts}
+        />
         <button className="absolute right-0 : top-1/2">
           <SearchIcon />
         </button>
-
       </div>
-      {
-        productSearch.flag && <p className="font-bold text-red-700">Introduzca solo letras. No pase de 30 caracteres</p>
-      }
+      {productSearch.flag && (
+        <p className="font-bold text-red-700">
+          Introduzca solo letras. No pase de 30 caracteres
+        </p>
+      )}
       <div className="flex flex-col gap-5">
         <div className="flex  md:flex-col gap-5">
-          {/* <FormControl className="w-1/2 md:w-full">
-            <InputLabel id="demo-mutiple-name-label">Categoría</InputLabel>
+          <FormControl className="w-1/2 md:w-full">
+            <InputLabel className="">Categorías</InputLabel>
             <Select
               labelId="demo-mutiple-name-label"
               id="demo-mutiple-name"
-              value={"hola"}
+              onChange={onFilterCategory}
+              value={optionFilterCategory}
               input={<Input />}
-
+              className="border-none border-b-2 border-greyLightOpra border-opacity-75  "
             >
               {categoriesOptions.map((name) => (
                 <MenuItem
                   key={name}
                   value={name}
-                // style={getStyles(name, personName, theme)}
+                  // style={getStyles(name, personName, theme)}
                 >
                   {name}
                 </MenuItem>
               ))}
             </Select>
-          </FormControl> */}
+          </FormControl>
           <FormControl className="w-1/2 md:w-full">
             <InputLabel className="">Ordenado Por:</InputLabel>
             <Select
               labelId="demo-mutiple-name-label"
               id="demo-mutiple-name"
               onChange={onFilterPriceProducts}
-
               value={optionFilterPrice}
               input={<Input />}
               className="border-none border-b-2 border-greyLightOpra border-opacity-75  "
@@ -71,7 +84,7 @@ function FilterBar() {
                 <MenuItem
                   key={name}
                   value={name}
-                // style={getStyles(name, personName, theme)}
+                  // style={getStyles(name, personName, theme)}
                 >
                   {name}
                 </MenuItem>
@@ -80,6 +93,8 @@ function FilterBar() {
           </FormControl>
         </div>
         <div>
+          <input type="range" className="range-input" />
+
           <div className=" flex  justify-between items-center font-semibold">
             <span>Con descuento:</span>
             <FormControl>
@@ -111,8 +126,7 @@ function FilterBar() {
         </div>
       </div>
     </div>
-  )
-
+  );
 }
 
 export default FilterBar;

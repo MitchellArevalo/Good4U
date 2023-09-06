@@ -123,11 +123,6 @@ const ChatBot = () => {
                 "¡Hasta luego! Si necesitas ayuda en el futuro, no dudes en regresar.",
               end: true,
             },
-            {
-              id: "8",
-              message: "¿Te gustaría cerrar el chat?",
-              trigger: "closeOptions",
-            },
           ]}
         />
       </ThemeProvider>

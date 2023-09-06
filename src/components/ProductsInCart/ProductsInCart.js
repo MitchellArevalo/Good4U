@@ -51,12 +51,6 @@ function ProductsInCart({
           >
             Limpiar Carrito
           </button>
-          <div className="flex  justify-between  gap-x-20 ">
-            <Input placeholder="Código de descuento" />
-            <button className="bg-black text-white  p-3 self-end  w-full	">
-              Aplicar Cupón
-            </button>
-          </div>
         </div>
       </div>
       <div className="md:w-1/2">

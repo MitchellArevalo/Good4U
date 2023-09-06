@@ -38,7 +38,6 @@ function Footer() {
       >
         <HelpCenterIcon style={{ color: "white", fontSize: "30px" }} />
       </button>
-
       {isChatOpen && <ChatBox />}
       <div className="flex flex-col lg:flex-row lg:gap-x-5 items-center">
         <div className="lg:w-1/4">

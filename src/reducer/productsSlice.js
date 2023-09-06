@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getData } from "../services/getData";
+import { getProducts } from "../services/getData";
 const initialState = {
   products: [],
   filteredProducts: null,
@@ -11,7 +11,7 @@ export const getProductsAPI = createAsyncThunk(
   //Este es un reducer "Asincrónico. En esta librería se maneja los eventos de pendiente, success y error"
   "getProductsFromAPI",
   async () => {
-    const products = await getData();
+    const products = await getProducts();
     return products; //El return viene siendo el "payload" que se enviará al reducer
   }
 );
@@ -51,6 +51,21 @@ const productSlice = createSlice({
       };
       return newState;
     },
+    FILTERCATEGORIES: (state, action) => {
+      const newListProducts =
+        state.filteredProducts.length > 0
+          ? [...state.filteredProducts]
+          : [...state.products];
+
+      const productsFilterByCategory = newListProducts.filter(
+        (product) => product.category === action.payload
+      );
+
+      return {
+        ...state,
+        filteredProducts: productsFilterByCategory,
+      };
+    },
     SEARCHPRODUCT: (state, action) => {
       const newListProducts = [...state.products];
       console.log(newListProducts);
@@ -63,6 +78,7 @@ const productSlice = createSlice({
         filteredProducts: newState,
       };
     },
+
     RESETFILTERPRODUCT: (state) => {
       return {
         ...state,
@@ -73,12 +89,12 @@ const productSlice = createSlice({
   extraReducers: {
     [getProductsAPI.pending]: (state) => {
       state.pending = true;
+      state.filteredProducts = null;
       state.error = false;
     },
     [getProductsAPI.fulfilled]: (state, action) => {
       state.pending = false;
       state.products = action.payload;
-      state.filteredProducts = null;
       state.error = false;
     },
     [getProductsAPI.rejected]: (state) => {
@@ -91,6 +107,7 @@ export const {
   FILTERDESCENDINGPRICE,
   FILTERASCENDINGPRICE,
   SEARCHPRODUCT,
+  FILTERCATEGORIES,
   RESETFILTERPRODUCT,
 } = productSlice.actions;
 export default productSlice.reducer;

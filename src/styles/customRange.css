@@ -1,0 +1,27 @@
+/* custom.css */
+
+/* Clase personalizada para el input de tipo range */
+.range-input {
+    /* Elimina el control de deslizamiento predeterminado */
+    -webkit-appearance: none;
+    appearance: none;
+    width: 4px; /* Ancho del palito vertical */
+    height: 160px; /* Altura del palito vertical */
+    background-color: black; /* Color de fondo del palito vertical */
+    border: none; /* Elimina el borde predeterminado */
+    outline: none; /* Elimina el contorno al enfocar */
+    margin: 0; /* Ajusta el margen según tus preferencias */
+    padding: 0; /* Ajusta el relleno según tus preferencias */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el elemento */
+  }
+  
+  /* Personaliza el control de deslizamiento */
+  .range-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 4px; /* Ancho del control de deslizamiento */
+    height: 24px; /* Altura del control de deslizamiento */
+    background-color: white; /* Color del control de deslizamiento */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el control de deslizamiento */
+  }
+  
