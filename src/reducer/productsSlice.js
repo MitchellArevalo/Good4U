@@ -21,16 +21,13 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     FILTERDESCENDINGPRICE: (state) => {
-      console.log("Estoy en descender");
       const newListProducts =
-        state.filteredProducts != null
+        state.filteredProducts?.length > 0
           ? [...state.filteredProducts]
           : [...state.products];
       const descendingOrderList = newListProducts.sort(
         (a, b) => a.price - b.price
       );
-      console.log(descendingOrderList);
-
       const newState = {
         ...state,
         filteredProducts: descendingOrderList,
@@ -51,12 +48,21 @@ const productSlice = createSlice({
       };
       return newState;
     },
+    SEARCHPRODUCT: (state, action) => {
+      const newListProducts = [...state.products];
+      console.log(state.filteredProducts);
+      const newState = newListProducts.filter(
+        (product) => product.title.toLowerCase().indexOf(action.payload) !== -1
+      );
+      console.log("Nuevo estado", newState);
+      return {
+        ...state,
+        filteredProducts: newState,
+      };
+    },
     FILTERCATEGORIES: (state, action) => {
-      const newListProducts =
-        state.filteredProducts.length > 0
-          ? [...state.filteredProducts]
-          : [...state.products];
-
+      if (action.payload === null) return;
+      const newListProducts = [...state.products];
       const productsFilterByCategory = newListProducts.filter(
         (product) => product.category === action.payload
       );
@@ -66,16 +72,15 @@ const productSlice = createSlice({
         filteredProducts: productsFilterByCategory,
       };
     },
-    SEARCHPRODUCT: (state, action) => {
+    FILTERPRICE: (state, action) => {
+      if (action.payload === null) return;
       const newListProducts = [...state.products];
-      console.log(newListProducts);
-      const newState = newListProducts.filter(
-        (product) => product.title.toLowerCase().indexOf(action.payload) !== -1
+      const productsFilterByPrice = newListProducts.filter(
+        (product) => product.price <= action.payload
       );
-      console.log(newState);
       return {
         ...state,
-        filteredProducts: newState,
+        filteredProducts: productsFilterByPrice,
       };
     },
 
@@ -94,6 +99,7 @@ const productSlice = createSlice({
     },
     [getProductsAPI.fulfilled]: (state, action) => {
       state.pending = false;
+      state.filteredProducts = null;
       state.products = action.payload;
       state.error = false;
     },
@@ -108,6 +114,7 @@ export const {
   FILTERASCENDINGPRICE,
   SEARCHPRODUCT,
   FILTERCATEGORIES,
+  FILTERPRICE,
   RESETFILTERPRODUCT,
 } = productSlice.actions;
 export default productSlice.reducer;

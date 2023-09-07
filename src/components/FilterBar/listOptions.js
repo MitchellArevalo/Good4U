@@ -1,8 +1,4 @@
-export const categoriesOptions = [
-  "men's clothing",
-  "jewelery",
-  "Niños",
-  "Niñas",
-];
+export const categoriesOptions = (listProducts) =>
+  listProducts.map((product) => product.category);
 
 export const sortOptions = ["Menor precio", "Mayor precio"];

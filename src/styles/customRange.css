@@ -1,27 +1,23 @@
-/* custom.css */
+/* Estilos para ocultar la bolita predeterminada del rango */
+#custom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0;
+  height: 0;
+}
 
-/* Clase personalizada para el input de tipo range */
-.range-input {
-    /* Elimina el control de deslizamiento predeterminado */
-    -webkit-appearance: none;
-    appearance: none;
-    width: 4px; /* Ancho del palito vertical */
-    height: 160px; /* Altura del palito vertical */
-    background-color: black; /* Color de fondo del palito vertical */
-    border: none; /* Elimina el borde predeterminado */
-    outline: none; /* Elimina el contorno al enfocar */
-    margin: 0; /* Ajusta el margen según tus preferencias */
-    padding: 0; /* Ajusta el relleno según tus preferencias */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el elemento */
-  }
-  
-  /* Personaliza el control de deslizamiento */
-  .range-input::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 4px; /* Ancho del control de deslizamiento */
-    height: 24px; /* Altura del control de deslizamiento */
-    background-color: white; /* Color del control de deslizamiento */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el control de deslizamiento */
-  }
-  
+/* Estilos para el nuevo "thumb" (la línea vertical) */
+#custom-range-thumb {
+  width: 4px; /* Ancho de la línea vertical */
+  background-color: red; /* Color de la línea vertical */
+  border-radius: 6px; /* Ajusta según el ancho para hacerla parecer una línea vertical */
+  z-index: 10; /* Para que aparezca encima de la barra de desplazamiento */
+  transform-origin: left center; /* El punto de transformación se encuentra en la izquierda (el inicio de la línea) */
+  transform: scaleX(0); /* Escalamos la línea horizontalmente a 0 inicialmente */
+}
+
+/* Estilo para el input tipo rango cuando está activo (pulsado) */
+#custom-range:active + #custom-range-line {
+  transform-origin: right center; /* Cambiamos el punto de transformación a la derecha */
+  transform: scaleX(1); /* Escalamos la línea horizontalmente a 1 (toda la longitud) cuando se pulsa el input */
+}

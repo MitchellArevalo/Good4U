@@ -6,6 +6,7 @@ import {
   FILTERASCENDINGPRICE,
   SEARCHPRODUCT,
   FILTERCATEGORIES,
+  FILTERPRICE,
   RESETFILTERPRODUCT,
 } from "../reducer/productsSlice";
 import { getProductsAPI } from "../reducer/productsSlice";
@@ -21,19 +22,26 @@ export const useProduct = () => {
   const loading = useSelector((state) => state.productsData.pending);
   const error = useSelector((state) => state.productsData.error);
 
+  const priceAllProducts = listOfProducts?.map((product) => product.price);
+  let minPriceProducts = Math.min(...priceAllProducts);
+  let maxPriceProducts = Math.max(...priceAllProducts);
+
   //Estados
+  const [optionFilterPrice, setOptionFilterPrice] = useState("*");
+  const [optionFilterSort, setOptionFilterSort] = useState("");
   const [productSearch, setProductSearch] = useState({
     product: "",
     flag: false,
   });
   const [optionFilterCategory, setOptionFilterCategory] = useState("");
-  const [optionFilterPrice, setOptionFilterPrice] = useState("");
 
   const getProducts = () => {
     return dispatch(getProductsAPI());
   };
   const resetFilterProduct = () => {
     dispatch(RESETFILTERPRODUCT());
+    setOptionFilterSort("");
+    setOptionFilterCategory("");
   };
   const filterProductDescendingPrice = () => {
     dispatch(FILTERDESCENDINGPRICE());
@@ -41,29 +49,35 @@ export const useProduct = () => {
   const filterProductAscendingPrice = () => {
     dispatch(FILTERASCENDINGPRICE());
   };
-  const filterProductCategories = (category) => {
-    dispatch(FILTERCATEGORIES(category));
-  };
   const filterProductsBySearch = (nameProduct) => {
     dispatch(SEARCHPRODUCT(nameProduct));
   };
-  const onFilterCategory = (e) => {
-    const inputValue = e.target.value;
-    setOptionFilterCategory(inputValue);
+  const filterProductsByCategories = (category) => {
+    dispatch(FILTERCATEGORIES(category));
+  };
+
+  const filterProductsByPrice = (price) => {
+    dispatch(FILTERPRICE(price));
   };
   const onFilterPriceProducts = (e) => {
     const inputValue = e.target.value;
-    setOptionFilterPrice(inputValue);
+    setOptionFilterSort(inputValue);
   };
   const onFilterSearchProducts = (e) => {
     if (validateWordsSearch(e)) {
       setProductSearch({ product: e?.target?.value, flag: false });
     } else {
-      // inputValue.length//Leer la cantidad de caracteres que hay
       setProductSearch({ ...productSearch, flag: true });
     }
   };
 
+  const onFilterCategory = (e) => {
+    const inputValue = e.target.value;
+    setOptionFilterCategory(inputValue);
+  };
+  const onFilterPrice = (event) => {
+    setOptionFilterPrice(event.target.value);
+  };
   useEffect(
     () => getProducts,
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,11 +85,6 @@ export const useProduct = () => {
   );
 
   useEffect(() => {
-    // const newProductSearch = productSearch.product
-    // newProductSearch === "" ?
-    //   getProducts() :
-    //   filterProductsBySearch(productSearch.product)
-
     const newProductSearch = productSearch.product;
     newProductSearch === ""
       ? resetFilterProduct()
@@ -83,31 +92,40 @@ export const useProduct = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productSearch]);
-  //Cuando se escribe una letra, pero se vuelve a borrar, no se muestran otros resultados
 
   useEffect(
     () => {
-      optionFilterPrice === sortOptions[0]
+      optionFilterSort === sortOptions[0]
         ? filterProductDescendingPrice()
         : filterProductAscendingPrice();
     }, // eslint-disable-next-line react-hooks/exhaustive-deps
-    [optionFilterPrice]
+    [optionFilterSort]
   );
 
-  useEffect(() => filterProductCategories(optionFilterCategory), [
+  useEffect(() => filterProductsByCategories(optionFilterCategory), [
     optionFilterCategory,
   ]);
+
+  useEffect(() => {
+    if (optionFilterPrice === "*") return;
+    filterProductsByPrice(optionFilterPrice);
+  }, [optionFilterPrice]);
   return {
     products: listOfProducts,
     productsFilted: listOfProductsFiltered,
     loading,
     error,
-    optionFilterPrice,
+    optionFilterSort,
     optionFilterCategory,
     productSearch,
     onFilterSearchProducts,
     onFilterPriceProducts,
     onFilterCategory,
+    onFilterPrice,
+    minPriceProducts,
+    maxPriceProducts,
+    optionFilterPrice,
+    resetFilterProduct,
   };
 };
 

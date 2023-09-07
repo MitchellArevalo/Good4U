@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 // import InputBase from "@mui/material/InputBase";
 // import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
@@ -7,26 +7,28 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
 import { useProduct } from "../../hooks/useProduct";
 import { sortOptions, categoriesOptions } from "./listOptions";
+import "../../styles/customRange.css";
 
 function FilterBar() {
-  const [checked, setChecked] = useState(false);
   const {
     onFilterSearchProducts,
     onFilterPriceProducts,
-    optionFilterPrice,
+    optionFilterSort,
     optionFilterCategory,
     productSearch,
     onFilterCategory,
+    onFilterPrice,
+    minPriceProducts,
+    maxPriceProducts,
+    optionFilterPrice,
+    resetFilterProduct,
+    products,
   } = useProduct();
-  const toggleChecked = () => {
-    setChecked((prev) => !prev);
-  };
+  const categoriesProducts = categoriesOptions(products);
   return (
-    <div className="  shadow-lg rounded-sm flex gap-4 p-5  mb-5 flex-col  w-full  md:w-1/4  md:gap-12 ">
+    <div className="  shadow-lg rounded-sm flex  p-5  mb-5 flex-col  w-full  md:w-1/4  md:gap-12 ">
       <h1 className="hidden md:font-bold md:text-2xl md:uppercase">
         Compra lo Último
       </h1>
@@ -47,7 +49,7 @@ function FilterBar() {
           Introduzca solo letras. No pase de 30 caracteres
         </p>
       )}
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col : gap-y-5">
         <div className="flex  md:flex-col gap-5">
           <FormControl className="w-1/2 md:w-full">
             <InputLabel className="">Categorías</InputLabel>
@@ -59,7 +61,7 @@ function FilterBar() {
               input={<Input />}
               className="border-none border-b-2 border-greyLightOpra border-opacity-75  "
             >
-              {categoriesOptions.map((name) => (
+              {categoriesProducts.map((name) => (
                 <MenuItem
                   key={name}
                   value={name}
@@ -76,7 +78,7 @@ function FilterBar() {
               labelId="demo-mutiple-name-label"
               id="demo-mutiple-name"
               onChange={onFilterPriceProducts}
-              value={optionFilterPrice}
+              value={optionFilterSort}
               input={<Input />}
               className="border-none border-b-2 border-greyLightOpra border-opacity-75  "
             >
@@ -92,38 +94,46 @@ function FilterBar() {
             </Select>
           </FormControl>
         </div>
-        <div>
-          <input type="range" className="range-input" />
-
-          <div className=" flex  justify-between items-center font-semibold">
-            <span>Con descuento:</span>
-            <FormControl>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={checked}
-                    onChange={toggleChecked}
-                    color="primary"
-                  />
-                }
-              />
-            </FormControl>
+        <div className="flex items-center justify-between">
+          <div class="w-64 relative">
+            <input
+              type="range"
+              class="appearance-none  h-1 bg-black rounded-full outline-none z-2 "
+              id="custom-range"
+              value={optionFilterPrice}
+              min={minPriceProducts}
+              max={maxPriceProducts}
+              onChange={onFilterPrice}
+            />
+            <div
+              class="absolute left-0 right-0 top-0 bottom-0 flex items-center"
+              id="custom-range-thumb"
+            >
+              <div class="h-6 w-1 bg-white mx-auto"></div>
+            </div>
           </div>
-          <div className=" flex  justify-between items-center font-semibold">
-            <span>Envío Gratis:</span>
-            <FormControl>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={checked}
-                    onChange={toggleChecked}
-                    color="primary"
-                  />
-                }
-              />
-            </FormControl>
-          </div>
+          <span className=": font-semibold">{optionFilterPrice}</span>
         </div>
+        {/* <div className=" flex  justify-between items-center font-semibold">
+          <span>Con descuento:</span>
+          <FormControl>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={checked}
+                  onChange={toggleChecked}
+                  color="primary"
+                />
+              }
+            />
+          </FormControl>
+        </div> */}
+        <button
+          className="p-1 text-white bg-black border-2  border-black w-full rounded-sm "
+          onClick={resetFilterProduct}
+        >
+          Limpiar filtros
+        </button>
       </div>
     </div>
   );
