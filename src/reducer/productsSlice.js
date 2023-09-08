@@ -15,14 +15,13 @@ export const getProductsAPI = createAsyncThunk(
     return products; //El return viene siendo el "payload" que se enviará al reducer
   }
 );
-
 const productSlice = createSlice({
   name: "productsData",
   initialState,
   reducers: {
     FILTERDESCENDINGPRICE: (state) => {
       const newListProducts =
-        state.filteredProducts?.length > 0
+        state.filteredProducts !== null
           ? [...state.filteredProducts]
           : [...state.products];
       const descendingOrderList = newListProducts.sort(
@@ -36,12 +35,13 @@ const productSlice = createSlice({
     },
     FILTERASCENDINGPRICE: (state) => {
       const newListProducts =
-        state.filteredProducts?.length > 0
+        state.filteredProducts !== null
           ? [...state.filteredProducts]
           : [...state.products];
       const ascendingOrderList = newListProducts.sort(
         (a, b) => b.price - a.price
       );
+      console.log(ascendingOrderList);
       const newState = {
         ...state,
         filteredProducts: ascendingOrderList,
@@ -49,15 +49,14 @@ const productSlice = createSlice({
       return newState;
     },
     SEARCHPRODUCT: (state, action) => {
+      const productName = action.payload;
       const newListProducts = [...state.products];
-      console.log(state.filteredProducts);
       const newState = newListProducts.filter(
-        (product) => product.title.toLowerCase().indexOf(action.payload) !== -1
+        (product) => product.title.toLowerCase().indexOf(productName) !== -1
       );
-      console.log("Nuevo estado", newState);
       return {
         ...state,
-        filteredProducts: newState,
+        filteredProducts: newState?.length > 0 ? newState : null,
       };
     },
     FILTERCATEGORIES: (state, action) => {
@@ -73,17 +72,16 @@ const productSlice = createSlice({
       };
     },
     FILTERPRICE: (state, action) => {
-      if (action.payload === null) return;
       const newListProducts = [...state.products];
       const productsFilterByPrice = newListProducts.filter(
         (product) => product.price <= action.payload
       );
+      console.log(newListProducts);
       return {
         ...state,
         filteredProducts: productsFilterByPrice,
       };
     },
-
     RESETFILTERPRODUCT: (state) => {
       return {
         ...state,

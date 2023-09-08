@@ -10,13 +10,17 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     ADD_TO_CART: (state, action) => {
+      const { id, size, totalPrice } = action.payload;
       const productInCartIndex = state.productInCart.findIndex(
-        (product) => product.id === action.payload.id
+        (product) => product.id === id && product.size === size
       );
+
       if (productInCartIndex >= 0) {
         const newCardProducts = [...state.productInCart];
         newCardProducts[productInCartIndex].quantity += 1; // Actualizar la cantidad del producto existente
-        newCardProducts[productInCartIndex].totalPrice = newCardProducts[productInCartIndex].quantity * newCardProducts[productInCartIndex].price
+        newCardProducts[productInCartIndex].totalPrice =
+          newCardProducts[productInCartIndex].quantity *
+          newCardProducts[productInCartIndex].price;
 
         const newState = {
           ...state,
@@ -31,8 +35,8 @@ const cartSlice = createSlice({
             {
               ...action.payload.product,
               quantity: 1,
-              size: action.payload.size,
-              totalPrice: action.payload.totalPrice,
+              size: size,
+              totalPrice: totalPrice,
             },
           ],
         };
@@ -40,30 +44,27 @@ const cartSlice = createSlice({
         return newState;
       }
     }, //Cuando se modifica la copia, no se puede retornar el estado a la vez
-    SUBTRACT_TO_CART: (state, action) => {
-      const productInCartIndex = state.productInCart.findIndex(
-        (item) => item.id === action.payload.id
-      );
-      const newCardProducts = [...state.productInCart];
-      newCardProducts[productInCartIndex].quantity -= 1;
-      newCardProducts[productInCartIndex].totalPrice = newCardProducts[productInCartIndex].quantity * newCardProducts[productInCartIndex].price
 
-      const newState = {
-        ...state,
-        productInCart: newCardProducts,
-
-      };
-      updateLocalStorage(newState);
-    },
     REMOVE_FROM_CART: (state, action) => {
-      const newState = {
-        ...state,
-        productInCart: state.productInCart.filter(
-          (product) => product.id !== action.payload.id
-        ),
-      };
-      updateLocalStorage(newState);
-      return newState;
+      const { id, size } = action.payload;
+
+      // Encuentra el índice del producto en el carrito
+      const productInCartIndex = state.productInCart.findIndex(
+        (product) => product.id === id && product.size === size
+      );
+
+      if (productInCartIndex >= 0) {
+        const newCartProducts = [...state.productInCart];
+        newCartProducts.splice(productInCartIndex, 1);
+
+        const newState = {
+          ...state,
+          productInCart: newCartProducts,
+        };
+        updateLocalStorage(newState);
+        return newState;
+      }
+      return state;
     },
     CLEAR_CART: (state) => {
       const newState = { ...state, productInCart: [] };
@@ -73,6 +74,10 @@ const cartSlice = createSlice({
   },
 });
 
-export const { ADD_TO_CART, SUBTRACT_TO_CART, REMOVE_FROM_CART, CLEAR_CART } =
-  cartSlice.actions;
+export const {
+  ADD_TO_CART,
+  SUBTRACT_TO_CART,
+  REMOVE_FROM_CART,
+  CLEAR_CART,
+} = cartSlice.actions;
 export default cartSlice.reducer; //Tener claro, reducer

@@ -10,7 +10,7 @@ import {
   RESETFILTERPRODUCT,
 } from "../reducer/productsSlice";
 import { getProductsAPI } from "../reducer/productsSlice";
-import { sortOptions } from "../components/FilterBar/listOptions";
+import { sortOptions } from "../utilities/listOptions";
 import { validateWordsSearch } from "../utilities/validateWordsSearch";
 
 export const useProduct = () => {
@@ -27,13 +27,14 @@ export const useProduct = () => {
   let maxPriceProducts = Math.max(...priceAllProducts);
 
   //Estados
-  const [optionFilterPrice, setOptionFilterPrice] = useState("*");
-  const [optionFilterSort, setOptionFilterSort] = useState("");
+
   const [productSearch, setProductSearch] = useState({
     product: "",
     flag: false,
   });
   const [optionFilterCategory, setOptionFilterCategory] = useState("");
+  const [optionFilterSort, setOptionFilterSort] = useState("");
+  const [optionFilterPrice, setOptionFilterPrice] = useState("*");
 
   const getProducts = () => {
     return dispatch(getProductsAPI());
@@ -42,6 +43,17 @@ export const useProduct = () => {
     dispatch(RESETFILTERPRODUCT());
     setOptionFilterSort("");
     setOptionFilterCategory("");
+    setOptionFilterPrice("*");
+  };
+
+  const filterProductsBySearch = (nameProduct) => {
+    dispatch(SEARCHPRODUCT(nameProduct));
+    setOptionFilterSort("");
+    setOptionFilterCategory("");
+    setOptionFilterPrice("*");
+  };
+  const filterProductsByCategories = (category) => {
+    dispatch(FILTERCATEGORIES(category));
   };
   const filterProductDescendingPrice = () => {
     dispatch(FILTERDESCENDINGPRICE());
@@ -49,20 +61,10 @@ export const useProduct = () => {
   const filterProductAscendingPrice = () => {
     dispatch(FILTERASCENDINGPRICE());
   };
-  const filterProductsBySearch = (nameProduct) => {
-    dispatch(SEARCHPRODUCT(nameProduct));
-  };
-  const filterProductsByCategories = (category) => {
-    dispatch(FILTERCATEGORIES(category));
-  };
-
   const filterProductsByPrice = (price) => {
     dispatch(FILTERPRICE(price));
   };
-  const onFilterPriceProducts = (e) => {
-    const inputValue = e.target.value;
-    setOptionFilterSort(inputValue);
-  };
+
   const onFilterSearchProducts = (e) => {
     if (validateWordsSearch(e)) {
       setProductSearch({ product: e?.target?.value, flag: false });
@@ -71,45 +73,48 @@ export const useProduct = () => {
     }
   };
 
-  const onFilterCategory = (e) => {
+  const onFilterCategoryProducts = (e) => {
     const inputValue = e.target.value;
     setOptionFilterCategory(inputValue);
   };
-  const onFilterPrice = (event) => {
+  const onFilterSortProducts = (e) => {
+    const inputValue = e.target.value;
+    setOptionFilterSort(inputValue);
+  };
+  const onFilterPriceProducts = (event) => {
     setOptionFilterPrice(event.target.value);
   };
+
   useEffect(
     () => getProducts,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
-
   useEffect(() => {
-    const newProductSearch = productSearch.product;
-    newProductSearch === ""
-      ? resetFilterProduct()
-      : filterProductsBySearch(productSearch.product);
-
+    const newProductSearch = productSearch;
+    if (newProductSearch === "") return resetFilterProduct();
+    filterProductsBySearch(productSearch.product);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productSearch]);
 
+  useEffect(() => {
+    filterProductsByCategories(optionFilterCategory);
+    setOptionFilterSort("");
+  }, [optionFilterCategory]);
   useEffect(
     () => {
+      if (optionFilterSort === "") return;
       optionFilterSort === sortOptions[0]
         ? filterProductDescendingPrice()
         : filterProductAscendingPrice();
     }, // eslint-disable-next-line react-hooks/exhaustive-deps
     [optionFilterSort]
   );
-
-  useEffect(() => filterProductsByCategories(optionFilterCategory), [
-    optionFilterCategory,
-  ]);
-
   useEffect(() => {
     if (optionFilterPrice === "*") return;
     filterProductsByPrice(optionFilterPrice);
   }, [optionFilterPrice]);
+
   return {
     products: listOfProducts,
     productsFilted: listOfProductsFiltered,
@@ -119,9 +124,9 @@ export const useProduct = () => {
     optionFilterCategory,
     productSearch,
     onFilterSearchProducts,
+    onFilterSortProducts,
+    onFilterCategoryProducts,
     onFilterPriceProducts,
-    onFilterCategory,
-    onFilterPrice,
     minPriceProducts,
     maxPriceProducts,
     optionFilterPrice,

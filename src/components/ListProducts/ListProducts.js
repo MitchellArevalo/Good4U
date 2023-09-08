@@ -21,7 +21,7 @@ function ListProducts() {
   return (
     <>
       {loading && <Spinner />}
-      {productsFilted === [] ? <NoResultSearch /> : productsMap(listOfDataShow)}
+      {productsMap(listOfDataShow)}
       {error && <ErrorGetProducts />}
     </>
   );

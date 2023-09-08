@@ -6,7 +6,8 @@ import Login from "./views/Login/Login";
 import Register from "./views/Register/Register";
 import Checkout from "./views/Checkout/Checkout";
 import ProductDetail from "./views/ProductDetail/ProductDetail";
-import ChatBox from "./components/ChatBox/ChatBox";
+// import ChatBox from "./components/ChatBox/ChatBox";
+import Cart from "./components/Cart/Cart";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path="/products" element={<Products />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/cart" element={<Cart />} />
       <Route path="/checkout" element={<Checkout />} />
     </Routes>
   );

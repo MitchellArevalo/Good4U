@@ -24,22 +24,17 @@ const itemsMenu = [
 ];
 function Navbar() {
   const [isMenuOpen, setMenuOpen] = useState(false);
-  const [isCartOpen, setCartOpen] = useState(false);
 
   const handleToggleMenu = () => {
     setMenuOpen(!isMenuOpen);
   };
 
-  const handleToggleCart = () => {
-    setCartOpen(!isCartOpen);
-  };
-
-  useEffect(() => {
-    document.body.classList.toggle("overflow-hidden", isCartOpen || isMenuOpen);
-    return () => {
-      document.body.classList.remove("overflow-hidden");
-    };
-  }, [isCartOpen, isMenuOpen]);
+  // useEffect(() => {
+  //   document.body.classList.toggle("overflow-hidden", isCartOpen || isMenuOpen);
+  //   return () => {
+  //     document.body.classList.remove("overflow-hidden");
+  //   };
+  // }, [isCartOpen, isMenuOpen]);
 
   return (
     <div className="relative">
@@ -69,9 +64,10 @@ function Navbar() {
           <NavLink to="/login">
             <AccountCircleIcon />
           </NavLink>
-          <div onClick={handleToggleCart}>
+          <Link to="/cart">
+            {" "}
             <LocalGroceryStoreIcon />
-          </div>
+          </Link>
         </div>
         {isMenuOpen && (
           <ul className="flex items-center flex-col absolute h-screen w-1/2 z-50 top-0 left-0 p-5 py-10 bg-black text-white font-semibold cursor-pointer md:hidden ">
@@ -100,7 +96,6 @@ function Navbar() {
           </ul>
         )}
       </nav>
-      {isCartOpen && <Cart closeCart={handleToggleCart} />}
     </div>
   );
 }

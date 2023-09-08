@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import CloseIcon from "@mui/icons-material/Close";
+import CartNotification from "../../components/CartNotification/CartNotification";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import { useCart } from "../../hooks/useCart";
@@ -10,39 +10,44 @@ const styleIcon = {
 };
 const listSize = ["S", "M", "L", "XL"];
 function ProductDetail() {
-  const [selectSize, setSelectSize] = useState(null)
+  const [selectSize, setSelectSize] = useState(null);
   const [showSizeWarning, setShowSizeWarning] = useState(false); // Estado para mostrar el mensaje de "Escoja una talla"
-
+  const [cartNotificationVisible, setCartNotificationVisible] = useState(false);
   const location = useLocation();
   const product = location.state;
-  const { cart, addToCart, removeToCart } = useCart();
+  const { addToCart } = useCart();
 
   const getSizeProduct = (size) => {
-    setSelectSize(size)
-  }
-  const validateProductCart = (product) =>
-    cart.some((item) => item.id === product.id);
-  const isProductInCart = validateProductCart(product);
+    setSelectSize(size);
+  };
 
+  const validateSizeSelect = (product, size, price) => {
+    setCartNotificationVisible(true);
 
-  const validateSizeSelect = (size, product) => {
-    if (!size) return setShowSizeWarning(true)
-    isProductInCart ? removeToCart(product) : addToCart({ product, size: size, totalPrice: product.price });
-  }
+    if (!size) return setShowSizeWarning(true);
+    addToCart({
+      product,
+      size: size,
+      totalPrice: price,
+    });
+    setTimeout(() => {
+      // Ocultar el aviso después de 5 segundos
+      setCartNotificationVisible(false);
+    }, 3000);
+  };
   useEffect(() => {
-    if (!selectSize) return
-    setShowSizeWarning(false)
-  }, [selectSize])
+    if (!selectSize) return;
+    setShowSizeWarning(false);
+  }, [selectSize]);
   return (
     <>
       <Navbar />
-      <section className="m-8">
+      <section className="relative m-8">
         <h2 className=" text-xl p-5">{`${product.id} - ${product.title}`}</h2>
         <div className="flex flex-col  justify-around gap-8 p-5  md:flex-row ">
           <div className=" flex flex-col gap-5 md:w-1/3 ">
             <img src={product.image} alt={product.title} />
-            <p className="font-bold text-lg self-center ">{`$${product.price
-              }`}</p>
+            <p className="font-bold text-lg self-center ">{`$${product.price}`}</p>
           </div>
           <div className="md:w-1/2 flex flex-col justify-between">
             <h2 className="font-bold text-xl">{product.title}</h2>
@@ -54,7 +59,9 @@ function ProductDetail() {
                   <button
                     key={i}
                     onClick={() => getSizeProduct(size)}
-                    className={`py-1 px-2 mx-2 border  rounded-2xl text-sm hover:bg-black hover:text-white ${selectSize === size ? `bg-black text-white` : undefined} `}
+                    className={`py-1 px-2 mx-2 border  rounded-2xl text-sm hover:bg-black hover:text-white ${
+                      selectSize === size ? `bg-black text-white` : undefined
+                    } `}
                   >
                     {size}
                   </button>
@@ -64,28 +71,27 @@ function ProductDetail() {
             <div className="flex flex-col gap-5">
               <p className="font-semibold">{product.name}</p>
 
-              {showSizeWarning && <p className="text-red-600 font-bold ">Debes elegir una talla para tu prenda</p>}
+              {showSizeWarning && (
+                <p className="text-red-600 font-bold ">
+                  Debes elegir una talla para tu prenda
+                </p>
+              )}
               <button
-                onClick={() => validateSizeSelect(selectSize, product)
+                onClick={() =>
+                  validateSizeSelect(product, selectSize, product.price)
                 }
-
-                className={`w-full p-1  rounded-lg text-white cursor-pointer 
-                ${isProductInCart ? " bg-red-600" : "bg-green-600"}`}
+                className={`w-full p-1  rounded-lg text-white bg-green-600 cursor-pointer 
+                `}
               >
-                {isProductInCart ? (
-                  <CloseIcon style={styleIcon} />
-                ) : (
-                  <AddShoppingCartIcon style={styleIcon} />
-                )}
-                <span className="p-2">
-                  {isProductInCart
-                    ? "Eliminar del Carrito"
-                    : "Agregar al Carrito"}
-                </span>
+                <AddShoppingCartIcon style={styleIcon} />
+
+                <span className="p-2">Agregar al Carrito</span>
               </button>
             </div>
           </div>
         </div>
+
+        <CartNotification show={cartNotificationVisible} />
       </section>
 
       <Footer />

@@ -8,18 +8,18 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useProduct } from "../../hooks/useProduct";
-import { sortOptions, categoriesOptions } from "./listOptions";
+import { sortOptions, categoriesOptions } from "../../utilities/listOptions";
 import "../../styles/customRange.css";
 
 function FilterBar() {
   const {
     onFilterSearchProducts,
-    onFilterPriceProducts,
+    onFilterSortProducts,
     optionFilterSort,
     optionFilterCategory,
     productSearch,
-    onFilterCategory,
-    onFilterPrice,
+    onFilterCategoryProducts,
+    onFilterPriceProducts,
     minPriceProducts,
     maxPriceProducts,
     optionFilterPrice,
@@ -56,14 +56,14 @@ function FilterBar() {
             <Select
               labelId="demo-mutiple-name-label"
               id="demo-mutiple-name"
-              onChange={onFilterCategory}
+              onChange={onFilterCategoryProducts}
               value={optionFilterCategory}
               input={<Input />}
               className="border-none border-b-2 border-greyLightOpra border-opacity-75  "
             >
-              {categoriesProducts.map((name) => (
+              {categoriesProducts.map((name, i) => (
                 <MenuItem
-                  key={name}
+                  key={`${i}.${name}`}
                   value={name}
                   // style={getStyles(name, personName, theme)}
                 >
@@ -77,7 +77,7 @@ function FilterBar() {
             <Select
               labelId="demo-mutiple-name-label"
               id="demo-mutiple-name"
-              onChange={onFilterPriceProducts}
+              onChange={onFilterSortProducts}
               value={optionFilterSort}
               input={<Input />}
               className="border-none border-b-2 border-greyLightOpra border-opacity-75  "
@@ -95,39 +95,25 @@ function FilterBar() {
           </FormControl>
         </div>
         <div className="flex items-center justify-between">
-          <div class="w-64 relative">
+          <div className="w-64 relative">
             <input
               type="range"
-              class="appearance-none  h-1 bg-black rounded-full outline-none z-2 "
+              className="appearance-none  h-1 bg-black rounded-full outline-none z-2 "
               id="custom-range"
               value={optionFilterPrice}
               min={minPriceProducts}
               max={maxPriceProducts}
-              onChange={onFilterPrice}
+              onChange={onFilterPriceProducts}
             />
             <div
-              class="absolute left-0 right-0 top-0 bottom-0 flex items-center"
+              className="absolute left-0 right-0 top-0 bottom-0 flex items-center"
               id="custom-range-thumb"
             >
-              <div class="h-6 w-1 bg-white mx-auto"></div>
+              <div className="h-6 w-1 bg-red-200 mx-auto"></div>
             </div>
           </div>
           <span className=": font-semibold">{optionFilterPrice}</span>
         </div>
-        {/* <div className=" flex  justify-between items-center font-semibold">
-          <span>Con descuento:</span>
-          <FormControl>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={checked}
-                  onChange={toggleChecked}
-                  color="primary"
-                />
-              }
-            />
-          </FormControl>
-        </div> */}
         <button
           className="p-1 text-white bg-black border-2  border-black w-full rounded-sm "
           onClick={resetFilterProduct}
