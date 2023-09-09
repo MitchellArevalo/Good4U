@@ -21,20 +21,20 @@ function ProductDetail() {
     setSelectSize(size);
   };
 
-  const validateSizeSelect = (product, size, price) => {
+  const addProductInCart = ({ product, id, size }) => {
     setCartNotificationVisible(true);
 
     if (!size) return setShowSizeWarning(true);
     addToCart({
       product,
+      id: id,
       size: size,
-      totalPrice: price,
     });
     setTimeout(() => {
-      // Ocultar el aviso después de 5 segundos
       setCartNotificationVisible(false);
-    }, 3000);
+    }, 2000);
   };
+
   useEffect(() => {
     if (!selectSize) return;
     setShowSizeWarning(false);
@@ -78,7 +78,11 @@ function ProductDetail() {
               )}
               <button
                 onClick={() =>
-                  validateSizeSelect(product, selectSize, product.price)
+                  addProductInCart({
+                    product: product,
+                    size: selectSize,
+                    id: product.id,
+                  })
                 }
                 className={`w-full p-1  rounded-lg text-white bg-green-600 cursor-pointer 
                 `}

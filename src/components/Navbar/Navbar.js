@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useCart } from "../../hooks/useCart";
 import { NavLink, Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import CloseIcon from "@mui/icons-material/Close";
-import Cart from "../Cart/Cart";
 const itemsMenu = [
   {
     id: 1,
@@ -24,17 +24,11 @@ const itemsMenu = [
 ];
 function Navbar() {
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const { cart } = useCart();
 
   const handleToggleMenu = () => {
     setMenuOpen(!isMenuOpen);
   };
-
-  // useEffect(() => {
-  //   document.body.classList.toggle("overflow-hidden", isCartOpen || isMenuOpen);
-  //   return () => {
-  //     document.body.classList.remove("overflow-hidden");
-  //   };
-  // }, [isCartOpen, isMenuOpen]);
 
   return (
     <div className="relative">
@@ -64,10 +58,17 @@ function Navbar() {
           <NavLink to="/login">
             <AccountCircleIcon />
           </NavLink>
-          <Link to="/cart">
-            {" "}
-            <LocalGroceryStoreIcon />
-          </Link>
+          <div className="flex items-center relative  px-5">
+            {cart.length > 0 ? (
+              <div className="absolute  rounded-2xl  bg-black w-1/4 text-white text-xs text-center  top-0 right-2">
+                {cart.length}
+              </div>
+            ) : null}
+
+            <Link to="/cart" className="relative">
+              <LocalGroceryStoreIcon />
+            </Link>
+          </div>
         </div>
         {isMenuOpen && (
           <ul className="flex items-center flex-col absolute h-screen w-1/2 z-50 top-0 left-0 p-5 py-10 bg-black text-white font-semibold cursor-pointer md:hidden ">

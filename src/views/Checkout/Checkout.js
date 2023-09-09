@@ -39,7 +39,7 @@ function Checkout() {
             </div>
             {products.map((productCart) => (
               <div className="flex justify-between  ">
-                <span>{`${productCart.quantity} und(s) ${productCart.title} `}</span>
+                <span>{`${productCart.quantity} und(s) ${productCart.title} Talla: ${productCart.size}`}</span>
                 <span>{`$${productCart.price}`}</span>
               </div>
             ))}

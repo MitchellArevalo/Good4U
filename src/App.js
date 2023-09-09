@@ -7,7 +7,7 @@ import Register from "./views/Register/Register";
 import Checkout from "./views/Checkout/Checkout";
 import ProductDetail from "./views/ProductDetail/ProductDetail";
 // import ChatBox from "./components/ChatBox/ChatBox";
-import Cart from "./components/Cart/Cart";
+import Cart from "./views/Cart/Cart";
 
 function App() {
   return (

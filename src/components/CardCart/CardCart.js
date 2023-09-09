@@ -1,4 +1,4 @@
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 function CardCart({ product, addToCart, subtractToCart, removeToCart }) {
   return (
     <div className="flex flex-col ">
@@ -16,11 +16,8 @@ function CardCart({ product, addToCart, subtractToCart, removeToCart }) {
           <span className="mx-2 ">{product.quantity}</span>
           <button onClick={() => addToCart(product)}> + </button>
         </div>
-        <div className='flex flex-col justify-between items-center pt-2 pb-5 w-1/3'>
-          <button
-            onClick={() => removeToCart(product)}
-            className=":  text-sm "
-          >
+        <div className="flex flex-col justify-between items-center pt-2 pb-5 w-1/3">
+          <button onClick={() => removeToCart(product)} className=":  text-sm ">
             <DeleteIcon />
           </button>
           <p className=" text-lg">{`$ ${product.price}`}</p>

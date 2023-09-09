@@ -10,11 +10,11 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     ADD_TO_CART: (state, action) => {
-      const { id, size, totalPrice } = action.payload;
+      const { id, size, product } = action.payload;
+
       const productInCartIndex = state.productInCart.findIndex(
         (product) => product.id === id && product.size === size
       );
-
       if (productInCartIndex >= 0) {
         const newCardProducts = [...state.productInCart];
         newCardProducts[productInCartIndex].quantity += 1; // Actualizar la cantidad del producto existente
@@ -33,10 +33,10 @@ const cartSlice = createSlice({
           productInCart: [
             ...state.productInCart,
             {
-              ...action.payload.product,
+              ...product,
               quantity: 1,
               size: size,
-              totalPrice: totalPrice,
+              totalPrice: product.price,
             },
           ],
         };
@@ -44,28 +44,45 @@ const cartSlice = createSlice({
         return newState;
       }
     }, //Cuando se modifica la copia, no se puede retornar el estado a la vez
-
-    REMOVE_FROM_CART: (state, action) => {
+    SUBTRACT_TO_CART: (state, action) => {
       const { id, size } = action.payload;
-
-      // Encuentra el índice del producto en el carrito
+      console.log(id, size);
       const productInCartIndex = state.productInCart.findIndex(
         (product) => product.id === id && product.size === size
       );
 
       if (productInCartIndex >= 0) {
-        const newCartProducts = [...state.productInCart];
-        newCartProducts.splice(productInCartIndex, 1);
+        const newCardProducts = [...state.productInCart];
+        newCardProducts[productInCartIndex].quantity -= 1; // Actualizar la cantidad del producto existente
+        newCardProducts[productInCartIndex].totalPrice =
+          newCardProducts[productInCartIndex].quantity *
+          newCardProducts[productInCartIndex].price;
 
         const newState = {
           ...state,
-          productInCart: newCartProducts,
+          productInCart: newCardProducts,
         };
+
         updateLocalStorage(newState);
-        return newState;
       }
-      return state;
     },
+    REMOVE_FROM_CART: (state, action) => {
+      const { id, size } = action.payload;
+
+      // Filtra el carrito para crear una nueva copia sin el producto a eliminar
+      const newProductInCart = state.productInCart.filter(
+        (product) => !(product.id === id && product.size === size)
+      );
+
+      const newState = {
+        ...state,
+        productInCart: newProductInCart,
+      };
+
+      updateLocalStorage(newState);
+      return newState;
+    },
+
     CLEAR_CART: (state) => {
       const newState = { ...state, productInCart: [] };
       updateLocalStorage(newState);

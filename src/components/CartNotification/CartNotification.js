@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 
 const CartNotification = ({ show }) => {
-  const [isVisible, setIsVisible] = useState(show);
+  const [isVisibleNotification, setIsVisibleNotification] = useState(show);
 
   useEffect(() => {
     if (show) {
-      setIsVisible(true);
+      setIsVisibleNotification(true);
       const timer = setTimeout(() => {
-        setIsVisible(false);
-      }, 3000);
+        setIsVisibleNotification(false);
+      }, 2000);
 
       return () => {
         clearTimeout(timer);
@@ -18,8 +18,8 @@ const CartNotification = ({ show }) => {
 
   return (
     <>
-      {isVisible && (
-        <div className="absolute bottom-3 left-5 bg-yellow-300 font-bold text-white p-5 rounded-md">
+      {isVisibleNotification && (
+        <div className="fixed : top-20 left-1/2 transform -translate-x-1/2 bg-gray-200 text-black text-lg px-4 py-2 rounded-lg shadow-md">
           El producto se ha añadido al carrito.
         </div>
       )}

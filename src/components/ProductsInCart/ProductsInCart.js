@@ -13,7 +13,7 @@ function ProductsInCart({
 }) {
   const navigate = useNavigate();
   const subTotalPrice = getPriceProductsInCart(cart);
-
+  console.log("ProductInCart", cart);
   const handledOpenCheckout = () => {
     navigate(`/checkout`, {
       state: {
@@ -23,7 +23,6 @@ function ProductsInCart({
     });
   };
   useEffect(() => {
-    if (!cart) return;
     getPriceProductsInCart(cart);
   }, [cart]);
 
@@ -34,9 +33,9 @@ function ProductsInCart({
           className="flex flex-col overflow-y-auto space-y-4 p-4"
           style={{ maxHeight: "190px" }}
         >
-          {cart.map((item) => (
+          {cart.map((item, i) => (
             <CardCart
-              key={`Product: ${item.title}, size:${item.size}`}
+              key={`Product: ${item.title}, ${i}`}
               product={item}
               addToCart={addToCart}
               subtractToCart={subtractToCart}

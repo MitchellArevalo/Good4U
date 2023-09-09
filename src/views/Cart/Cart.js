@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
-import NoProductsInCart from "../NoProductsInCart/NoProductsInCart";
-import ProductsInCart from "../ProductsInCart/ProductsInCart";
+import NoProductsInCart from "../../components/NoProductsInCart/NoProductsInCart";
+import ProductsInCart from "../../components/ProductsInCart/ProductsInCart";
 import { useCart } from "../../hooks/useCart";
 
 function Cart() {
