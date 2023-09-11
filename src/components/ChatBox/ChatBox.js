@@ -1,5 +1,5 @@
 //Hay que instalar esta libreria      npm install react-simple-chatbot --save
-import React from "react";
+import React, { useState } from "react";
 import ChatBotDialog from "react-simple-chatbot";
 import { ThemeProvider } from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
@@ -15,17 +15,30 @@ const theme = {
 };
 
 const ChatBot = () => {
+  const [showRepeatedStep, setShowRepeatedStep] = useState(true);
+
+  const handleChatBotStep = (step) => {
+    // Puedes personalizar esta lógica según tus necesidades
+    if (step.id === "3" && showRepeatedStep) {
+      setShowRepeatedStep(false); // Desactiva la repetición del paso después de mostrarse una vez
+      return true; // Muestra este paso solo una vez
+    }
+    return true; // Muestra todos los demás pasos
+  };
+
   return (
     <div className="absolute bottom-8 right-2 ">
       <ThemeProvider theme={theme}>
         <ChatBotDialog
           headerTitle="Asistente virtual"
           headerIcon={<CloseIcon />}
-          speechSynthesis={{ enable: true, lang: "es" }}
+          speechSynthesis={{ enable: false, lang: "es" }}
+          handleStep={handleChatBotStep}
           steps={[
             {
               id: "1",
-              message: "Hola, bienvenido a Opra, ¿Cuál es tu nombre?",
+              message:
+                "¡Hola! Soy el asistente virtual de Opra. ¿Cuál es tu nombre?",
               trigger: "2",
             },
             {
@@ -35,93 +48,52 @@ const ChatBot = () => {
             },
             {
               id: "3",
-              message: "Hola {previousValue}, Gusto en conocerte!",
-              trigger: "4",
+              message: "Hola, {previousValue} ¿En qué puedo ayudarte hoy?",
+              trigger: "preguntaFrecuente",
             },
             {
-              id: "4",
-              message: "En que te puedo servir el día de hoy?",
-              trigger: "5",
+              id: "preguntaFrecuente",
+              message:
+                "¿Tienes alguna pregunta en particular o quieres saber acerca de alguna de estas opciones?",
+              trigger: "opcionesPreguntaFrecuente",
             },
             {
-              id: "5",
+              id: "opcionesPreguntaFrecuente",
               options: [
-                { value: "y", label: "Ubicación", trigger: "6A" },
-                { value: "n", label: "Lo mas popular", trigger: "7A" },
+                {
+                  value: "producto",
+                  label: "¿Dónde puedo ver los productos?",
+                  trigger: "respuestaProducto",
+                },
+                {
+                  value: "envio",
+                  label: "¿Cuál es el tiempo de envío?",
+                  trigger: "respuestaEnvio",
+                },
+                // Agrega más opciones de preguntas frecuentes aquí
+                {
+                  value: "otra",
+                  label: "Otra pregunta",
+                  trigger: "otraPregunta",
+                },
               ],
             },
             {
-              id: "6A",
+              id: "respuestaProducto",
               message:
-                "Nosotros somos una tienda virtual, cualquier inquietud las podrás encontrar en nuestros canales virtuales de atención al cliente y/o redes sociales",
-              trigger: "6B",
+                "Puedes ver nuestros productos en la sección 'Productos' en nuestro sitio web.",
+              trigger: "otraPregunta",
             },
             {
-              id: "6B",
-              message: "¿Cómo deseas contactarte con Opra?",
-              trigger: "6C",
-            },
-            {
-              id: "6C",
-              options: [
-                { value: "y", label: "Instragram", trigger: "Instragram" },
-                { value: "n", label: "WhatsAppr", trigger: "WhatsApp" },
-              ],
-            },
-            {
-              id: "Instragram",
-              component: (
-                <div>
-                  {" "}
-                  <p>
-                    Dale click{" "}
-                    <a href="https://www.instagram.com/opra_design/"> aquí</a>{" "}
-                    para redirigirte al instagram
-                  </p>{" "}
-                </div>
-              ),
-              trigger: "preguntaVuelta",
-            },
-            {
-              id: "WhatsApp",
-              component: (
-                <div>
-                  {" "}
-                  <p>
-                    Dale click{" "}
-                    <a href="https://api.whatsapp.com/send?phone=573177270463&text=%C2%A1Hola!%20Vi%20tu%20pagina%20y%20estoy%20interesad@%20en%20comprar%20tus%20productos,%20%C2%BFMe%20podr%C3%ADas%20dar%20m%C3%A1s%20informaci%C3%B3n?">
-                      {" "}
-                      aquí
-                    </a>{" "}
-                    para redirigirte al WhatsApp
-                  </p>{" "}
-                </div>
-              ),
-              trigger: "preguntaVuelta",
-            },
-            {
-              id: "7A",
+              id: "respuestaEnvio",
               message:
-                "Nuestros productos cuentan con diseños unicos y diseñados especialmente para ti",
-              trigger: "preguntaVuelta",
+                "El tiempo de envío varía según la ubicación. Por lo general, entregamos en 3-5 días hábiles.",
+              trigger: "otraPregunta",
             },
             {
-              id: "preguntaVuelta",
-              message: "¿Necesitas algo más?",
-              trigger: "respuestaVuelta",
-            },
-            {
-              id: "respuestaVuelta",
-              options: [
-                { value: "y", label: "Yes", trigger: "4" },
-                { value: "n", label: "No", trigger: "Adios" },
-              ],
-            },
-            {
-              id: "Adios",
-              message:
-                "¡Hasta luego! Si necesitas ayuda en el futuro, no dudes en regresar.",
-              end: true,
+              id: "otraPregunta",
+              message: "¡Claro! ¿En qué más puedo ayudarte?",
+              trigger: "preguntaFrecuente",
             },
           ]}
         />
@@ -131,3 +103,35 @@ const ChatBot = () => {
 };
 
 export default ChatBot;
+
+// {
+//   id: "Instragram",
+//   component: (
+//     <div>
+//       {" "}
+//       <p>
+//         Dale click{" "}
+//         <a href="https://www.instagram.com/opra_design/"> aquí</a>{" "}
+//         para redirigirte al instagram
+//       </p>{" "}
+//     </div>
+//   ),
+//   trigger: "preguntaVuelta",
+// },
+// {
+//   id: "WhatsApp",
+//   component: (
+//     <div>
+//       {" "}
+//       <p>
+//         Dale click{" "}
+//         <a href="https://api.whatsapp.com/send?phone=573177270463&text=%C2%A1Hola!%20Vi%20tu%20pagina%20y%20estoy%20interesad@%20en%20comprar%20tus%20productos,%20%C2%BFMe%20podr%C3%ADas%20dar%20m%C3%A1s%20informaci%C3%B3n?">
+//           {" "}
+//           aquí
+//         </a>{" "}
+//         para redirigirte al WhatsApp
+//       </p>{" "}
+//     </div>
+//   ),
+//   trigger: "preguntaVuelta",
+// },

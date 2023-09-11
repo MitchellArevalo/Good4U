@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCart } from "../../hooks/useCart";
 import { NavLink, Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MenuIcon from "@mui/icons-material/Menu";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import CloseIcon from "@mui/icons-material/Close";
+import { useAuth } from "../../hooks/useAuth";
 const itemsMenu = [
   {
     id: 1,
@@ -24,11 +26,22 @@ const itemsMenu = [
 ];
 function Navbar() {
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const { isAuth, logOutUser } = useAuth();
   const { cart } = useCart();
 
   const handleToggleMenu = () => {
     setMenuOpen(!isMenuOpen);
   };
+
+  useEffect(() => {
+    // Bloquear el scroll cuando se monta el componente
+    document.body.classList.toggle("overflow-hidden", isMenuOpen);
+
+    // Habilitar el scroll cuando se desmonta el componente
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isMenuOpen]);
 
   return (
     <div className="relative">
@@ -54,22 +67,26 @@ function Navbar() {
             </li>
           ))}
         </ul>
-        <div className="flex gap-x-2 ">
-          <NavLink to="/login">
-            <AccountCircleIcon />
-          </NavLink>
-          <div className="flex items-center relative  px-5">
-            {cart.length > 0 ? (
-              <div className="absolute  rounded-2xl  bg-black w-1/4 text-white text-xs text-center  top-0 right-2">
-                {cart.length}
-              </div>
-            ) : null}
-
-            <Link to="/cart" className="relative">
+        <div className="flex gap-x-5 ">
+          {!isAuth ? (
+            <NavLink to="/login">
+              <AccountCircleIcon />
+            </NavLink>
+          ) : (
+            <LogoutRoundedIcon onClick={logOutUser} />
+          )}
+          <div className="flex items-center relative">
+            <Link to="/cart">
               <LocalGroceryStoreIcon />
             </Link>
+            {cart.length > 0 && (
+              <div className="absolute rounded-full : : bg-blueOpra w-4 h-4 flex items-center justify-center text-white text-xs top-0 -mt-2 -mr-1 right-0">
+                {cart.length}
+              </div>
+            )}
           </div>
         </div>
+
         {isMenuOpen && (
           <ul className="flex items-center flex-col absolute h-screen w-1/2 z-50 top-0 left-0 p-5 py-10 bg-black text-white font-semibold cursor-pointer md:hidden ">
             {itemsMenu.map((item) => (

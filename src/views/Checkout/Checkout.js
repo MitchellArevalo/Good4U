@@ -1,6 +1,7 @@
 import React from "react";
 import Footer from "../../components/Footer/Footer";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 const listDetailsPay = [
   "Nombre",
   "Correo Electrónico",
@@ -11,6 +12,7 @@ const listDetailsPay = [
 function Checkout() {
   const location = useLocation().state;
   const { products, subTotal } = location;
+  const { user } = useAuth();
   return (
     <>
       <section className="h-full p-10">
@@ -20,16 +22,12 @@ function Checkout() {
         <div className="flex flex-col justify-center gap-12 my-5 md:flex-row  ">
           <div className=" flex flex-col : justify-around shadow-md rounded p-5 md:w-1/2 md:h-screen md:py-10 ">
             <h2 className="font-bold text-lg">Detalles del Pago</h2>
-            {listDetailsPay.map((detail, i) => (
+            {/* {listDetailsPay.map((detail, i) => (
               <p key={i} className=" p-1 text-greyLightOpra cursor-pointer ">
                 {detail}
               </p>
-            ))}
-            <textarea
-              className="w-full p-1 border  border-greyDarkOpra rounded focus:outline-none resize-none  md:mt-5"
-              rows="2"
-              placeholder="Notas del Pedido..."
-            ></textarea>
+            ))} */}
+            <span>{user}</span>
           </div>
           <div className=": bg-gray-200 rounded p-5 md:w-1/2 flex flex-col  justify-around ">
             <h2 className="font-bold text-lg ">Tu Orden</h2>
@@ -38,7 +36,7 @@ function Checkout() {
               <span>PRECIO</span>
             </div>
             {products.map((productCart) => (
-              <div className="flex justify-between  ">
+              <div className="flex justify-between " key={productCart.id}>
                 <span>{`${productCart.quantity} und(s) ${productCart.title} Talla: ${productCart.size}`}</span>
                 <span>{`$${productCart.price}`}</span>
               </div>

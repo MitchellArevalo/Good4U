@@ -31,7 +31,7 @@ function Footer() {
     setIsChatOpen(!isChatOpen);
   };
   return (
-    <footer className="w-full flex flex-col  gap-y-5 p-8 bg-whiteOpra relative ">
+    <footer className="w-full flex flex-col  gap-y-5 p-8 bg-whiteOpra ">
       <button
         onClick={toggleChat}
         className="rounded-full bg-blue-500 text-white p-4 shadow-lg fixed bottom-5 right-5 z-10"

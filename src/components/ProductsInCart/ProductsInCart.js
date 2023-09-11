@@ -28,10 +28,10 @@ function ProductsInCart({
 
   return (
     <div className="flex flex-col   md:flex-row gap-8 my-8">
-      <div className=" w-full  space-y-20  md:w-1/2  ">
+      <div className=" flex flex-col gap-10 w-full  md:w-1/2">
         <div
-          className="flex flex-col overflow-y-auto space-y-4 p-4"
-          style={{ maxHeight: "190px" }}
+          className="flex flex-col p-4"
+          // style={{ maxHeight: "190px" , overflow-y-auto space-y-4}}
         >
           {cart.map((item, i) => (
             <CardCart
@@ -43,14 +43,12 @@ function ProductsInCart({
             />
           ))}
         </div>
-        <div className="h-1/4  flex flex-col : ">
-          <button
-            onClick={clearToCart}
-            className="p-3 text-black border-2  w-1/2  border-black  md:self-end "
-          >
-            Limpiar Carrito
-          </button>
-        </div>
+        <button
+          onClick={clearToCart}
+          className="p-3 text-black border-2  w-1/2  border-black  self-end "
+        >
+          Limpiar Carrito
+        </button>
       </div>
       <div className="md:w-1/2">
         <h1 className=": font-bold text-xl uppercase  text-center my-8">
