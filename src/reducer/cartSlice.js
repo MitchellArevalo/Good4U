@@ -10,17 +10,17 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     ADD_TO_CART: (state, action) => {
-      const { id, size, product } = action.payload;
-
       const productInCartIndex = state.productInCart.findIndex(
-        (product) => product.id === id && product.size === size
+        (product) =>
+          product.itemCode === action.payload.itemCode &&
+          product.size === action.payload.size
       );
       if (productInCartIndex >= 0) {
         const newCardProducts = [...state.productInCart];
         newCardProducts[productInCartIndex].quantity += 1; // Actualizar la cantidad del producto existente
         newCardProducts[productInCartIndex].totalPrice =
           newCardProducts[productInCartIndex].quantity *
-          newCardProducts[productInCartIndex].price;
+          newCardProducts[productInCartIndex].salesPrice;
 
         const newState = {
           ...state,
@@ -33,10 +33,10 @@ const cartSlice = createSlice({
           productInCart: [
             ...state.productInCart,
             {
-              ...product,
+              ...action.payload,
               quantity: 1,
-              size: size,
-              totalPrice: product.price,
+              size: action.payload.size,
+              totalPrice: action.payload.salesPrice,
             },
           ],
         };
@@ -45,10 +45,11 @@ const cartSlice = createSlice({
       }
     }, //Cuando se modifica la copia, no se puede retornar el estado a la vez
     SUBTRACT_TO_CART: (state, action) => {
-      const { id, size } = action.payload;
-      console.log(id, size);
+      console.log(action.payload);
       const productInCartIndex = state.productInCart.findIndex(
-        (product) => product.id === id && product.size === size
+        (product) =>
+          product.itemCode === action.payload.itemCode &&
+          product.size === action.payload.size
       );
 
       if (productInCartIndex >= 0) {
@@ -56,7 +57,7 @@ const cartSlice = createSlice({
         newCardProducts[productInCartIndex].quantity -= 1; // Actualizar la cantidad del producto existente
         newCardProducts[productInCartIndex].totalPrice =
           newCardProducts[productInCartIndex].quantity *
-          newCardProducts[productInCartIndex].price;
+          newCardProducts[productInCartIndex].salesPrice;
 
         const newState = {
           ...state,
@@ -67,11 +68,13 @@ const cartSlice = createSlice({
       }
     },
     REMOVE_FROM_CART: (state, action) => {
-      const { id, size } = action.payload;
-
       // Filtra el carrito para crear una nueva copia sin el producto a eliminar
       const newProductInCart = state.productInCart.filter(
-        (product) => !(product.id === id && product.size === size)
+        (product) =>
+          !(
+            product.itemCode === action.payload.itemCode &&
+            product.size === action.payload.size
+          )
       );
 
       const newState = {

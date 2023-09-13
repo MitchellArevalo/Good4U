@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useCart } from "../../hooks/useCart";
 import { NavLink, Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+
 import MenuIcon from "@mui/icons-material/Menu";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import CloseIcon from "@mui/icons-material/Close";
@@ -26,7 +26,7 @@ const itemsMenu = [
 ];
 function Navbar() {
   const [isMenuOpen, setMenuOpen] = useState(false);
-  const { isAuth, logOutUser } = useAuth();
+  const { isAuth } = useAuth();
   const { cart } = useCart();
 
   const handleToggleMenu = () => {
@@ -73,7 +73,10 @@ function Navbar() {
               <AccountCircleIcon />
             </NavLink>
           ) : (
-            <LogoutRoundedIcon onClick={logOutUser} />
+            <NavLink to="/settingsuser">
+              <AccountCircleIcon />
+            </NavLink>
+            // <LogoutRoundedIcon onClick={logOutUser} />
           )}
           <div className="flex items-center relative">
             <Link to="/cart">

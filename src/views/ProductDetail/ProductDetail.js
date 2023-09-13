@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 const styleIcon = {
   fontSize: "25px",
 };
-const listSize = ["S", "M", "L", "XL"];
+// const listSize = ["S", "M", "L", "XL"];
 function ProductDetail() {
   const [selectSize, setSelectSize] = useState(null);
   const [showSizeWarning, setShowSizeWarning] = useState(false); // Estado para mostrar el mensaje de "Escoja una talla"
@@ -17,10 +17,13 @@ function ProductDetail() {
   const product = location.state;
   const { addToCart } = useCart();
 
+  const listSize = product.size.split(",");
+  console.log("Tallas:", listSize);
+  console.log("Estado", selectSize);
+
   const getSizeProduct = (size) => {
     setSelectSize(size);
   };
-
   const addProductInCart = ({ product, id, size }) => {
     if (!size) return setShowSizeWarning(true);
     setCartNotificationVisible(true);
@@ -33,7 +36,6 @@ function ProductDetail() {
       setCartNotificationVisible(false);
     }, 2000);
   };
-
   useEffect(() => {
     if (!selectSize) return;
     setShowSizeWarning(false);
@@ -42,18 +44,18 @@ function ProductDetail() {
     <>
       <Navbar />
       <section className="relative m-8">
-        <h2 className="text-xl p-5">{`${product.id} - ${product.title}`}</h2>
+        <h2 className="text-xl p-5">{`${product.itemCode} - ${product.name}`}</h2>
         <div className="flex flex-col  md:flex-row p-5 gap-10">
           <div className="md:w-1/2">
             <img
               src={product.image}
-              alt={product.title}
+              alt={product.itemCode}
               className="w-full h-screen"
             />
-            <p className="font-bold text-lg text-center mt-2">{`$${product.price}`}</p>
+            <p className="font-bold text-lg text-center mt-2">{`$${product.salesPrice}`}</p>
           </div>
           <div className="md:w-1/2 h-screen  flex flex-col : justify-evenly ">
-            <h2 className="font-bold text-xl">{product.title}</h2>
+            <h2 className="font-bold text-xl">{product.name}</h2>
             <p className="py-3 md:py-0">{product.description}</p>
             <div>
               <h2 className="font-bold">SELECCIONAR TALLA</h2>
@@ -72,10 +74,12 @@ function ProductDetail() {
               </div>
             </div>
             <div className="flex flex-col gap-3">
-              <p className="font-semibold">{product.name}</p>
+              <p className="font-semibold">
+                Cantidad disponible: {product.stock}
+              </p>
               {showSizeWarning && (
                 <p className="text-red-600 font-bold">
-                  Debes elegir una talla para tu prenda
+                  Elige una talla para tu prenda
                 </p>
               )}
               <button
@@ -83,7 +87,7 @@ function ProductDetail() {
                   addProductInCart({
                     product: product,
                     size: selectSize,
-                    id: product.id,
+                    id: product.itemCode,
                   })
                 }
                 className="w-full p-1 rounded-lg text-white bg-green-600 cursor-pointer"

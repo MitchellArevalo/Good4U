@@ -22,7 +22,7 @@ export const useProduct = () => {
   const loading = useSelector((state) => state.productsData.pending);
   const error = useSelector((state) => state.productsData.error);
 
-  const priceAllProducts = listOfProducts?.map((product) => product.price);
+  const priceAllProducts = listOfProducts?.map((product) => product.salesPrice);
   let minPriceProducts = Math.min(...priceAllProducts);
   let maxPriceProducts = Math.max(...priceAllProducts);
 

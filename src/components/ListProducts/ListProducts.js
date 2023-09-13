@@ -1,10 +1,8 @@
 import React from "react";
 import CardProduct from "../CardProduct/CardProduct";
 import Spinner from "../Spinner/Spinner";
-import ErrorGetProducts from "../ErrorGetProducts/ErrorGetProducts";
-import NoResultSearch from "../NoResultsSearch/NoResultSearch";
+import ErrorGetProductxs from "../ErrorGetProducts/ErrorGetProducts";
 import { useProduct } from "../../hooks/useProduct";
-import { useEffect } from "react";
 
 function ListProducts() {
   const { products, productsFilted, loading, error } = useProduct();
@@ -23,6 +21,7 @@ function ListProducts() {
     <div className="w-full">
       {loading && <Spinner />}
       {productsMap(listOfDataShow)}
+      {error && <ErrorGetProductxs />}
     </div>
   );
 }

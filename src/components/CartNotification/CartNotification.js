@@ -20,7 +20,7 @@ const CartNotification = ({ show }) => {
     <>
       {isVisibleNotification && (
         <div className="fixed : top-20 left-1/2 transform -translate-x-1/2 bg-gray-200 text-black text-lg px-4 py-2 rounded-lg shadow-md">
-          El producto se ha añadido al carrito.
+          Tu producto ya está en el Carrito de Compras
         </div>
       )}
     </>

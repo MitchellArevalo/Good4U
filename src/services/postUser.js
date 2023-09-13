@@ -1,23 +1,31 @@
-const url = "endpoint"; // Reemplaza con la URL real
+import { url_service } from "../utilities/urlsServices";
 
-// Opciones de configuración para la solicitud POST
-export const postUser = async (credentials) => {
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", // Indica que estás enviando JSON
-      },
-      body: JSON.stringify(credentials), // Convierte los datos en una cadena JSON
-    });
-    if (!response.ok) {
-      throw new Error("Error en la solicitud");
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    // Maneja los errores aquí
-    console.error("Error:", error);
-    return error;
-  }
+const url = `${url_service}/opradesign/clients`;
+
+export const registerUser = async ({ credentials }) => {
+  if (credentials === undefined) return;
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  var raw = JSON.stringify({
+    name: credentials?.name,
+    email: credentials?.email,
+    document: credentials?.document,
+    address: credentials?.address,
+    phoneNumber: credentials?.phoneNumber,
+    password: credentials?.password,
+  });
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+  return fetch(url, requestOptions)
+    .then((response) => {
+      if (!response.ok) {
+        console.log("Error en la respuesta", response);
+        response.json();
+      }
+    })
+    .catch((error) => console.log("error", error));
 };

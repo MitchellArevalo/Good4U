@@ -35,7 +35,7 @@ function ProductsInCart({
         >
           {cart.map((item, i) => (
             <CardCart
-              key={`Product: ${item.title}, ${i}`}
+              key={`Product: ${item.name}, ${i}`}
               product={item}
               addToCart={addToCart}
               subtractToCart={subtractToCart}

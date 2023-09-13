@@ -1,13 +1,26 @@
 // authSlice.js
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getSessionStorageAuth } from "../utilities/sessionStorageAuth";
+import { registerUser } from "../services/postUser";
+
+const initialState = {
+  isAuthenticated: getSessionStorageAuth() ? true : false,
+  pending: null,
+  user: null,
+  error: null,
+};
+export const registerUserAPI = createAsyncThunk(
+  "registerUserAPI",
+  async ({ credentials }) => {
+    const userData = await registerUser({ credentials });
+    console.log(userData);
+    return userData;
+  }
+);
+
 const authSlice = createSlice({
   name: "authUser",
-  initialState: {
-    isAuthenticated: getSessionStorageAuth() ? true : false,
-    user: null,
-    error: null,
-  },
+  initialState,
   reducers: {
     LOGIN: (state, action) => {
       state.isAuthenticated = true;
@@ -17,13 +30,33 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.user = null;
     },
-    ERROR: (state, action) => {
+    ERRORAUTH: (state) => {
       state.isAuthenticated = false;
       state.user = null;
-      state.error = action.payload;
+      state.error = true;
+    },
+  },
+  extraReducers: {
+    [registerUserAPI.pending]: (state) => {
+      state.isAuthenticated = false;
+      state.pending = true;
+      state.user = null;
+      state.error = false;
+    },
+    [registerUserAPI.fulfilled]: (state, action) => {
+      state.isAuthenticated = false;
+      state.pending = true;
+      state.user = action.payload;
+      state.error = false;
+    },
+    [registerUserAPI.rejected]: (state) => {
+      state.isAuthenticated = false;
+      state.pending = false;
+      state.user = null;
+      state.error = true;
     },
   },
 });
 
-export const { LOGIN, LOGOUT, ERROR } = authSlice.actions;
+export const { LOGIN, LOGOUT, ERRORAUTH } = authSlice.actions;
 export default authSlice.reducer;

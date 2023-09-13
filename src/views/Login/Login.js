@@ -24,18 +24,41 @@ const listLogin = [
 ];
 function Login() {
   const { logInUser, errorLoginUser, error } = useAuth();
+
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
-    username: undefined,
+    email: undefined,
     password: undefined,
+  });
+  const [errors, setErrors] = useState({
+    email: "",
   });
 
   const handleChange = (e) => {
-    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+    const { id, value } = e.target;
+
+    // Realiza la validación en tiempo real aquí
+    let errorMessage = "";
+    const { type } = listLogin.find((item) => item.id === id);
+
+    if (!value) {
+      errorMessage = "Este campo es obligatorio.";
+    } else if (
+      type === "email" &&
+      !/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(value)
+    ) {
+      errorMessage = "El correo electrónico no es válido.";
+    }
+
+    // Actualiza el estado de errores para mostrar el mensaje de error
+    setErrors((prev) => ({ ...prev, [id]: errorMessage }));
+
+    // Actualiza el valor del campo
+    setCredentials((prev) => ({ ...prev, [id]: value }));
   };
   const handleSubmit = async () => {
     const dataUser = credentials.email;
-    // try {
+    //try {
     //   const credentialsUser = credentials; //Estos son los datos que se le ahacen al post
     //   const dataUser = await postUser(credentialsUser);
     //   logInUser(dataUser);
@@ -59,7 +82,10 @@ function Login() {
         <form onSubmit={handleSubmit}>
           {listLogin.map((item) => (
             <div className="flex flex-col gap-y-2 " key={item.id}>
-              <label className="block text-sm font-medium mb-2 text-greyDarkOpra">
+              <label
+                htmlFor={item.id}
+                className="block text-sm font-medium mb-2 text-greyDarkOpra"
+              >
                 {item.name}
               </label>
               <div className="relative flex items-center border-2 : border-gray-300  rounded-lg py-1 px-2">
@@ -72,6 +98,7 @@ function Login() {
                   onChange={handleChange}
                 />
               </div>
+              <span class="text-red-600 font-semibold">{errors[item.id]}</span>
             </div>
           ))}
           <button className=" rounded-md  bg-blueOpra text-white w-full py-2 mt-5">

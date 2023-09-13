@@ -12,6 +12,7 @@ export const getProductsAPI = createAsyncThunk(
   "getProductsFromAPI",
   async () => {
     const products = await getProducts();
+    console.log(products);
     return products; //El return viene siendo el "payload" que se enviará al reducer
   }
 );
@@ -52,7 +53,7 @@ const productSlice = createSlice({
       const productName = action.payload;
       const newListProducts = [...state.products];
       const newState = newListProducts.filter(
-        (product) => product.title.toLowerCase().indexOf(productName) !== -1
+        (product) => product.name.toLowerCase().indexOf(productName) !== -1
       );
       return {
         ...state,
@@ -63,7 +64,7 @@ const productSlice = createSlice({
       if (action.payload === null) return;
       const newListProducts = [...state.products];
       const productsFilterByCategory = newListProducts.filter(
-        (product) => product.category === action.payload
+        (product) => product.category.nameCategory === action.payload
       );
 
       return {

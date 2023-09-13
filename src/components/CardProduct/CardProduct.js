@@ -5,7 +5,7 @@ function CardProduct({ product }) {
   const navigate = useNavigate();
 
   const handledOpenDetails = (product) => {
-    navigate(`/product/${product.id}`, {
+    navigate(`/product/${product.itemCode}`, {
       state: product,
     });
   };
@@ -17,12 +17,12 @@ function CardProduct({ product }) {
     >
       <img
         src={product.image}
-        alt={product.title}
+        alt={product.name}
         className="w-1/3  h-40 md:w-full  md:h-40 : object-contain"
       />
       <div className="flex flex-col  w-30 pr-5 pb-5">
-        <h2>{product.title}</h2>
-        <p className="font-bold">{`$ ${product.price}`}</p>
+        <h2>{product.name}</h2>
+        <p className="font-bold">{`$ ${product.salesPrice}`}</p>
       </div>
     </div>
   );

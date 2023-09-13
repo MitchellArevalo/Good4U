@@ -27,7 +27,11 @@ function Checkout() {
                 {detail}
               </p>
             ))} */}
-            <span>{user}</span>
+            {/* <span>{user}</span> */}
+            <span>Valeria Jiménez Bedoya</span>
+            <span>vjimenezbedoya@gmail.com</span>
+            <span>Calle 23#30-58</span>
+            <span>+57 3185698754</span>
           </div>
           <div className=": bg-gray-200 rounded p-5 md:w-1/2 flex flex-col  justify-around ">
             <h2 className="font-bold text-lg ">Tu Orden</h2>
@@ -36,9 +40,9 @@ function Checkout() {
               <span>PRECIO</span>
             </div>
             {products.map((productCart) => (
-              <div className="flex justify-between " key={productCart.id}>
-                <span>{`${productCart.quantity} und(s) ${productCart.title} Talla: ${productCart.size}`}</span>
-                <span>{`$${productCart.price}`}</span>
+              <div className="flex justify-between " key={productCart.itemCode}>
+                <span>{`${productCart.quantity} und(s) ${productCart.name} Talla: ${productCart.size}`}</span>
+                <span>{`$${productCart.salesPrice}`}</span>
               </div>
             ))}
             <div className="flex justify-between ">

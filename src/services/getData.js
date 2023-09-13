@@ -1,6 +1,8 @@
-const URL_DEFAULT = "https://fakestoreapi.com/products";
+import { url_service } from "../utilities/urlsServices";
 
-export const getProducts = (url = URL_DEFAULT) => {
+const url = `${url_service}/opradesign/product`;
+
+export const getProducts = () => {
   return fetch(url)
     .then((res) => {
       if (!res.ok) throw new Error("Error en la petición");
