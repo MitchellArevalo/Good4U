@@ -4,7 +4,6 @@ import EmailIcon from "@mui/icons-material/Email";
 import { styleIcons } from "../../utilities/styleForm";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { postUser } from "../../services/postUser";
 
 const listLogin = [
   {
@@ -23,7 +22,7 @@ const listLogin = [
   },
 ];
 function Login() {
-  const { logInUser, errorLoginUser, error } = useAuth();
+  const { logInUser, error, errorUser } = useAuth();
 
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
@@ -56,17 +55,16 @@ function Login() {
     // Actualiza el valor del campo
     setCredentials((prev) => ({ ...prev, [id]: value }));
   };
-  const handleSubmit = async () => {
-    const dataUser = credentials.email;
-    //try {
-    //   const credentialsUser = credentials; //Estos son los datos que se le ahacen al post
-    //   const dataUser = await postUser(credentialsUser);
-    //   logInUser(dataUser);
-    // } catch (error) {
-    //   errorLoginUser(error);
-    // }
-    logInUser(dataUser);
-    navigate("/products");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(credentials);
+    // Verifica si hay algún mensaje de error en el estado errors
+    const hasErrors = Object.values(errors).some((error) => error !== "");
+    if (!hasErrors) {
+      logInUser(credentials);
+    } else {
+      errorUser();
+    }
   };
   return (
     <div

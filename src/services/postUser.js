@@ -1,6 +1,7 @@
 import { url_service } from "../utilities/urlsServices";
 
-const url = `${url_service}/opradesign/clients`;
+const urlRegister = `${url_service}/opradesign/client`;
+const urlLogin = `${url_service}/opradesign/client/login`;
 
 export const registerUser = async ({ credentials }) => {
   if (credentials === undefined) return;
@@ -20,12 +21,35 @@ export const registerUser = async ({ credentials }) => {
     body: raw,
     redirect: "follow",
   };
-  return fetch(url, requestOptions)
+  return fetch(urlRegister, requestOptions)
     .then((response) => {
       if (!response.ok) {
-        console.log("Error en la respuesta", response);
-        response.json();
+        return console.log("Error en la respuesta", response);
       }
+      return response.json();
+    })
+    .catch((error) => console.log("error", error));
+};
+export const loginUser = async ({ credentials }) => {
+  if (credentials === undefined) return;
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  var raw = JSON.stringify({
+    email: credentials?.email,
+    password: credentials?.password,
+  });
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+  return fetch(urlLogin, requestOptions)
+    .then((response) => {
+      if (!response.ok) {
+        return console.log("Error en la respuesta", response);
+      }
+      return response.json();
     })
     .catch((error) => console.log("error", error));
 };

@@ -10,10 +10,11 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     ADD_TO_CART: (state, action) => {
+      console.log(action.payload);
       const productInCartIndex = state.productInCart.findIndex(
         (product) =>
-          product.itemCode === action.payload.itemCode &&
-          product.size === action.payload.size
+          product.itemCode === action.payload.id &&
+          product.sizeSelected === action.payload.size
       );
       if (productInCartIndex >= 0) {
         const newCardProducts = [...state.productInCart];
@@ -35,7 +36,7 @@ const cartSlice = createSlice({
             {
               ...action.payload,
               quantity: 1,
-              size: action.payload.size,
+              sizeSelected: action.payload.size,
               totalPrice: action.payload.salesPrice,
             },
           ],
@@ -49,7 +50,7 @@ const cartSlice = createSlice({
       const productInCartIndex = state.productInCart.findIndex(
         (product) =>
           product.itemCode === action.payload.itemCode &&
-          product.size === action.payload.size
+          product.sizeSelected === action.payload.size
       );
 
       if (productInCartIndex >= 0) {
@@ -73,7 +74,7 @@ const cartSlice = createSlice({
         (product) =>
           !(
             product.itemCode === action.payload.itemCode &&
-            product.size === action.payload.size
+            product.sizeSelected === action.payload.size
           )
       );
 

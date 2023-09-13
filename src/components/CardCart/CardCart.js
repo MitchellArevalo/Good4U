@@ -13,9 +13,9 @@ function CardCart({ product, addToCart, subtractToCart, removeToCart }) {
         <div className="">
           <h1 className="font-bold">{product.name}</h1>
           <p className="font-thin text-greyLightOpra">
-            {product.category.nameCategory}
+            {/* {product.category.nameCategory} */}
           </p>
-          <p className="font-thin text-greyLightOpra">{`Talla : ${product.size}`}</p>
+          <p className="font-thin text-greyLightOpra">{`Talla : ${product.sizeSelected}`}</p>
         </div>
         <div className="w-1/5 text-center h-min p-1 rounded-md text-lg bg-whiteLight text-greyDarkOpra">
           {product.quantity > 1 && (

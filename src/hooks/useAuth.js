@@ -1,13 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { LOGIN, LOGOUT, ERRORAUTH } from "../reducer/authSlice";
-import {
-  updateSessionStorageAuth,
-  removeSessionStorageAuth,
-} from "../utilities/sessionStorageAuth";
-import { registerUserAPI } from "../reducer/authSlice";
+import { LOGOUT, ERRORAUTH } from "../reducer/authSlice";
+import { registerUserAPI, loginUserAPI } from "../reducer/authSlice";
 export const useAuth = () => {
   const isAuth = useSelector((state) => state.authUser.isAuthenticated);
+  const isRegister = useSelector((state) => state.authUser.isRegister);
   const user = useSelector((state) => state.authUser.user);
+  const pending = useSelector((state) => state.authUser.pending);
   const error = useSelector((state) => state.authUser.error);
   const dispatch = useDispatch();
 
@@ -16,11 +14,10 @@ export const useAuth = () => {
   };
 
   const logInUser = (user) => {
-    updateSessionStorageAuth(user);
-    dispatch(LOGIN(user));
+    console.log(user);
+    dispatch(loginUserAPI({ user }));
   };
   const logOutUser = () => {
-    removeSessionStorageAuth();
     dispatch(LOGOUT());
   };
 
@@ -33,7 +30,9 @@ export const useAuth = () => {
     logInUser,
     logOutUser,
     errorUser,
+    isRegister,
     error,
+    pending,
     user,
     isAuth,
   };

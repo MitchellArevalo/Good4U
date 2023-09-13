@@ -10,8 +10,8 @@ export const useCart = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cartProducts.productInCart);
 
-  const addToCart = ({ product }) => {
-    dispatch(ADD_TO_CART(product));
+  const addToCart = ({ product, id, size }) => {
+    dispatch(ADD_TO_CART({ product, id, size }));
   };
   const subtractToCart = ({ product }) => {
     dispatch(SUBTRACT_TO_CART(product));

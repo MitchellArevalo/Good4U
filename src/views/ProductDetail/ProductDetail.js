@@ -18,7 +18,6 @@ function ProductDetail() {
   const { addToCart } = useCart();
 
   const listSize = product.size.split(",");
-  console.log("Tallas:", listSize);
   console.log("Estado", selectSize);
 
   const getSizeProduct = (size) => {
@@ -60,17 +59,20 @@ function ProductDetail() {
             <div>
               <h2 className="font-bold">SELECCIONAR TALLA</h2>
               <div className="my-3">
-                {listSize.map((size, i) => (
-                  <button
-                    key={i}
-                    onClick={() => getSizeProduct(size)}
-                    className={`py-1 px-2 mx-2 border rounded-2xl text-sm hover:bg-black hover:text-white ${
-                      selectSize === size ? `bg-black text-white` : undefined
-                    }`}
-                  >
-                    {size}
-                  </button>
-                ))}
+                {listSize.map((size, i) => {
+                  console.log(size);
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => getSizeProduct(size)}
+                      className={`py-1 px-2 mx-2 border rounded-2xl text-sm hover:bg-black hover:text-white ${
+                        selectSize === size ? `bg-black text-white` : undefined
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  );
+                })}
               </div>
             </div>
             <div className="flex flex-col gap-3">

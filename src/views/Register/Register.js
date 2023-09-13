@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 import { styleIcons } from "../../utilities/styleForm";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import EmailIcon from "@mui/icons-material/Email";
 import PersonIcon from "@mui/icons-material/Person";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import HomeIcon from "@mui/icons-material/Home";
-import { Link } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
+import Spinner from "../../components/Spinner/Spinner";
+
 const listRegister = [
   {
     id: "name",
@@ -53,7 +55,14 @@ const listRegister = [
 ];
 
 function Register() {
-  const { registerUser, error, errorUser } = useAuth();
+  const {
+    registerUser,
+    error,
+    pending,
+    errorUser,
+    user,
+    isRegister,
+  } = useAuth();
   const [credentials, setCredentials] = useState({
     name: "",
     email: "",
@@ -162,44 +171,55 @@ function Register() {
           <h1 className="text-2xl text-greyDarkOpra font-bold mb-4 text-center">
             Registro
           </h1>
-          <form className="mt-8" onSubmit={handleSubmit}>
-            {listRegister.map((item) => (
-              <div className="flex flex-col " key={item.id}>
-                <label
-                  htmlFor={item.id}
-                  className="block text-sm font-medium mb-2 text-greyDarkOpra"
-                >
-                  {item.name}
-                </label>
-                <div className="relative flex items-center border-2 border-gray-300 rounded-lg py-1 px-2">
-                  {item.icon}
-                  <input
-                    className="w-full py-2 px-5 focus:outline-none"
-                    type={item.type}
-                    id={item.id}
-                    placeholder={item.placeholder}
-                    onChange={handleChange}
-                  />
-                </div>
-                <span class="text-red-600 font-semibold">
-                  {errors[item.id]}
-                </span>
+          {pending ? (
+            <Spinner />
+          ) : (
+            <form className="mt-8" onSubmit={handleSubmit}>
+              {listRegister.map((item) => (
+                <div className="flex flex-col " key={item.id}>
+                  <label
+                    htmlFor={item.id}
+                    className="block text-sm font-medium mb-2 text-greyDarkOpra"
+                  >
+                    {item.name}
+                  </label>
+                  <div className="relative flex items-center border-2 border-gray-300 rounded-lg py-1 px-2">
+                    {item.icon}
+                    <input
+                      className="w-full py-2 px-5 focus:outline-none"
+                      type={item.type}
+                      id={item.id}
+                      placeholder={item.placeholder}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <span class="text-red-600 font-semibold">
+                    {errors[item.id]}
+                  </span>
 
-                {/* Mostrar error debajo del campo */}
-              </div>
-            ))}
-            <button
-              className="rounded-md bg-blue-500 text-white w-full py-2 mt-5"
-              o
-            >
-              Registrarse
-            </button>
-          </form>
+                  {/* Mostrar error debajo del campo */}
+                </div>
+              ))}
+              <button
+                className="rounded-md bg-blue-500 text-white w-full py-2 mt-5"
+                o
+              >
+                Registrarse
+              </button>
+            </form>
+          )}
           {error && (
-            <span class="text-red-600 font-semibold">
+            <span class="text-red-600 font-semibold text-center text-lg">
               Verifique todos los campos y vuelva a enviar
             </span>
           )}
+
+          {isRegister && (
+            <span class=": text-green-600 font-semibold text-center text-lg">
+              Ha sido registrado con éxito
+            </span>
+          )}
+
           <p className="text-center font-semibold mt-4">
             ¿Tienes una cuenta?
             <Link to="/login" className="text-blue-500">
