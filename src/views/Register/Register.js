@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { styleIcons } from "../../utilities/styleForm";
+import { inputNull, hasErrors } from "../../utilities/validateForms";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import EmailIcon from "@mui/icons-material/Email";
 import PersonIcon from "@mui/icons-material/Person";
@@ -55,14 +56,7 @@ const listRegister = [
 ];
 
 function Register() {
-  const {
-    registerUser,
-    error,
-    pending,
-    errorUser,
-    user,
-    isRegister,
-  } = useAuth();
+  const { registerUser, error, loading, message, user } = useAuth();
   const [credentials, setCredentials] = useState({
     name: "",
     email: "",
@@ -79,6 +73,7 @@ function Register() {
     phoneNumber: "",
     password: "",
   });
+
   const handleChange = (e) => {
     const { id, value } = e.target;
 
@@ -152,12 +147,9 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Verifica si hay algún mensaje de error en el estado errors
-    const hasErrors = Object.values(errors).some((error) => error !== "");
-    if (!hasErrors) {
-      registerUser({ credentials });
-    } else {
-      errorUser();
-    }
+
+    if (hasErrors || inputNull) return;
+    if (!hasErrors) return registerUser(credentials);
   };
   return (
     <div
@@ -171,7 +163,7 @@ function Register() {
           <h1 className="text-2xl text-greyDarkOpra font-bold mb-4 text-center">
             Registro
           </h1>
-          {pending ? (
+          {loading ? (
             <Spinner />
           ) : (
             <form className="mt-8" onSubmit={handleSubmit}>
@@ -208,14 +200,23 @@ function Register() {
               </button>
             </form>
           )}
-          {error && (
+          {hasErrors && (
             <span class="text-red-600 font-semibold text-center text-lg">
-              Verifique todos los campos y vuelva a enviar
+              Verifique todos los campos para enviar los datos
             </span>
           )}
-
-          {isRegister && (
-            <span class=": text-green-600 font-semibold text-center text-lg">
+          {inputNull && (
+            <span class="text-red-600 font-semibold text-center text-lg">
+              No se permiten campos vacios
+            </span>
+          )}
+          {error !== "" && (
+            <span class="text-red-600 font-semibold text-center text-lg">
+              {error}
+            </span>
+          )}
+          {message !== "" && (
+            <span class="text-green-600 font-semibold text-center text-lg">
               Ha sido registrado con éxito
             </span>
           )}

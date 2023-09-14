@@ -1,35 +1,19 @@
 // authSlice.js
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
   getSessionStorageAuth,
   updateSessionStorageAuth,
   removeSessionStorageAuth,
 } from "../utilities/sessionStorageAuth";
-import { loginUser, registerUser } from "../services/postUser";
+import { registerUserAPI, loginUserAPI } from "../services/postUser";
 
 const initialState = {
-  isAuthenticated: getSessionStorageAuth() ? true : false,
-  isRegister: false,
-  pending: false,
-  user: null,
-  error: false,
+  isAuthenticated: getSessionStorageAuth() || false,
+  user: "",
+  message: "",
+  loading: "",
+  error: "",
 };
-export const registerUserAPI = createAsyncThunk(
-  "registerUserAPI",
-  async ({ credentials }) => {
-    const userData = await registerUser({ credentials });
-    console.log("Datos usuarios", userData);
-    return userData;
-  }
-);
-export const loginUserAPI = createAsyncThunk(
-  "loginUserAPI",
-  async (credentials) => {
-    const userData = await loginUser({ credentials });
-    console.log("Login", userData);
-    return userData;
-  }
-);
 
 const authSlice = createSlice({
   name: "authUser",
@@ -53,40 +37,43 @@ const authSlice = createSlice({
   },
   extraReducers: {
     [registerUserAPI.pending]: (state) => {
-      state.isAuthenticated = false;
-      state.pending = true;
-      state.user = null;
-      state.error = false;
+      state.loading = true;
     },
     [registerUserAPI.fulfilled]: (state, action) => {
-      state.isAuthenticated = false;
-      state.isRegister = true;
-      state.pending = false;
-      state.error = false;
+      const {
+        payload: { nombreExcepcion, valor },
+      } = action;
+      console.log("Este es action payload", action.payload.nombreExcepcion);
+      state.loading = false;
+      if (nombreExcepcion) {
+        state.message = "";
+        state.error = nombreExcepcion;
+      } else {
+        state.message = valor;
+        state.error = "";
+      }
     },
     [registerUserAPI.rejected]: (state) => {
-      state.isAuthenticated = false;
-      state.pending = false;
-      state.user = null;
       state.error = true;
     },
     [loginUserAPI.pending]: (state) => {
-      state.isAuthenticated = false;
-      state.pending = true;
-      state.user = null;
-      state.error = false;
+      state.loading = true;
     },
     [loginUserAPI.fulfilled]: (state, action) => {
-      state.isAuthenticated = true;
-      state.pending = false;
-      state.user = action.payload;
-      state.error = false;
-      updateSessionStorageAuth(state.user);
+      const { payload } = action;
+      console.log("Este es action payload", payload);
+      state.loading = false;
+
+      if (payload) {
+        state.user = payload;
+        state.isAuthenticated = true;
+        updateSessionStorageAuth(state.isAuthenticated);
+      } else {
+        state.error = true;
+        state.message = "Escriba bien los datos";
+      }
     },
     [loginUserAPI.rejected]: (state) => {
-      state.isAuthenticated = false;
-      state.pending = false;
-      state.user = null;
       state.error = true;
     },
   },

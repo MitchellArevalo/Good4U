@@ -1,12 +1,12 @@
 export const getSessionStorageAuth = () => {
-  if (window.sessionStorage.getItem("user") !== null) {
+  if (JSON.parse(window.sessionStorage.getItem("user")) !== null) {
     return true;
   } else {
     return false;
   }
 };
 export const updateSessionStorageAuth = (state) => {
-  window.sessionStorage.setItem("user", state);
+  window.sessionStorage.setItem("user", JSON.stringify(state));
 };
 
 export const removeSessionStorageAuth = () => {

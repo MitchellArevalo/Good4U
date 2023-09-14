@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import EmailIcon from "@mui/icons-material/Email";
 import { styleIcons } from "../../utilities/styleForm";
+import { inputNull, hasErrors } from "../../utilities/validateForms";
+
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { useEffect } from "react";
 
 const listLogin = [
   {
@@ -22,16 +25,22 @@ const listLogin = [
   },
 ];
 function Login() {
-  const { logInUser, error, errorUser } = useAuth();
+  const { logInUser, error, user, message } = useAuth();
 
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
-    email: undefined,
-    password: undefined,
+    email: "",
+    password: "",
   });
   const [errors, setErrors] = useState({
     email: "",
+    password: "",
   });
+  useEffect(() => {
+    if (typeof user === "object" && user !== null) {
+      navigate("/products");
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -57,14 +66,9 @@ function Login() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(credentials);
     // Verifica si hay algún mensaje de error en el estado errors
-    const hasErrors = Object.values(errors).some((error) => error !== "");
-    if (!hasErrors) {
-      logInUser(credentials);
-    } else {
-      errorUser();
-    }
+    if (hasErrors(errors) || inputNull(credentials)) return;
+    if (!hasErrors(errors)) return logInUser(credentials);
   };
   return (
     <div
@@ -103,7 +107,21 @@ function Login() {
             Iniciar Sesión
           </button>
 
-          {error && <span>Errore</span>}
+          {hasErrors && (
+            <span class="text-red-600 font-semibold text-center text-lg">
+              Verifique todos los campos para enviar los datos
+            </span>
+          )}
+          {inputNull && (
+            <span class="text-red-600 font-semibold text-center text-lg">
+              No se permiten campos vacios
+            </span>
+          )}
+          {error !== "" && (
+            <span class="text-red-600 font-semibold text-center text-lg">
+              {message}
+            </span>
+          )}
         </form>
 
         <p className=": text-center font-semibold">

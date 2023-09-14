@@ -10,7 +10,7 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     ADD_TO_CART: (state, action) => {
-      console.log(action.payload);
+      console.log("payload de cart", action.payload);
       const productInCartIndex = state.productInCart.findIndex(
         (product) =>
           product.itemCode === action.payload.id &&
@@ -34,10 +34,10 @@ const cartSlice = createSlice({
           productInCart: [
             ...state.productInCart,
             {
-              ...action.payload,
+              ...action.payload.product,
               quantity: 1,
               sizeSelected: action.payload.size,
-              totalPrice: action.payload.salesPrice,
+              totalPrice: action.payload.product.salesPrice,
             },
           ],
         };
@@ -46,11 +46,11 @@ const cartSlice = createSlice({
       }
     }, //Cuando se modifica la copia, no se puede retornar el estado a la vez
     SUBTRACT_TO_CART: (state, action) => {
-      console.log(action.payload);
+      console.log("payload de cart", action.payload);
       const productInCartIndex = state.productInCart.findIndex(
         (product) =>
-          product.itemCode === action.payload.itemCode &&
-          product.sizeSelected === action.payload.size
+          product.itemCode === action.payload.product.itemCode &&
+          product.sizeSelected === action.payload.product.sizeSelected
       );
 
       if (productInCartIndex >= 0) {
@@ -73,8 +73,8 @@ const cartSlice = createSlice({
       const newProductInCart = state.productInCart.filter(
         (product) =>
           !(
-            product.itemCode === action.payload.itemCode &&
-            product.sizeSelected === action.payload.size
+            product.itemCode === action.payload.product.itemCode &&
+            product.sizeSelected === action.payload.product.sizeSelected
           )
       );
 

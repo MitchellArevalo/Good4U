@@ -22,10 +22,21 @@ function CardCart({ product, addToCart, subtractToCart, removeToCart }) {
             <button onClick={() => subtractToCart({ product })}> - </button>
           )}
           <span className="mx-2">{product.quantity}</span>
-          <button onClick={() => addToCart({ product })}> + </button>
+          <button
+            onClick={() =>
+              addToCart({
+                product,
+                id: product.itemCode,
+                size: product.sizeSelected,
+              })
+            }
+          >
+            {" "}
+            +{" "}
+          </button>
         </div>
         <div className="flex flex-col justify-between items-center pt-2 pb-5 w-1/3">
-          <button onClick={() => removeToCart(product)} className="text-sm">
+          <button onClick={() => removeToCart({ product })} className="text-sm">
             <DeleteIcon />
           </button>
           <p className="text-lg">{`$ ${product.salesPrice}`}</p>

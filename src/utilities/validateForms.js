@@ -29,3 +29,8 @@ export const validateInputsForm = (list, e) => {
   // // Actualiza el valor del campo
   // setCredentials((prev) => ({ ...prev, [id]: value }));
 };
+
+export const inputNull = (credentials) =>
+  Object.values(credentials).every((credential) => credential === "");
+export const hasErrors = (errors) =>
+  Object.values(errors).some((error) => error !== "");

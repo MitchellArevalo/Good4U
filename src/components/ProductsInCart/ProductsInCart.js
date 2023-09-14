@@ -13,7 +13,7 @@ function ProductsInCart({
 }) {
   const navigate = useNavigate();
   const subTotalPrice = getPriceProductsInCart(cart);
-  console.log("ProductInCart", cart);
+  console.log("Lista del carrito", cart);
   const handledOpenCheckout = () => {
     navigate(`/checkout`, {
       state: {
@@ -54,7 +54,7 @@ function ProductsInCart({
         <h1 className=": font-bold text-xl uppercase  text-center my-8">
           Totales del Carrito
         </h1>
-        <div className="flex justify-between ">
+        {/* <div className="flex justify-between ">
           <p className=": uppercase font-bold mb-5">Subtotal:</p>
           <span className="text-greyLightOpra ">{`$ ${subTotalPrice}`}</span>
         </div>
@@ -79,7 +79,7 @@ function ProductsInCart({
               Actualizar Totales
             </button>
           </div>
-        </div>
+        </div> */}
         <div className="">
           <div className="flex items-center justify-between text-lg font-bold my-5">
             <span>Total:</span>

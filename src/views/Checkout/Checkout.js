@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "../../components/Footer/Footer";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 const listDetailsPay = [
   "Nombre",
@@ -22,16 +22,16 @@ function Checkout() {
         <div className="flex flex-col justify-center gap-12 my-5 md:flex-row  ">
           <div className=" flex flex-col : justify-around shadow-md rounded p-5 md:w-1/2 md:h-screen md:py-10 ">
             <h2 className="font-bold text-lg">Detalles del Pago</h2>
-            {/* {listDetailsPay.map((detail, i) => (
-              <p key={i} className=" p-1 text-greyLightOpra cursor-pointer ">
-                {detail}
-              </p>
-            ))} */}
-            {/* <span>{user}</span> */}
-            <span>Valeria Jiménez Bedoya</span>
-            <span>vjimenezbedoya@gmail.com</span>
-            <span>Calle 23#30-58</span>
-            <span>+57 3185698754</span>
+            <span>{user.documento}</span>
+            <span>{user.nombre}</span>
+            <span>{user.email}</span>
+            <span>{user.direccion}</span>
+            <span>{user.numeroTelefonico}</span>
+            <Link to="/settingsuser">
+              <button className="bg-black text-white font-semibold rounded-sm w-full p-2 my-2 ">
+                Modificar datos
+              </button>
+            </Link>
           </div>
           <div className=": bg-gray-200 rounded p-5 md:w-1/2 flex flex-col  justify-around ">
             <h2 className="font-bold text-lg ">Tu Orden</h2>

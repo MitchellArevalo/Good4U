@@ -14,10 +14,10 @@ export const useCart = () => {
     dispatch(ADD_TO_CART({ product, id, size }));
   };
   const subtractToCart = ({ product }) => {
-    dispatch(SUBTRACT_TO_CART(product));
+    dispatch(SUBTRACT_TO_CART({ product }));
   };
-  const removeToCart = (product) => {
-    dispatch(REMOVE_FROM_CART(product));
+  const removeToCart = ({ product }) => {
+    dispatch(REMOVE_FROM_CART({ product }));
   };
   const clearToCart = () => {
     dispatch(CLEAR_CART());
