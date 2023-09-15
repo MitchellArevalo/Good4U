@@ -9,7 +9,7 @@ import {
   FILTERPRICE,
   RESETFILTERPRODUCT,
 } from "../reducer/productsSlice";
-import { getProductsAPI } from "../reducer/productsSlice";
+import { getProductsAPI } from "../services/productsService";
 import { sortOptions } from "../utilities/listOptions";
 import { validateWordsSearch } from "../utilities/validateWordsSearch";
 

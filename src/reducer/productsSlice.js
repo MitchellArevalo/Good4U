@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getProducts } from "../services/getData";
+import { createSlice } from "@reduxjs/toolkit";
+import { getProductsAPI } from "../services/productsService";
 const initialState = {
   products: [],
   filteredProducts: null,
@@ -7,15 +7,6 @@ const initialState = {
   error: null,
 };
 
-export const getProductsAPI = createAsyncThunk(
-  //Este es un reducer "Asincrónico. En esta librería se maneja los eventos de pendiente, success y error"
-  "getProductsFromAPI",
-  async () => {
-    const products = await getProducts();
-    console.log(products);
-    return products; //El return viene siendo el "payload" que se enviará al reducer
-  }
-);
 const productSlice = createSlice({
   name: "productsData",
   initialState,

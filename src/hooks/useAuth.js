@@ -1,6 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { LOGOUT, ERRORAUTH } from "../reducer/authSlice";
-import { registerUserAPI, loginUserAPI } from "../services/postUser";
+import {
+  registerUserAPI,
+  loginUserAPI,
+  putUserAPI,
+} from "../services/userService";
 export const useAuth = () => {
   const isAuth = useSelector((state) => state.authUser.isAuthenticated);
   const user = useSelector((state) => state.authUser.user);
@@ -19,6 +23,10 @@ export const useAuth = () => {
     console.log(user);
     dispatch(loginUserAPI(user));
   };
+
+  const putUser = ({ id, user }) => {
+    dispatch(putUserAPI(id, user));
+  };
   const logOutUser = () => {
     dispatch(LOGOUT());
   };
@@ -31,6 +39,7 @@ export const useAuth = () => {
     registerUser,
     logInUser,
     logOutUser,
+    putUser,
     errorUser,
     error,
     loading,

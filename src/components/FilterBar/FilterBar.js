@@ -28,7 +28,7 @@ function FilterBar() {
   } = useProduct();
   const categoriesProducts = categoriesOptions(products);
   return (
-    <div className="  shadow-lg rounded-sm flex  p-5  mb-5 flex-col  w-full  md:w-1/4  md:gap-12 ">
+    <div className=" shadow-lg rounded-sm flex  p-5  mb-5 flex-col  w-full  md:w-1/3  md:gap-12 ">
       <h1 className="hidden md:font-bold md:text-2xl md:uppercase">
         Compra lo Último
       </h1>
@@ -95,7 +95,7 @@ function FilterBar() {
           </FormControl>
         </div>
         <div className="flex items-center justify-between">
-          <div className="w-64 relative">
+          {/* <div className="w-64 relative">
             <input
               type="range"
               className="appearance-none  h-1 bg-black rounded-full outline-none z-2 "
@@ -112,7 +112,7 @@ function FilterBar() {
               <div className="h-6 w-1 bg-red-200 mx-auto"></div>
             </div>
           </div>
-          <span className=": font-semibold">{optionFilterPrice}</span>
+          <span className=": font-semibold">{optionFilterPrice}</span> */}
         </div>
         <button
           className="p-1 text-white bg-black border-2  border-black w-full rounded-sm "

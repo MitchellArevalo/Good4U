@@ -143,13 +143,21 @@ function Register() {
 
   //   return isValid;
   // };
-
+  const formIsValid = (formData) => {
+    return (
+      formData?.name !== "" &&
+      formData?.email !== "" &&
+      formData?.message !== ""
+    );
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Verifica si hay algún mensaje de error en el estado errors
-
-    if (hasErrors || inputNull) return;
-    if (!hasErrors) return registerUser(credentials);
+    // Validación: Verificar si todos los campos están completos
+    if (!formIsValid(credentials)) {
+      alert("Por favor, complete todos los campos");
+      return;
+    }
+    registerUser(credentials); // Limpiar el formulario
   };
   return (
     <div
@@ -180,6 +188,7 @@ function Register() {
                     <input
                       className="w-full py-2 px-5 focus:outline-none"
                       type={item.type}
+                      value={credentials[item.id]}
                       id={item.id}
                       placeholder={item.placeholder}
                       onChange={handleChange}

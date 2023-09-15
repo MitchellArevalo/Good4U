@@ -1,20 +1,93 @@
 import React from "react";
+import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
+import { url_service } from "../../utilities/urlsServices";
 import { useLocation, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-const listDetailsPay = [
-  "Nombre",
-  "Correo Electrónico",
-  "Dirección",
-  "Código Postal",
-  "Teléfono",
-];
+
 function Checkout() {
   const location = useLocation().state;
   const { products, subTotal } = location;
   const { user } = useAuth();
+
+  let totalPayment = subTotal + 15000;
+  const onClickPayment = () => {
+    var myHeadersPostSale = new Headers();
+    myHeadersPostSale.append("Content-Type", "application/json");
+
+    var dataSale = JSON.stringify({
+      idEmployee: 1,
+      idCliente: user.idCliente,
+      tipoVenta: "Website",
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeadersPostSale,
+      body: dataSale,
+      redirect: "follow",
+    };
+
+    let statusCode;
+
+    fetch(`${url_service}/sale`, requestOptions)
+      .then((response) => {
+        statusCode = response.status;
+        return response.json();
+      })
+      .then((data) => {
+        console.log("data de la venta ", data);
+        if (statusCode === 201) {
+          window.localStorage.setItem("idVenta", data.valor);
+          products.forEach((product) => {
+            var myHeadersPostSalesProduct = new Headers();
+            myHeadersPostSalesProduct.append(
+              "Content-Type",
+              "application/json"
+            );
+
+            // if (product.name === "Camiseta Tela Fría") {
+            //   window.localStorage.setItem("saleStatus", "DENEGADO");
+            // } else {
+            //   window.localStorage.setItem("saleStatus", "APROBADO");
+            // }
+            var dataSalesProducts = JSON.stringify({
+              idSale: data.valor,
+              idProduct: product.id,
+              saleProductQuantity: product.quantity,
+              saleProductSalesPrice: -1,
+            });
+
+            var requestOptions = {
+              method: "POST",
+              headers: myHeadersPostSalesProduct,
+              body: dataSalesProducts,
+              redirect: "follow",
+            };
+
+            fetch(`${url_service}/saleproducts`, requestOptions)
+              .then((response) => {
+                return response.json();
+              })
+              .then((data) => {
+                console.log("data de los sale products: ", data);
+              });
+          });
+        } else {
+          throw new Error(data); // Lanzar un error en caso de que no se haya creado la venta
+        }
+      })
+      .then(() => {
+        console.log("Venta y productos de venta creados con éxito");
+      })
+      .catch((error) => {
+        console.error("Ocurrió un error:", error);
+      });
+  };
+
   return (
     <>
+      <Navbar />
       <section className="h-full p-10">
         <h1 className="text-center font-bold text-2xl py-5">
           Finalizar Compra
@@ -41,7 +114,7 @@ function Checkout() {
             </div>
             {products.map((productCart) => (
               <div className="flex justify-between " key={productCart.itemCode}>
-                <span>{`${productCart.quantity} und(s) ${productCart.name} Talla: ${productCart.size}`}</span>
+                <span>{`${productCart.quantity} und(s) ${productCart.name} Talla: ${productCart.sizeSelected}`}</span>
                 <span>{`$${productCart.salesPrice}`}</span>
               </div>
             ))}
@@ -49,13 +122,24 @@ function Checkout() {
               <h2 className="font-bold">Subtotal</h2>
               <span>{`$${subTotal}`}</span>
             </div>
+            <div className="flex  justify-between ">
+              <span className="text-greyLightOpra">Envío</span>
+              <p className="text-footer mb-5 w-1/2  text-end">
+                El costo del envío es $15000
+              </p>
+            </div>
             <div className="flex justify-between">
               <h2 className="font-bold">TOTAL</h2>
-              <span>{`$${subTotal}`}</span>
+              <h2 className="font-bold">{`$${totalPayment}`}</h2>
             </div>
-            <button className="bg-black text-white font-semibold rounded-sm w-full p-2 my-2 ">
-              Ordena Ya
-            </button>
+            <Link to="/paymentConfirmation">
+              <button
+                onClick={onClickPayment}
+                className="bg-black text-white font-semibold rounded-sm w-full p-2 my-2 "
+              >
+                Ordena Ya
+              </button>
+            </Link>
           </div>
         </div>
       </section>

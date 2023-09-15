@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
@@ -7,27 +7,11 @@ import PersonIcon from "@mui/icons-material/Person";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import { inputNull } from "../../utilities/validateForms";
 import { styleIcons } from "../../utilities/styleForm";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-const itemsMenu = [
-  {
-    id: 1,
-    title: "Inicio",
-    path: "/",
-  },
-  {
-    id: 2,
-    title: "Productos",
-    path: "/products",
-  },
-  {
-    id: 3,
-    title: "Contactos",
-    path: "/contact",
-  },
-];
+
 const listUpdateUser = [
   {
     id: "name",
@@ -73,13 +57,13 @@ const listUpdateUser = [
   },
 ];
 function SettingsUser() {
-  const { registerUser, errorUser, logOutUser } = useAuth();
+  const { errorUser, putUser, logOutUser, user } = useAuth();
   const [credentials, setCredentials] = useState({
-    name: "",
-    email: "",
-    document: "",
-    address: "",
-    phoneNumber: "",
+    name: user.nombre,
+    email: user.email,
+    document: user.documento,
+    address: user.direccion,
+    phoneNumber: user.numeroTelefonico,
     password: "",
   });
   const [errors, setErrors] = useState({
@@ -91,6 +75,7 @@ function SettingsUser() {
     password: "",
   });
 
+  let idCliente = user.idCliente;
   const navigate = useNavigate();
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -126,13 +111,15 @@ function SettingsUser() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Verifica si hay algún mensaje de error en el estado errors
+    inputNull(credentials);
     const hasErrors = Object.values(errors).some((error) => error !== "");
     if (!hasErrors) {
-      registerUser({ credentials });
+      putUser({ id: idCliente, user: credentials });
     } else {
       errorUser();
     }
   };
+
   const onHandledLogOut = () => {
     logOutUser();
     navigate("/products");
@@ -161,9 +148,9 @@ function SettingsUser() {
               Editar Información de la cuenta
             </h1>
 
-            <form>
+            <form onSubmit={handleSubmit}>
               {listUpdateUser.map((user) => (
-                <div className="mb-4">
+                <div key={user.id} className="mb-4">
                   <label
                     htmlFor={user.id}
                     className="block text-gray-600 text-sm font-medium mb-2"
@@ -172,16 +159,24 @@ function SettingsUser() {
                   </label>
                   <input
                     className="w-full p-2 border border-gray-300 rounded focus:outline-none"
-                    type="text"
+                    type={user.type}
                     placeholder={user.placeholder}
+                    onChange={handleChange}
                     id={user.id}
+                    value={credentials[user.id]}
                   />
-                  <span class="text-red-600 font-semibold">
+
+                  <span className="text-red-600 font-semibold">
                     {errors[user.id]}
                   </span>
                 </div>
               ))}
-
+              <input
+                className="w-full p-2 mb-5 border border-gray-300 rounded focus:outline-none"
+                type="password"
+                placeholder="Confirme su contraseña"
+                id="passwordConfirm"
+              ></input>
               <button className="w-full px-4 py-2 bg-black : shadow-lg text-white rounded">
                 Guardar
               </button>

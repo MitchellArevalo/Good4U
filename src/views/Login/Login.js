@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import EmailIcon from "@mui/icons-material/Email";
 import { styleIcons } from "../../utilities/styleForm";
-import { inputNull, hasErrors } from "../../utilities/validateForms";
+import { formIsValid } from "../../utilities/validateForms";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
@@ -26,8 +26,8 @@ const listLogin = [
 ];
 function Login() {
   const { logInUser, error, user, message } = useAuth();
-
   const navigate = useNavigate();
+
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -37,6 +37,7 @@ function Login() {
     password: "",
   });
   useEffect(() => {
+    console.log("usuario del auth: ", user);
     if (typeof user === "object" && user !== null) {
       navigate("/products");
     }
@@ -64,12 +65,23 @@ function Login() {
     // Actualiza el valor del campo
     setCredentials((prev) => ({ ...prev, [id]: value }));
   };
+  const formIsValid = (formData) => {
+    return (
+      formData?.name !== "" &&
+      formData?.email !== "" &&
+      formData?.message !== ""
+    );
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Verifica si hay algún mensaje de error en el estado errors
-    if (hasErrors(errors) || inputNull(credentials)) return;
-    if (!hasErrors(errors)) return logInUser(credentials);
+    // Validación: Verificar si todos los campos están completos
+    if (!formIsValid(credentials)) {
+      alert("Por favor, complete todos los campos");
+      return;
+    }
+    logInUser(credentials); // Limpiar el formulario
   };
+
   return (
     <div
       className="bg-cover bg-center h-screen"
@@ -95,6 +107,7 @@ function Login() {
                 <input
                   className="w-full py-2 px-5 focus:outline-none"
                   type={item.type}
+                  value={credentials[item.id]}
                   placeholder={item.placeholder}
                   id={item.id}
                   onChange={handleChange}
@@ -103,25 +116,10 @@ function Login() {
               <span class="text-red-600 font-semibold">{errors[item.id]}</span>
             </div>
           ))}
+          {error && <span class="text-red-600 font-semibold">{message}</span>}
           <button className=" rounded-md  bg-blueOpra text-white w-full py-2 mt-5">
             Iniciar Sesión
           </button>
-
-          {hasErrors && (
-            <span class="text-red-600 font-semibold text-center text-lg">
-              Verifique todos los campos para enviar los datos
-            </span>
-          )}
-          {inputNull && (
-            <span class="text-red-600 font-semibold text-center text-lg">
-              No se permiten campos vacios
-            </span>
-          )}
-          {error !== "" && (
-            <span class="text-red-600 font-semibold text-center text-lg">
-              {message}
-            </span>
-          )}
         </form>
 
         <p className=": text-center font-semibold">

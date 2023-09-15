@@ -15,6 +15,13 @@ function ProductsInCart({
   const subTotalPrice = getPriceProductsInCart(cart);
   console.log("Lista del carrito", cart);
   const handledOpenCheckout = () => {
+    cart.forEach((product) => {
+      if (product.name === "Camiseta Tela Fría") {
+        window.localStorage.setItem("saleStatus", "DENEGADO");
+      } else {
+        window.localStorage.setItem("saleStatus", "APROBADO");
+      }
+    });
     navigate(`/checkout`, {
       state: {
         products: cart,
@@ -27,7 +34,7 @@ function ProductsInCart({
   }, [cart]);
 
   return (
-    <div className="flex flex-col   md:flex-row gap-8 my-8">
+    <div className="flex flex-col md:flex-row gap-8 my-8 w-full">
       <div className=" flex flex-col gap-10 w-full  md:w-1/2">
         <div
           className="flex flex-col p-4"
@@ -82,7 +89,7 @@ function ProductsInCart({
         </div> */}
         <div className="">
           <div className="flex items-center justify-between text-lg font-bold my-5">
-            <span>Total:</span>
+            <span>Subtotal:</span>
             <span>{subTotalPrice}</span>
           </div>
           <button

@@ -30,7 +30,19 @@ export const validateInputsForm = (list, e) => {
   // setCredentials((prev) => ({ ...prev, [id]: value }));
 };
 
-export const inputNull = (credentials) =>
-  Object.values(credentials).every((credential) => credential === "");
+export const inputNull = (credentials) => {
+  if (
+    credentials?.name === "" ||
+    credentials?.email === "" ||
+    credentials?.document === "" ||
+    credentials?.address === "" ||
+    credentials?.phoneNumber === "" ||
+    credentials?.password === "" ||
+    credentials?.message === ""
+  ) {
+    alert("Por favor, complete todos los campos");
+    return;
+  }
+};
 export const hasErrors = (errors) =>
   Object.values(errors).some((error) => error !== "");

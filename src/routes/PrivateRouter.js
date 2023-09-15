@@ -6,4 +6,9 @@ function PrivateRouterCheck({ children }) {
   console.log(isAuth);
   return isAuth ? children : <Navigate to="/login" />;
 }
-export default PrivateRouterCheck;
+function PrivateRouterAuth({ children }) {
+  const { isAuth } = useAuth();
+  console.log(isAuth);
+  return !isAuth ? children : <Navigate to="/products" />;
+}
+export { PrivateRouterCheck, PrivateRouterAuth };

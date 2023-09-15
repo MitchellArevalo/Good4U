@@ -17,7 +17,7 @@ function CardCart({ product, addToCart, subtractToCart, removeToCart }) {
           </p>
           <p className="font-thin text-greyLightOpra">{`Talla : ${product.sizeSelected}`}</p>
         </div>
-        <div className="w-1/5 text-center h-min p-1 rounded-md text-lg bg-whiteLight text-greyDarkOpra">
+        <div className="flex  w-1/5 : place-content-center h-min p-1 rounded-md text-lg bg-whiteLight text-greyDarkOpra">
           {product.quantity > 1 && (
             <button onClick={() => subtractToCart({ product })}> - </button>
           )}

@@ -4,12 +4,18 @@ import {
   getSessionStorageAuth,
   updateSessionStorageAuth,
   removeSessionStorageAuth,
+  getSessionStorageUser,
+  updateSessionStorageUser,
 } from "../utilities/sessionStorageAuth";
-import { registerUserAPI, loginUserAPI } from "../services/postUser";
+import {
+  registerUserAPI,
+  loginUserAPI,
+  putUserAPI,
+} from "../services/userService";
 
 const initialState = {
   isAuthenticated: getSessionStorageAuth() || false,
-  user: "",
+  user: getSessionStorageUser() || "",
   message: "",
   loading: "",
   error: "",
@@ -43,7 +49,6 @@ const authSlice = createSlice({
       const {
         payload: { nombreExcepcion, valor },
       } = action;
-      console.log("Este es action payload", action.payload.nombreExcepcion);
       state.loading = false;
       if (nombreExcepcion) {
         state.message = "";
@@ -61,20 +66,26 @@ const authSlice = createSlice({
     },
     [loginUserAPI.fulfilled]: (state, action) => {
       const { payload } = action;
-      console.log("Este es action payload", payload);
       state.loading = false;
 
       if (payload) {
         state.user = payload;
         state.isAuthenticated = true;
+        updateSessionStorageUser(state.user);
         updateSessionStorageAuth(state.isAuthenticated);
       } else {
         state.error = true;
-        state.message = "Escriba bien los datos";
+        state.message = "Los datos son incorrectos";
       }
     },
     [loginUserAPI.rejected]: (state) => {
       state.error = true;
+    },
+    [putUserAPI.pending]: (state) => {
+      state.loading = true;
+    },
+    [putUserAPI.fulfilled]: (state, action) => {
+      state.loading = false;
     },
   },
 });
