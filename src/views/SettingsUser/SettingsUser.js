@@ -183,8 +183,8 @@ function SettingsUser() {
             </form>
           </div>
         </div>
-        <div className="flex items-center justify-center mb-5">
-          <p>Cerrar Sesión</p>{" "}
+        <div className="flex : place-content-center mb-5 gap-2 ">
+          <p className="font-bold text-md ">Cerrar Sesión</p>{" "}
           <LogoutRoundedIcon
             onClick={onHandledLogOut}
             style={{ alignSelf: "end" }}

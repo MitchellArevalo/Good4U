@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import CardCart from "../CardCart/CardCart";
 import Input from "../Input/Input";
 import { getPriceProductsInCart } from "../../utilities/getPriceProductsInCart";
+import { useAuth } from "../../hooks/useAuth";
+import { useState } from "react";
 const listInput = ["Pais", "Ciudad", "Código Postal"];
 function ProductsInCart({
   cart,
@@ -12,8 +14,8 @@ function ProductsInCart({
   clearToCart,
 }) {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const subTotalPrice = getPriceProductsInCart(cart);
-  console.log("Lista del carrito", cart);
   const handledOpenCheckout = () => {
     cart.forEach((product) => {
       if (product.name === "Camiseta Tela Fría") {
@@ -22,6 +24,7 @@ function ProductsInCart({
         window.localStorage.setItem("saleStatus", "APROBADO");
       }
     });
+
     navigate(`/checkout`, {
       state: {
         products: cart,
@@ -90,7 +93,7 @@ function ProductsInCart({
         <div className="">
           <div className="flex items-center justify-between text-lg font-bold my-5">
             <span>Subtotal:</span>
-            <span>{subTotalPrice}</span>
+            <span>{`$ ${subTotalPrice}`}</span>
           </div>
           <button
             onClick={handledOpenCheckout}

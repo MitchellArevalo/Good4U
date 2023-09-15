@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import HelpCenterIcon from "@mui/icons-material/HelpCenter";
+import CloseIcon from "@mui/icons-material/Close";
 import PhoneIcon from "@mui/icons-material/Phone";
 import ChatBox from "../ChatBox/ChatBox";
 import { Avatar } from "@mui/material";
@@ -36,7 +37,11 @@ function Footer() {
         onClick={toggleChat}
         className="rounded-full bg-blue-500 text-white p-4 shadow-lg fixed bottom-5 right-5 z-10"
       >
-        <HelpCenterIcon style={{ color: "white", fontSize: "30px" }} />
+        {isChatOpen ? (
+          <CloseIcon style={{ color: "white", fontSize: "30px" }} />
+        ) : (
+          <HelpCenterIcon style={{ color: "white", fontSize: "30px" }} />
+        )}
       </button>
       {isChatOpen && <ChatBox />}
       <div className="flex flex-col lg:flex-row lg:gap-x-5 items-center">

@@ -1,6 +1,5 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 function CardCart({ product, addToCart, subtractToCart, removeToCart }) {
-  console.log("Producto carrito:", product);
   return (
     <div className="flex flex-col">
       <div className="flex py-2 gap-x-5 border-b-2 border-b-bg-whiteLight justify-around items-center">

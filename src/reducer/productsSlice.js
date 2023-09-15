@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getProductsAPI } from "../services/productsService";
 const initialState = {
   products: [],
-  filteredProducts: null,
+  filteredProducts: [],
   pending: null,
   error: null,
 };
@@ -84,14 +84,15 @@ const productSlice = createSlice({
   extraReducers: {
     [getProductsAPI.pending]: (state) => {
       state.pending = true;
-      state.filteredProducts = null;
       state.error = false;
     },
     [getProductsAPI.fulfilled]: (state, action) => {
       state.pending = false;
-      state.filteredProducts = null;
-      state.products = action.payload;
-      state.error = false;
+      if (Array.isArray(action.payload)) {
+        state.products = action.payload;
+      } else {
+        state.error = true;
+      }
     },
     [getProductsAPI.rejected]: (state) => {
       state.pending = false;

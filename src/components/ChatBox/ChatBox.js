@@ -27,7 +27,7 @@ const ChatBot = () => {
   };
 
   return (
-    <div className="absolute bottom-8 right-2 ">
+    <div className="fixed bottom-3 right-5 ">
       <ThemeProvider theme={theme}>
         <ChatBotDialog
           headerTitle="Asistente virtual"
@@ -101,37 +101,36 @@ const ChatBot = () => {
     </div>
   );
 };
-
 export default ChatBot;
 
-// {
-//   id: "Instragram",
-//   component: (
-//     <div>
-//       {" "}
-//       <p>
-//         Dale click{" "}
-//         <a href="https://www.instagram.com/opra_design/"> aquí</a>{" "}
-//         para redirigirte al instagram
-//       </p>{" "}
-//     </div>
-//   ),
-//   trigger: "preguntaVuelta",
-// },
-// {
-//   id: "WhatsApp",
-//   component: (
-//     <div>
-//       {" "}
-//       <p>
-//         Dale click{" "}
-//         <a href="https://api.whatsapp.com/send?phone=573177270463&text=%C2%A1Hola!%20Vi%20tu%20pagina%20y%20estoy%20interesad@%20en%20comprar%20tus%20productos,%20%C2%BFMe%20podr%C3%ADas%20dar%20m%C3%A1s%20informaci%C3%B3n?">
-//           {" "}
-//           aquí
-//         </a>{" "}
-//         para redirigirte al WhatsApp
-//       </p>{" "}
-//     </div>
-//   ),
-//   trigger: "preguntaVuelta",
-// },
+// // {
+// //   id: "Instragram",
+// //   component: (
+// //     <div>
+// //       {" "}
+// //       <p>
+// //         Dale click{" "}
+// //         <a href="https://www.instagram.com/opra_design/"> aquí</a>{" "}
+// //         para redirigirte al instagram
+// //       </p>{" "}
+// //     </div>
+// //   ),
+// //   trigger: "preguntaVuelta",
+// // },
+// // {
+// //   id: "WhatsApp",
+// //   component: (
+// //     <div>
+// //       {" "}
+// //       <p>
+// //         Dale click{" "}
+// //         <a href="https://api.whatsapp.com/send?phone=573177270463&text=%C2%A1Hola!%20Vi%20tu%20pagina%20y%20estoy%20interesad@%20en%20comprar%20tus%20productos,%20%C2%BFMe%20podr%C3%ADas%20dar%20m%C3%A1s%20informaci%C3%B3n?">
+// //           {" "}
+// //           aquí
+// //         </a>{" "}
+// //         para redirigirte al WhatsApp
+// //       </p>{" "}
+// //     </div>
+// //   ),
+// //   trigger: "preguntaVuelta",
+// // },

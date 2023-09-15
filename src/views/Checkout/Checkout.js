@@ -4,12 +4,12 @@ import Footer from "../../components/Footer/Footer";
 import { url_service } from "../../utilities/urlsServices";
 import { useLocation, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { useState } from "react";
 
 function Checkout() {
   const location = useLocation().state;
   const { products, subTotal } = location;
   const { user } = useAuth();
-
   let totalPayment = subTotal + 15000;
   const onClickPayment = () => {
     var myHeadersPostSale = new Headers();
