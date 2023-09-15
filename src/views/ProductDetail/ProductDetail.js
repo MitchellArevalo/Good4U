@@ -18,7 +18,6 @@ function ProductDetail() {
   const { addToCart } = useCart();
 
   const listSize = product.size.split(",");
-  console.log("Estado", selectSize);
 
   const getSizeProduct = (size) => {
     setSelectSize(size);

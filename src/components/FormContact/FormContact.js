@@ -20,7 +20,6 @@ function FormContact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formIsValid);
     // Validación: Verificar si todos los campos están completos
     if (!formIsValid(formData)) {
       alert("Por favor, complete todos los campos");

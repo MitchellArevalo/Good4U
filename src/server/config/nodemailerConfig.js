@@ -28,7 +28,6 @@ app.post("http://localhost:3000/enviarCorreo", async (req, res) => {
     await transporter.sendMail(mailOptions);
     res.status(200).send("Correo enviado con éxito");
   } catch (error) {
-    console.error("Error al enviar el correo: " + error);
     res.status(500).send("Error al enviar el correo");
   }
 });

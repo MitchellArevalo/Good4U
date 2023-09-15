@@ -15,7 +15,7 @@ const Slider = () => {
             <img
               src={image}
               alt={`Imagen${index + 1}`}
-              className="w-full h-full object-cover hover:scale-110 transition-transform ease-out duration-300"
+              className="w-full h-screen object-cover hover:scale-110 transition-transform ease-out duration-300"
             />
           </div>
         ))}

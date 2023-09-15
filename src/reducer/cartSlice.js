@@ -10,7 +10,6 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     ADD_TO_CART: (state, action) => {
-      console.log("payload de cart", action.payload);
       const productInCartIndex = state.productInCart.findIndex(
         (product) =>
           product.itemCode === action.payload.id &&
@@ -46,7 +45,6 @@ const cartSlice = createSlice({
       }
     }, //Cuando se modifica la copia, no se puede retornar el estado a la vez
     SUBTRACT_TO_CART: (state, action) => {
-      console.log("payload de cart", action.payload);
       const productInCartIndex = state.productInCart.findIndex(
         (product) =>
           product.itemCode === action.payload.product.itemCode &&

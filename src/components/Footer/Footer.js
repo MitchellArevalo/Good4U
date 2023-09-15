@@ -32,7 +32,7 @@ function Footer() {
     setIsChatOpen(!isChatOpen);
   };
   return (
-    <footer className="w-full flex flex-col  gap-y-5 p-8 bg-whiteOpra ">
+    <footer className="w-full flex flex-col  gap-y-5 p-8 bg-whiteOpra    ">
       <button
         onClick={toggleChat}
         className="rounded-full bg-blue-500 text-white p-4 shadow-lg fixed bottom-5 right-5 z-10"
@@ -81,11 +81,11 @@ function Footer() {
           <p className="text-center text-footer my-8 font-bold lg:text-left">
             Nuestros asesores te atenderán con el mayor de los gustos
           </p>
-          <Link to="/sistema-informacion">
+          <a href="http://localhost:3000">
             <p className="text-center lg:text-left text-blueOpra my-8">
               SISTEMA DE INFORMACIÓN (Solo Personal Autorizado)
             </p>
-          </Link>
+          </a>
         </div>
 
         <div className="hidden lg:block lg:w-1/4">

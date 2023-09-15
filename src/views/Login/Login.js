@@ -37,7 +37,6 @@ function Login() {
     password: "",
   });
   useEffect(() => {
-    console.log("usuario del auth: ", user);
     if (typeof user === "object" && user !== null) {
       navigate("/products");
     }

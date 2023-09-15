@@ -13,7 +13,6 @@ export const useAuth = () => {
   const error = useSelector((state) => state.authUser.error);
   const dispatch = useDispatch();
 
-  console.log("Este eselmensaje", message);
 
   const registerUser = (credentials) => {
     dispatch(registerUserAPI(credentials));

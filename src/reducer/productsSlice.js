@@ -33,7 +33,6 @@ const productSlice = createSlice({
       const ascendingOrderList = newListProducts.sort(
         (a, b) => b.price - a.price
       );
-      console.log(ascendingOrderList);
       const newState = {
         ...state,
         filteredProducts: ascendingOrderList,
@@ -68,7 +67,6 @@ const productSlice = createSlice({
       const productsFilterByPrice = newListProducts.filter(
         (product) => product.price <= action.payload
       );
-      console.log(newListProducts);
       return {
         ...state,
         filteredProducts: productsFilterByPrice,

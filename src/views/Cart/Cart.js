@@ -13,7 +13,6 @@ function Cart() {
     removeToCart,
     clearToCart,
   } = useCart();
-  console.log(cart);
   return (
     <div className="absolute flex flex-col  items-center p-12 z-30 top-0 w-full h-screen overflow-y-auto bg-white ">
       <Link to="/products" style={{ alignSelf: "end", fontSize: "30px" }}>

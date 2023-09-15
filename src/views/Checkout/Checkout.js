@@ -36,7 +36,7 @@ function Checkout() {
         return response.json();
       })
       .then((data) => {
-        console.log("data de la venta ", data);
+        // console.log("data de la venta ", data);
         if (statusCode === 201) {
           window.localStorage.setItem("idVenta", data.valor);
           products.forEach((product) => {
@@ -78,10 +78,10 @@ function Checkout() {
         }
       })
       .then(() => {
-        console.log("Venta y productos de venta creados con éxito");
+        // console.log("Venta y productos de venta creados con éxito");
       })
       .catch((error) => {
-        console.error("Ocurrió un error:", error);
+        // console.error("Ocurrió un error:", error);
       });
   };
 

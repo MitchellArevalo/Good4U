@@ -48,8 +48,6 @@ function PaymentConfirmation() {
     }
 
     try {
-      console.log(idSale);
-      console.log(status);
       setStartedPay(true);
       setLoading(true);
       var myHeadersPostPayment = new Headers();
