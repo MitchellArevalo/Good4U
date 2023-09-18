@@ -1,14 +1,13 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
-function PrivateRouterCheck({ children }) {
+export function PrivateRouterCheck({ children }) {
   const { isAuth } = useAuth();
   console.log(isAuth);
   return isAuth ? children : <Navigate to="/login" />;
 }
-function PrivateRouterAuth({ children }) {
+export function PrivateRouterAuth({ children }) {
   const { isAuth } = useAuth();
   console.log(isAuth);
-  return !isAuth ? children : <Navigate to="/products" />;
+  return !isAuth ? children : null;
 }
-export { PrivateRouterCheck, PrivateRouterAuth };

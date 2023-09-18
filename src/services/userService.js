@@ -12,7 +12,6 @@ export const registerUserAPI = createAsyncThunk(
         body: JSON.stringify(credentials),
       });
       const userData = await response.json();
-      console.log("Esta es la respuesta", userData);
       return userData;
     } catch (e) {
       console.log(e);

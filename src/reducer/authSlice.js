@@ -46,17 +46,17 @@ const authSlice = createSlice({
       state.loading = true;
     },
     [registerUserAPI.fulfilled]: (state, action) => {
-      const {
-        payload: { nombreExcepcion, valor },
-      } = action;
-      state.loading = false;
-      if (nombreExcepcion) {
-        state.message = "";
-        state.error = nombreExcepcion;
-      } else {
-        state.message = valor;
-        state.error = "";
-      }
+      console.log(action.payload);
+
+      // if (nombreExcepcion) {
+      //   state.message = mensaje;
+      //   state.error = nombreExcepcion;
+      // }
+      // if (valor) {
+      //   state.message = "Ha sido registrado con éxito!";
+      //   state.error = "";
+      // }
+      // state.loading = false;
     },
     [registerUserAPI.rejected]: (state) => {
       state.error = true;
@@ -75,7 +75,7 @@ const authSlice = createSlice({
         updateSessionStorageAuth(state.isAuthenticated);
       } else {
         state.error = true;
-        state.message = "Los datos son incorrectos";
+        state.message = "usuario y/o contraseña incorrectas";
       }
     },
     [loginUserAPI.rejected]: (state) => {

@@ -14,22 +14,8 @@ import PaymentConfirmation from "./views/PaymentConfirmation/PaymentConfirmation
 function App() {
   return (
     <Routes>
-      <Route
-        path="/register"
-        element={
-          <PrivateRouterAuth>
-            <Register />
-          </PrivateRouterAuth>
-        }
-      />
-      <Route
-        path="/login"
-        element={
-          <PrivateRouterAuth>
-            <Login />
-          </PrivateRouterAuth>
-        }
-      />
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/" element={<Home />} />
       <Route path="/products" element={<Products />} />
       <Route path="/product/:id" element={<ProductDetail />} />

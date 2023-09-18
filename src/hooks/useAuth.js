@@ -13,14 +13,28 @@ export const useAuth = () => {
   const error = useSelector((state) => state.authUser.error);
   const dispatch = useDispatch();
 
-
-  const registerUser = (credentials) => {
-    dispatch(registerUserAPI(credentials));
+  const registerUser = ({
+    name,
+    email,
+    document,
+    address,
+    phoneNumber,
+    password,
+  }) => {
+    dispatch(
+      registerUserAPI({
+        name,
+        email,
+        document,
+        address,
+        phoneNumber,
+        password,
+      })
+    );
   };
 
-  const logInUser = (user) => {
-    console.log(user);
-    dispatch(loginUserAPI(user));
+  const logInUser = ({ email, password }) => {
+    dispatch(loginUserAPI({ email, password }));
   };
 
   const putUser = ({ id, user }) => {

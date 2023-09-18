@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { styleIcons } from "../../utilities/styleForm";
-import { inputNull, hasErrors } from "../../utilities/validateForms";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import EmailIcon from "@mui/icons-material/Email";
+import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import PersonIcon from "@mui/icons-material/Person";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import HomeIcon from "@mui/icons-material/Home";
@@ -12,43 +12,43 @@ import Spinner from "../../components/Spinner/Spinner";
 
 const listRegister = [
   {
-    id: "name",
-    name: "Nombre",
+    id: "Nombre",
+    name: "name",
     type: "text",
     placeholder: "Escribe tu nombre",
     icon: <PersonIcon style={styleIcons} />,
   },
   {
-    id: "email",
-    name: "Correo",
+    name: "email",
+    id: "Correo",
     type: "email",
     placeholder: "Escribe tu correo",
     icon: <EmailIcon style={styleIcons} />,
   },
   {
-    id: "document",
-    name: "Cédula",
-    type: "number",
+    name: "document",
+    id: "Cédula",
+    type: "text",
     placeholder: "Escribe tu cédula",
-    icon: <EmailIcon style={styleIcons} />,
+    icon: <DocumentScannerIcon style={styleIcons} />,
   },
   {
-    id: "address",
-    name: "Dirección",
+    name: "address",
+    id: "Dirección",
     type: "text",
     placeholder: "Escribe tu dirección",
     icon: <HomeIcon style={styleIcons} />,
   },
   {
-    id: "phoneNumber",
-    name: "Número telefónico Teléfonico",
-    type: "number",
+    name: "phoneNumber",
+    id: "Número Teléfonico",
+    type: "text",
     placeholder: "Escribe tu teléfono",
     icon: <LocalPhoneIcon style={styleIcons} />,
   },
   {
-    id: "password",
-    name: "Contraseña",
+    name: "password",
+    id: "Contraseña",
     type: "password",
     placeholder: "Escribe tu contraseña",
     icon: <LockOpenIcon style={styleIcons} />,
@@ -56,108 +56,29 @@ const listRegister = [
 ];
 
 function Register() {
-  const { registerUser, error, loading, message, user } = useAuth();
-  const [credentials, setCredentials] = useState({
-    name: "",
-    email: "",
-    document: "",
-    address: "",
-    phoneNumber: "",
-    password: "",
-  });
-  const [errors, setErrors] = useState({
-    name: "",
-    email: "",
-    document: "",
-    address: "",
-    phoneNumber: "",
-    password: "",
-  });
+  const { registerUser, error, loading, message } = useAuth();
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-
-    // Realiza la validación en tiempo real aquí
-    let errorMessage = "";
-    const { type } = listRegister.find((item) => item.id === id);
-
-    if (!value) {
-      errorMessage = "Este campo es obligatorio.";
-    } else if (id === "name" && !/^[a-zA-Z\s]+$/.test(value)) {
-      errorMessage = "El campo solo debe contener letras y espacios.";
-    } else if (
-      type === "email" &&
-      !/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(value)
-    ) {
-      errorMessage = "El correo electrónico no es válido.";
-    } else if (type === "number" && !/^[0-9]{10}$/.test(value)) {
-      errorMessage = "La cédula debe tener 10 números";
-    } else if (id === "address" && !/^[A-Za-z0-9\s\.,#-]+$/.test(value)) {
-      errorMessage = "La dirección debe ser válida";
-    } else if (id === "password" && !/^.{11,15}$/.test(value)) {
-      errorMessage = "La contraseña debe tener entre 10 y 15 caracteres";
-    }
-
-    // Actualiza el estado de errores para mostrar el mensaje de error
-    setErrors((prev) => ({ ...prev, [id]: errorMessage }));
-
-    // Actualiza el valor del campo
-    setCredentials((prev) => ({ ...prev, [id]: value }));
-  };
-  // const validateForm = () => {
-  //   let isValid = true;
-
-  //   listRegister.forEach((item) => {
-  //     const { id, type } = item;
-  //     const value = credentials[id];
-  //     if (!value) {
-  //       setErrors((prev) => ({ ...prev, [id]: "Este campo es obligatorio." }));
-  //       isValid = false;
-  //     } else if (type === "text" && !/^[a-zA-Z\s]+$/.test(value)) {
-  //       setErrors((prev) => ({
-  //         ...prev,
-  //         [id]: "El campo solo debe contener letras y espacios.",
-  //       }));
-  //       isValid = false;
-  //     } else if (
-  //       type === "email" &&
-  //       !/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(value)
-  //     ) {
-  //       setErrors((prev) => ({
-  //         ...prev,
-  //         [id]: "El correo electrónico no es válido.",
-  //       }));
-  //       isValid = false;
-  //     } else if (
-  //       type === "number" &&
-  //       id === "document" &&
-  //       !/^\d{10}$/.test(value)
-  //     ) {
-  //       setErrors((prev) => ({
-  //         ...prev,
-  //         [id]: "La cédula debe tener 10 números.",
-  //       }));
-  //       isValid = false;
-  //     }
-  //   });
-
-  //   return isValid;
-  // };
-  const formIsValid = (formData) => {
-    return (
-      formData?.name !== "" &&
-      formData?.email !== "" &&
-      formData?.message !== ""
-    );
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const fields = new window.FormData(e.target);
+
+    const fieldNames = [
+      "name",
+      "email",
+      "document",
+      "address",
+      "phoneNumber",
+      "password",
+    ];
+
+    const formData = {};
+    fieldNames.forEach((fieldName) => {
+      formData[fieldName] = fields.get(fieldName);
+    });
+    console.log("Este es elregistro", formData);
     // Validación: Verificar si todos los campos están completos
-    if (!formIsValid(credentials)) {
-      alert("Por favor, complete todos los campos");
-      return;
-    }
-    registerUser(credentials); // Limpiar el formulario
+
+    registerUser(formData); // Limpiar el formulario
   };
   return (
     <div
@@ -181,54 +102,51 @@ function Register() {
                     htmlFor={item.id}
                     className="block text-sm font-medium mb-2 text-greyDarkOpra"
                   >
-                    {item.name}
+                    {item.id}
                   </label>
                   <div className="relative flex items-center border-2 border-gray-300 rounded-lg py-1 px-2">
                     {item.icon}
                     <input
                       className="w-full py-2 px-5 focus:outline-none"
                       type={item.type}
-                      value={credentials[item.id]}
                       id={item.id}
+                      name={item.name}
+                      minLength={
+                        item.name === "password"
+                          ? "10"
+                          : item.name === "document" ||
+                            item.name === "phoneNumber"
+                          ? "10"
+                          : undefined
+                      }
+                      maxLength={
+                        item.name === "password"
+                          ? "15"
+                          : item.type === "text"
+                          ? "10"
+                          : undefined
+                      }
                       placeholder={item.placeholder}
-                      onChange={handleChange}
+                      required
                     />
                   </div>
-                  <span class="text-red-600 font-semibold">
-                    {errors[item.id]}
-                  </span>
-
-                  {/* Mostrar error debajo del campo */}
                 </div>
               ))}
-              <button
-                className="rounded-md bg-blue-500 text-white w-full py-2 mt-5"
-                o
-              >
+              <button className="rounded-md bg-blue-500 text-white w-full py-2 mt-5">
                 Registrarse
               </button>
             </form>
           )}
-          {hasErrors && (
-            <span class="text-red-600 font-semibold text-center text-lg">
-              Verifique todos los campos para enviar los datos
-            </span>
-          )}
-          {inputNull && (
-            <span class="text-red-600 font-semibold text-center text-lg">
-              No se permiten campos vacios
-            </span>
-          )}
+
           {error !== "" && (
-            <span class="text-red-600 font-semibold text-center text-lg">
+            <span className="text-red-600 font-semibold text-center text-lg">
               {error}
             </span>
           )}
-          {message !== "" && (
-            <span class="text-green-600 font-semibold text-center text-lg">
-              Ha sido registrado con éxito
-            </span>
-          )}
+
+          <span className="text-green-600 font-semibold text-center text-lg">
+            {message}
+          </span>
 
           <p className="text-center font-semibold mt-4">
             ¿Tienes una cuenta?

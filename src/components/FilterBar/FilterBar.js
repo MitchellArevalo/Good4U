@@ -28,7 +28,7 @@ function FilterBar() {
   } = useProduct();
   const categoriesProducts = categoriesOptions(products);
   return (
-    <div className=" shadow-lg rounded-sm flex  p-5  mb-5 flex-col  w-full  md:w-1/3  md:gap-12 h-screen">
+    <div className=" shadow-lg rounded-sm flex  p-5  mb-5 flex-col  w-full  md:w-1/3  md:gap-12 md:h-screen">
       <h1 className="hidden md:font-bold md:text-2xl md:uppercase">
         Compra lo Último
       </h1>

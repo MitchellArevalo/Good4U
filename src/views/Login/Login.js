@@ -10,15 +10,15 @@ import { useEffect } from "react";
 
 const listLogin = [
   {
-    id: "email",
-    name: "Correo",
+    id: "Correo",
+    name: "email",
     type: "email",
     placeholder: "Escribe tu correo",
     icon: <EmailIcon style={styleIcons} />,
   },
   {
-    id: "password",
-    name: "Contraseña",
+    id: "Contraseña",
+    name: "password",
     type: "password",
     placeholder: "Escribe tu contraseña",
     icon: <LockOpenIcon style={styleIcons} />,
@@ -28,57 +28,18 @@ function Login() {
   const { logInUser, error, user, message } = useAuth();
   const navigate = useNavigate();
 
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-  });
-  const [errors, setErrors] = useState({
-    email: "",
-    password: "",
-  });
   useEffect(() => {
     if (typeof user === "object" && user !== null) {
       navigate("/products");
     }
   }, [user]);
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-
-    // Realiza la validación en tiempo real aquí
-    let errorMessage = "";
-    const { type } = listLogin.find((item) => item.id === id);
-
-    if (!value) {
-      errorMessage = "Este campo es obligatorio.";
-    } else if (
-      type === "email" &&
-      !/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(value)
-    ) {
-      errorMessage = "El correo electrónico no es válido.";
-    }
-
-    // Actualiza el estado de errores para mostrar el mensaje de error
-    setErrors((prev) => ({ ...prev, [id]: errorMessage }));
-
-    // Actualiza el valor del campo
-    setCredentials((prev) => ({ ...prev, [id]: value }));
-  };
-  const formIsValid = (formData) => {
-    return (
-      formData?.name !== "" &&
-      formData?.email !== "" &&
-      formData?.message !== ""
-    );
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validación: Verificar si todos los campos están completos
-    if (!formIsValid(credentials)) {
-      alert("Por favor, complete todos los campos");
-      return;
-    }
-    logInUser(credentials); // Limpiar el formulario
+    const fields = new window.FormData(e.target);
+    const email = fields.get("email");
+    const password = fields.get("password");
+    await logInUser({ email, password }); // Limpiar el formulario
   };
 
   return (
@@ -99,23 +60,28 @@ function Login() {
                 htmlFor={item.id}
                 className="block text-sm font-medium mb-2 text-greyDarkOpra"
               >
-                {item.name}
+                {item.id}
               </label>
               <div className="relative flex items-center border-2 : border-gray-300  rounded-lg py-1 px-2">
                 {item.icon}
                 <input
                   className="w-full py-2 px-5 focus:outline-none"
                   type={item.type}
-                  value={credentials[item.id]}
                   placeholder={item.placeholder}
                   id={item.id}
-                  onChange={handleChange}
+                  name={item.name}
+                  minLength={item.name === "password" && "10"}
+                  maxLength={item.name === "password" && "15"}
+                  required
                 />
               </div>
-              <span class="text-red-600 font-semibold">{errors[item.id]}</span>
             </div>
           ))}
-          {error && <span class="text-red-600 font-semibold">{message}</span>}
+          {error && (
+            <span class="text-red-600 font-semibold text-center">
+              {message}
+            </span>
+          )}
           <button className=" rounded-md  bg-blueOpra text-white w-full py-2 mt-5">
             Iniciar Sesión
           </button>
