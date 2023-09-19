@@ -14,11 +14,13 @@ function Cart() {
     clearToCart,
   } = useCart();
   return (
-    <div className="absolute flex flex-col  items-center p-12 z-30 top-0 w-full h-screen overflow-y-auto bg-white ">
+    <div className="absolute flex flex-col  items-center p-5 z-30 top-0 w-full h-screen overflow-y-auto bg-white ">
       <Link to="/products" style={{ alignSelf: "end", fontSize: "30px" }}>
         <CloseIcon />
       </Link>
-      <h1 className="text-center font-bold text-3xl ">Carrito de Compras</h1>
+      <h1 className="text-center font-bold text-3xl pt-8 ">
+        Carrito de Compras
+      </h1>
 
       {cart.length === 0 && <NoProductsInCart />}
 

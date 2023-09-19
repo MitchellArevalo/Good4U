@@ -1,9 +1,46 @@
-import React from "react";
-import { sendMail } from "../../services/sendEmail";
+import React, { useRef } from "react";
+import emailjs from "emailjs-com";
 
 function FormContact() {
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Referencias a los campos del formulario
+  const nombreRef = useRef(null);
+  const correoRef = useRef(null);
+  const mensajeRef = useRef(null);
+
+  // Función para manejar el envío del formulario
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const correo = correoRef.current.value;
+    const mensaje = mensajeRef.current.value;
+
+    emailjs
+      .send(
+        "service_v1hz01r",
+        "template_2l41t5v",
+        {
+          to_name: correo,
+          message: mensaje,
+          reply_to: "vjimenezbedoya@gmail.com",
+        },
+        "RVawn-SrJG3X8E4LS"
+      )
+      .then((response) => {
+        console.log("Email enviado con éxito:", response);
+      })
+      .catch((error) => {
+        console.error("Error al enviar el correo electrónico:", error);
+      });
+
+    // Obtener los valores de los campos utilizando las referencias
+    // Aquí puedes realizar alguna lógica de envío de datos, por ejemplo, enviar los datos a un servidor.
+
+    // Mostrar una notificación
+    alert("¡Datos enviados con éxito!");
+
+    // Limpiar los campos del formulario
+    nombreRef.current.value = "";
+    correoRef.current.value = "";
+    mensajeRef.current.value = "";
   };
 
   return (
@@ -22,9 +59,10 @@ function FormContact() {
               Nombre:
             </label>
             <input
+              ref={nombreRef}
               className="w-full p-2 border border-gray-300 rounded focus:outline-none"
               type="text"
-              id="name"
+              id="nombre"
               name="nombre"
               required
             />
@@ -38,9 +76,10 @@ function FormContact() {
               Correo electrónico:
             </label>
             <input
+              ref={correoRef}
               className="w-full p-2 border border-gray-300 rounded focus:outline-none"
               type="email"
-              id="email"
+              id="correo"
               name="correo"
               required
             />
@@ -54,8 +93,9 @@ function FormContact() {
               Mensaje:
             </label>
             <textarea
+              ref={mensajeRef}
               className="w-full p-2 border border-greyDarkOpra rounded focus:outline-none resize-none"
-              id="message"
+              id="mensaje"
               name="mensaje"
               rows="4"
               required

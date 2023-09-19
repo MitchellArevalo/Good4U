@@ -35,7 +35,7 @@ function Footer() {
     <footer className="w-full flex flex-col  gap-y-5 p-8 bg-whiteOpra    ">
       <button
         onClick={toggleChat}
-        className="rounded-full bg-blue-500 text-white p-4 shadow-lg fixed bottom-5 right-5 z-10"
+        className="rounded-full bg-blue-500 text-white p-4 shadow-lg fixed bottom-2 right-2 z-30"
       >
         {isChatOpen ? (
           <CloseIcon style={{ color: "white", fontSize: "30px" }} />
