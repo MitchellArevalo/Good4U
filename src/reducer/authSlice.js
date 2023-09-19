@@ -17,7 +17,7 @@ const initialState = {
   isAuthenticated: getSessionStorageAuth() || false,
   user: getSessionStorageUser() || "",
   message: "",
-  loading: "",
+  loading: false,
   error: "",
 };
 
@@ -44,19 +44,17 @@ const authSlice = createSlice({
   extraReducers: {
     [registerUserAPI.pending]: (state) => {
       state.loading = true;
+      state.error = true;
     },
     [registerUserAPI.fulfilled]: (state, action) => {
-      console.log(action.payload);
+      console.log("Payload registro", action.payload);
 
-      // if (nombreExcepcion) {
-      //   state.message = mensaje;
-      //   state.error = nombreExcepcion;
-      // }
-      // if (valor) {
-      //   state.message = "Ha sido registrado con éxito!";
-      //   state.error = "";
-      // }
-      // state.loading = false;
+      if (action.payload.nombreExcepcion) {
+        state.message = "Errores en los datos";
+        state.error = true;
+      } else {
+        state.message = "Ha sido registrado con éxito!";
+      }
     },
     [registerUserAPI.rejected]: (state) => {
       state.error = true;

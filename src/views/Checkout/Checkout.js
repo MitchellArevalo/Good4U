@@ -69,9 +69,7 @@ function Checkout() {
               .then((response) => {
                 return response.json();
               })
-              .then((data) => {
-                console.log("data de los sale products: ", data);
-              });
+              .then((data) => {});
           });
         } else {
           throw new Error(data); // Lanzar un error en caso de que no se haya creado la venta
@@ -113,7 +111,10 @@ function Checkout() {
               <span>PRECIO</span>
             </div>
             {products.map((productCart) => (
-              <div className="flex justify-between " key={productCart.itemCode}>
+              <div
+                className="flex justify-between "
+                key={`${productCart.itemCode} con la talla:  ${productCart.sizeSelected} `}
+              >
                 <span>{`${productCart.quantity} und(s) ${productCart.name} Talla: ${productCart.sizeSelected}`}</span>
                 <span>{`$${productCart.salesPrice}`}</span>
               </div>

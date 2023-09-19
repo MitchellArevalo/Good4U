@@ -1,42 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { sendMail } from "../../services/sendEmail";
 
 function FormContact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const formIsValid = (formData) => {
-    return (
-      formData.name !== "" && formData.email !== "" && formData.message !== ""
-    );
-  };
-
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData({ ...formData, [id]: value });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validación: Verificar si todos los campos están completos
-    if (!formIsValid(formData)) {
-      alert("Por favor, complete todos los campos");
-      return;
-    }
-    sendMail(formData);
-    // Limpiar el formulario
-    setFormData({ name: "", email: "", message: "" });
   };
-
-  // const enviarCorreoConfirmacionUsuario = () => {
-  //   // Implementa el envío de correo de confirmación al usuario aquí
-  // };
-
-  // const enviarCorreoEmpresa = () => {
-  //   // Implementa el envío de correo a la empresa aquí
-  // };
 
   return (
     <div className="flex justify-center my-5">
@@ -58,8 +26,7 @@ function FormContact() {
               type="text"
               id="name"
               name="nombre"
-              value={formData.name}
-              onChange={handleChange}
+              required
             />
           </div>
 
@@ -75,8 +42,7 @@ function FormContact() {
               type="email"
               id="email"
               name="correo"
-              value={formData.email}
-              onChange={handleChange}
+              required
             />
           </div>
 
@@ -92,8 +58,7 @@ function FormContact() {
               id="message"
               name="mensaje"
               rows="4"
-              value={formData.message}
-              onChange={handleChange}
+              required
             ></textarea>
           </div>
           <button className="w-full px-4 py-2 bg-black shadow-lg text-white rounded">

@@ -38,7 +38,8 @@ export const useAuth = () => {
   };
 
   const putUser = ({ id, user }) => {
-    dispatch(putUserAPI(id, user));
+    console.log("desde auth", { id, user });
+    dispatch(putUserAPI({ id, user }));
   };
   const logOutUser = () => {
     dispatch(LOGOUT());

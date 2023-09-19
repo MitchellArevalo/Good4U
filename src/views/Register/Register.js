@@ -57,7 +57,6 @@ const listRegister = [
 
 function Register() {
   const { registerUser, error, loading, message } = useAuth();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const fields = new window.FormData(e.target);
@@ -75,10 +74,9 @@ function Register() {
     fieldNames.forEach((fieldName) => {
       formData[fieldName] = fields.get(fieldName);
     });
-    console.log("Este es elregistro", formData);
     // Validación: Verificar si todos los campos están completos
 
-    registerUser(formData); // Limpiar el formulario
+    await registerUser(formData); // Limpiar el formulario
   };
   return (
     <div
@@ -92,62 +90,55 @@ function Register() {
           <h1 className="text-2xl text-greyDarkOpra font-bold mb-4 text-center">
             Registro
           </h1>
-          {loading ? (
-            <Spinner />
-          ) : (
-            <form className="mt-8" onSubmit={handleSubmit}>
-              {listRegister.map((item) => (
-                <div className="flex flex-col " key={item.id}>
-                  <label
-                    htmlFor={item.id}
-                    className="block text-sm font-medium mb-2 text-greyDarkOpra"
-                  >
-                    {item.id}
-                  </label>
-                  <div className="relative flex items-center border-2 border-gray-300 rounded-lg py-1 px-2">
-                    {item.icon}
-                    <input
-                      className="w-full py-2 px-5 focus:outline-none"
-                      type={item.type}
-                      id={item.id}
-                      name={item.name}
-                      minLength={
-                        item.name === "password"
-                          ? "10"
-                          : item.name === "document" ||
-                            item.name === "phoneNumber"
-                          ? "10"
-                          : undefined
-                      }
-                      maxLength={
-                        item.name === "password"
-                          ? "15"
-                          : item.type === "text"
-                          ? "10"
-                          : undefined
-                      }
-                      placeholder={item.placeholder}
-                      required
-                    />
-                  </div>
+          <form className="mt-8" onSubmit={handleSubmit}>
+            {listRegister.map((item) => (
+              <div className="flex flex-col " key={item.id}>
+                <label
+                  htmlFor={item.id}
+                  className="block text-sm font-medium mb-2 text-greyDarkOpra"
+                >
+                  {item.id}
+                </label>
+                <div className="relative flex items-center border-2 border-gray-300 rounded-lg py-1 px-2">
+                  {item.icon}
+                  <input
+                    className="w-full py-2 px-5 focus:outline-none"
+                    type={item.type}
+                    id={item.id}
+                    name={item.name}
+                    minLength={
+                      item.name === "password"
+                        ? "10"
+                        : item.name === "document" ||
+                          item.name === "phoneNumber"
+                        ? "10"
+                        : undefined
+                    }
+                    maxLength={
+                      item.name === "password"
+                        ? "15"
+                        : item.type === "text"
+                        ? "10"
+                        : undefined
+                    }
+                    placeholder={item.placeholder}
+                    required
+                  />
                 </div>
-              ))}
-              <button className="rounded-md bg-blue-500 text-white w-full py-2 mt-5">
-                Registrarse
-              </button>
-            </form>
-          )}
-
-          {error !== "" && (
-            <span className="text-red-600 font-semibold text-center text-lg">
-              {error}
+              </div>
+            ))}
+            <button className="rounded-md bg-blue-500 text-white w-full py-2 mt-5">
+              Registrarse
+            </button>
+          </form>
+          {error && (
+            <span className="text-red-600 font-semibold text-center">
+              {message}
             </span>
           )}
-
           <span className="text-green-600 font-semibold text-center text-lg">
             {message}
           </span>
-
           <p className="text-center font-semibold mt-4">
             ¿Tienes una cuenta?
             <Link to="/login" className="text-blue-500">

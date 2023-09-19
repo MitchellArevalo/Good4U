@@ -8,7 +8,6 @@ export const getProductsAPI = createAsyncThunk(
     try {
       const response = await fetch(urlProducts);
       const userData = await response.json();
-      console.log("Esta es la respuesta", userData);
       return userData;
     } catch (e) {
       console.log(e);

@@ -70,15 +70,15 @@ function Login() {
                   placeholder={item.placeholder}
                   id={item.id}
                   name={item.name}
-                  minLength={item.name === "password" && "10"}
-                  maxLength={item.name === "password" && "15"}
+                  minLength={item.name === "password" ? "10" : null}
+                  maxLength={item.name === "password" ? "15" : null}
                   required
                 />
               </div>
             </div>
           ))}
           {error && (
-            <span class="text-red-600 font-semibold text-center">
+            <span className="text-red-600 font-semibold text-center">
               {message}
             </span>
           )}

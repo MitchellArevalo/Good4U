@@ -3,11 +3,9 @@ import { useAuth } from "../hooks/useAuth";
 
 export function PrivateRouterCheck({ children }) {
   const { isAuth } = useAuth();
-  console.log(isAuth);
   return isAuth ? children : <Navigate to="/login" />;
 }
 export function PrivateRouterAuth({ children }) {
   const { isAuth } = useAuth();
-  console.log(isAuth);
   return !isAuth ? children : null;
 }

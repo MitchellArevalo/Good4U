@@ -14,7 +14,6 @@ function ProductsInCart({
   clearToCart,
 }) {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const subTotalPrice = getPriceProductsInCart(cart);
   const handledOpenCheckout = () => {
     cart.forEach((product) => {

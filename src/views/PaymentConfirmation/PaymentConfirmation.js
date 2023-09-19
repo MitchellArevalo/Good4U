@@ -75,8 +75,6 @@ function PaymentConfirmation() {
         fetch("http://localhost:8083/opradesign/payment", requestOptions)
           .then((response) => response.json())
           .then((result) => {
-            console.log("data de el pago: ", result);
-            console.log("estado de la venta: ", status);
             setLoading(false); // Ocultar el spinner después de completar la solicitud
           })
           .catch((error) => {
