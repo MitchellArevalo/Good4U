@@ -34,8 +34,10 @@ export const loginUserAPI = createAsyncThunk(
 export const putUserAPI = createAsyncThunk(
   "updateUserAPI",
   async ({ id, user }) => {
-    console.log("Credenciaoles pit:", user);
+    console.log("Credenciaoles pit:", user, id);
     const urlUpdate = `${url_service}/client/${id}`;
+
+    console.log(urlUpdate);
     try {
       const response = await fetch(urlUpdate, {
         method: "PUT",

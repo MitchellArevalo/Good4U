@@ -100,7 +100,7 @@ function PaymentConfirmation() {
         fetch("http://localhost:8083/opradesign/payment", requestOptions)
           .then((response) => response.json())
           .then((result) => {
-            console.log(result.status);
+            console.log(result);
             // if (result) {
             //   generarFactura(user, cart)
             //     .then((pdfBytes) => {
@@ -113,7 +113,7 @@ function PaymentConfirmation() {
             //       console.error("Error al generar la factura", error);
             //     });
             // }
-            if (result) {
+            if (status !== "DENEGADO") {
               // Generar factura en PDF
               const doc = new jsPDF();
 
