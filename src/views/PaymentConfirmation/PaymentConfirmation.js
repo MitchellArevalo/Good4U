@@ -116,49 +116,87 @@ function PaymentConfirmation() {
             if (result) {
               // Generar factura en PDF
               const doc = new jsPDF();
-              doc.text("FACTURA", 10, 10);
+
+              // Configuración de estilos
+              const headerFontSize = 16;
+              const sectionFontSize = 12;
+              let yOffset = 20;
+              const lineSpacing = 10;
+
+              // Encabezado de la factura
+              doc.setFontSize(headerFontSize);
+              doc.text("FACTURA DE VENTA OPRA DESIGN", 100, yOffset);
+              yOffset += lineSpacing;
+
+              // Información general
+              doc.setFontSize(sectionFontSize);
               doc.text(
-                `Número: ${Math.floor(Math.random() * 1000000)}`,
-                10,
-                20
+                `Número de Factura: ${Math.floor(Math.random() * 1000000)}`,
+                20,
+                yOffset
               );
-              doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 10, 30);
-              doc.text(`Identificación del Emisor: ${user.documento}`, 10, 40);
+              yOffset += lineSpacing;
+              doc.text(
+                `Fecha: ${new Date().toLocaleDateString()}`,
+                20,
+                yOffset
+              );
+              yOffset += lineSpacing;
+
+              // Emisor y receptor
+              doc.text(`Opra Design`, 20, yOffset);
+              yOffset += lineSpacing;
+
+              yOffset += lineSpacing;
+              doc.text(`Receptor: ${user.nombre}`, 20, yOffset);
+              yOffset += lineSpacing;
               doc.text(
                 `Identificación del Receptor: ${user.documento}`,
-                10,
-                50
+                20,
+                yOffset
               );
-              doc.text(`Descripción del Concepto: Compra de productos`, 10, 60);
-              doc.text(`Base Imponible: ${user.valorPagar}`, 10, 70);
-              doc.text(`Tipo de IVA Aplicado: 19%`, 10, 80);
-              doc.text(`Total: ${user.valorPagar}`, 10, 90);
-              let yOffset = 100;
+              yOffset += lineSpacing;
+
+              // Detalles de la factura
+              doc.text(`Concepto: Compra de productos`, 20, yOffset);
+              yOffset += lineSpacing;
+
+              // Productos
+              yOffset += lineSpacing;
+              doc.setFontSize(sectionFontSize + 2);
+              doc.text("Detalles de Productos", 20, yOffset);
+              yOffset += lineSpacing;
+              doc.setFontSize(sectionFontSize);
 
               cart.forEach((product) => {
-                doc.text(`ID del Producto: ${product.itemCode}`, 10, yOffset);
+                doc.text(`ID del Producto: ${product.itemCode}`, 20, yOffset);
+                yOffset += lineSpacing;
+                doc.text(`Nombre del Producto: ${product.name}`, 20, yOffset);
+                yOffset += lineSpacing;
                 doc.text(
-                  `Nombre del Producto: ${product.name}`,
-                  10,
-                  yOffset + 10
+                  `Precio del Producto: $${product.salesPrice}`,
+                  20,
+                  yOffset
                 );
-                doc.text(
-                  `Precio del Producto: $${product.salesPrice.toFixed(2)}`,
-                  10,
-                  yOffset + 20
-                );
+                yOffset += lineSpacing;
                 doc.text(
                   `Cantidad del Producto: ${product.quantity}`,
-                  10,
-                  yOffset + 30
-                ); // Agrega la cantidad
-                yOffset += 40; // Ajusta el espaciado vertical entre productos
+                  20,
+                  yOffset
+                );
+                yOffset += lineSpacing * 2; // Aumenta el espaciado vertical entre productos
               });
 
-              doc.save("factura.pdf");
-              const pdfBlob = doc.output("blob");
+              // Total
+              doc.setFontSize(sectionFontSize + 2);
+              doc.text(`Precio Envío: $15000`, 20, yOffset);
+              doc.setFontSize(sectionFontSize + 2);
+              doc.text(`Total: $${subTotalPrice + 15000}`, 20, yOffset);
 
-              sendEmail(pdfBlob, user);
+              // Guardar el archivo PDF
+              doc.save("factura.pdf");
+
+              sendEmail(doc, user);
             }
 
             setLoading(false); // Ocultar el spinner después de completar la solicitud
