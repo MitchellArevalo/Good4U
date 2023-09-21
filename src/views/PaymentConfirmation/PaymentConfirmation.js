@@ -122,19 +122,16 @@ function PaymentConfirmation() {
               const sectionFontSize = 12;
               let yOffset = 20;
               const lineSpacing = 10;
+              const numberFact = Math.floor(Math.random() * 1000000);
 
               // Encabezado de la factura
               doc.setFontSize(headerFontSize);
-              doc.text("FACTURA DE VENTA OPRA DESIGN", 100, yOffset);
+              doc.text("FACTURA DE COMPRA OPRA DESIGN", 100, yOffset);
               yOffset += lineSpacing;
 
               // Información general
               doc.setFontSize(sectionFontSize);
-              doc.text(
-                `Número de Factura: ${Math.floor(Math.random() * 1000000)}`,
-                20,
-                yOffset
-              );
+              doc.text(`Número de Factura: ${numberFact}`, 20, yOffset);
               yOffset += lineSpacing;
               doc.text(
                 `Fecha: ${new Date().toLocaleDateString()}`,
@@ -148,10 +145,10 @@ function PaymentConfirmation() {
               yOffset += lineSpacing;
 
               yOffset += lineSpacing;
-              doc.text(`Receptor: ${user.nombre}`, 20, yOffset);
+              doc.text(`Cliente: ${user.nombre}`, 20, yOffset);
               yOffset += lineSpacing;
               doc.text(
-                `Identificación del Receptor: ${user.documento}`,
+                `Identificación del Cliente: ${user.documento}`,
                 20,
                 yOffset
               );
@@ -169,8 +166,6 @@ function PaymentConfirmation() {
               doc.setFontSize(sectionFontSize);
 
               cart.forEach((product) => {
-                doc.text(`ID del Producto: ${product.itemCode}`, 20, yOffset);
-                yOffset += lineSpacing;
                 doc.text(`Nombre del Producto: ${product.name}`, 20, yOffset);
                 yOffset += lineSpacing;
                 doc.text(
@@ -186,15 +181,17 @@ function PaymentConfirmation() {
                 );
                 yOffset += lineSpacing * 2; // Aumenta el espaciado vertical entre productos
               });
+              yOffset += lineSpacing;
+              doc.setFontSize(sectionFontSize + 2);
+              doc.text("Valor de Envío: $15.000", 20, yOffset);
+              yOffset += lineSpacing;
 
               // Total
-              doc.setFontSize(sectionFontSize + 2);
-              doc.text(`Precio Envío: $15000`, 20, yOffset);
-              doc.setFontSize(sectionFontSize + 2);
+              doc.setFontSize(sectionFontSize + 4);
               doc.text(`Total: $${subTotalPrice + 15000}`, 20, yOffset);
 
               // Guardar el archivo PDF
-              doc.save("factura.pdf");
+              doc.save(`factura-${numberFact}`);
 
               sendEmail(doc, user);
             }

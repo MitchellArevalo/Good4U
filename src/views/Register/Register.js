@@ -74,9 +74,11 @@ function Register() {
     fieldNames.forEach((fieldName) => {
       formData[fieldName] = fields.get(fieldName);
     });
+
+    registerUser(formData);
     // Validación: Verificar si todos los campos están completos
 
-    await registerUser(formData); // Limpiar el formulario
+    // Limpiar el formulario
   };
   return (
     <div
@@ -91,54 +93,63 @@ function Register() {
             Registro
           </h1>
           <form className="mt-8" onSubmit={handleSubmit}>
-            {listRegister.map((item) => (
-              <div className="flex flex-col " key={item.id}>
-                <label
-                  htmlFor={item.id}
-                  className="block text-sm font-medium mb-2 text-greyDarkOpra"
-                >
-                  {item.id}
-                </label>
-                <div className="relative flex items-center border-2 border-gray-300 rounded-lg py-1 px-2">
-                  {item.icon}
-                  <input
-                    className="w-full py-2 px-5 focus:outline-none"
-                    type={item.type}
-                    id={item.id}
-                    name={item.name}
-                    minLength={
-                      item.name === "password"
-                        ? "10"
-                        : item.name === "document" ||
-                          item.name === "phoneNumber"
-                        ? "10"
-                        : undefined
-                    }
-                    maxLength={
-                      item.name === "password"
-                        ? "15"
-                        : item.type === "text"
-                        ? "10"
-                        : undefined
-                    }
-                    placeholder={item.placeholder}
-                    required
-                  />
-                </div>
-              </div>
-            ))}
-            <button className="rounded-md bg-blue-500 text-white w-full py-2 mt-5">
-              Registrarse
-            </button>
+            {loading ? (
+              <Spinner />
+            ) : (
+              <>
+                {listRegister.map((item) => (
+                  <div className="flex flex-col " key={item.id}>
+                    <label
+                      htmlFor={item.id}
+                      className="block text-sm font-medium mb-2 text-greyDarkOpra"
+                    >
+                      {item.id}
+                    </label>
+                    <div className="relative flex items-center border-2 border-gray-300 rounded-lg py-1 px-2">
+                      {item.icon}
+                      <input
+                        className="w-full py-2 px-5 focus:outline-none"
+                        type={item.type}
+                        id={item.id}
+                        name={item.name}
+                        minLength={
+                          item.name === "password"
+                            ? "10"
+                            : item.name === "document" ||
+                              item.name === "phoneNumber"
+                            ? "10"
+                            : undefined
+                        }
+                        maxLength={
+                          item.name === "password"
+                            ? "15"
+                            : item.name === "document" ||
+                              item.name === "phoneNumber"
+                            ? "10"
+                            : undefined
+                        }
+                        placeholder={item.placeholder}
+                        required
+                      />
+                    </div>
+                  </div>
+                ))}
+                <button className="rounded-md bg-blue-500 text-white w-full py-2 mt-5">
+                  Registrarse
+                </button>
+              </>
+            )}
           </form>
           {error && (
             <span className="text-red-600 font-semibold text-center">
               {message}
             </span>
           )}
-          <span className="text-green-600 font-semibold text-center text-lg">
-            {message}
-          </span>
+          {!error && (
+            <span className="text-green-600 font-semibold text-center text-lg">
+              {message}
+            </span>
+          )}
           <p className="text-center font-semibold mt-4">
             ¿Tienes una cuenta?
             <Link to="/login" className="text-blue-500">

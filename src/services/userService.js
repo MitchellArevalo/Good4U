@@ -16,7 +16,7 @@ export const registerUserAPI = createAsyncThunk(
 );
 
 export const loginUserAPI = createAsyncThunk(
-  "registerUserAPI",
+  "loginUserAPI",
   async (credentials) => {
     try {
       const response = await fetch(urlLogin, {
